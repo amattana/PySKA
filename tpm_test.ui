@@ -1,0 +1,2944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UI_JIG_ADU</class>
+ <widget class="QDialog" name="UI_JIG_ADU">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1150</width>
+    <height>749</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>iTPM 1.2 ADU Management</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
+  <widget class="QTabWidget" name="qtab">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>1111</width>
+     <height>701</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="qtab_conf">
+    <attribute name="title">
+     <string>iTPM Configurations</string>
+    </attribute>
+    <widget class="QLabel" name="qlabel_adu_ip">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>90</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>iTPM IP Address</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_search">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Net Finder</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_fpga0">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>540</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>FPGA-0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_fpga1">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>600</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>FPGA-1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_adc">
+     <property name="geometry">
+      <rect>
+       <x>870</x>
+       <y>540</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>ADCs</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_connected">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>540</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>OFFLINE</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_connection">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>CONNECT</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_cpld_fw">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>CPLD FW Version</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_fpga_fw">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>270</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>FPGA FW Version</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_adu_temp">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>600</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>Temp: n/a</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_adu_amps">
+     <property name="geometry">
+      <rect>
+       <x>870</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>Amps: n/a</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_adu_setup">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>470</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>SETUP</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_set_pll">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>350</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>800 MSPS (50-350 MHz)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>700 MSPS (375-650 MHz)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1000 MSPS</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLineEdit" name="qtext_adu_fw">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>140</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_fw">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>140</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>iTPM Firmware</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_conf">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>350</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>PLL Frequency</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_adu_fw">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>270</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>DOWNLOAD</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_supply">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>30</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Power Supply</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_supply">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>30</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>UNREGISTERED PSU</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>HP 6033A (NI GPIB-USB)</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_supply_2">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>90</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Set Voltage</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_power_volt">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>90</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>15.34</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_supply_3">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>140</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Set Current Limit</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_power_amps">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>140</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>8.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_psupply_enable">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>SWITCH ON</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_adu_conf_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>410</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Download Channels</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_set_input">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>410</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>ALL</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>0,8,16,24</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qtext_adu_pll_lock">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>540</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>UNLOCKED</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_adu_pll_ref">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>600</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>REF Int/Ext</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_preadu">
+     <property name="geometry">
+      <rect>
+       <x>870</x>
+       <y>600</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>PRE-ADU</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_browse">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>30</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>SCAN</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_adu_ip">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>90</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>10.0.10.2</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="qbutton_adu_rate">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>470</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>FAST RATE</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>iTPM-ADU JIG Acquisitions</string>
+    </attribute>
+    <widget class="QWidget" name="plotWidgetACQ" native="true">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>140</y>
+       <width>601</width>
+       <height>391</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_jig_rf">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>230</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>External RF</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Internal PLL</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="qcombo_jig_channel">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>350</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>CH-00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-01</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-02</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-03</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-04</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-05</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-06</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-07</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-08</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-09</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-11</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-13</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-14</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-15</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-17</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-18</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-19</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-20</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-21</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-22</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-23</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-24</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-25</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-26</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-27</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-28</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-29</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-30</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-31</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>SPLIT ALL</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>350</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG Out Path</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_att">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>290</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG Attenuation</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>230</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG RF Source</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_jig_att">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>290</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>0.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>0.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>9.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>9.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>11.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>11.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>12.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>12.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>13.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>13.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>14.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>14.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>15.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>15.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>16.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>16.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>17.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>17.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>18.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>18.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>19.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>19.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>20.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>20.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>21.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>21.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>22.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>22.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>23.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>23.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>24.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>24.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>25.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>25.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>26.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>26.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>27.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>27.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>28.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>28.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>29.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>29.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>30.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>30.5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>31.0</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>31.5</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_2">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>30</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Signal Generator</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_gen_type">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>30</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>R&amp;S SMY02</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>R&amp;S SMX</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_3">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>90</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>SCPI/GPIB</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_gen_link">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>90</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>GPIB-ETH Prologix</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>GPIB-USB NI</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="qcombo_jig_filter">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>410</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>7</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>50-80 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>80-120 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>120-200 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>200-280 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>280-450 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>450-780 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>780-1450 MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>SMA Bypass</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path_2">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>410</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG Filter</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_4">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>30</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Set RF Frequency</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_5">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>90</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Set RF Level</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_gen_set_freq">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>30</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>100.000000</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_gen_set_level">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>90</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>-10.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_gen_unit">
+     <property name="geometry">
+      <rect>
+       <x>990</x>
+       <y>30</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>KHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>MHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>GHz</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_6">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>30</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Unit</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_rf_7">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>90</y>
+       <width>51</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>dBm</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_gen_setup">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>90</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>SET</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path_3">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>550</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Acquisition</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_acq_type">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>550</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Single FFT</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>FFT Average</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Single Time Domain</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path_4">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>610</y>
+       <width>171</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Average number</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_acq_avgnum">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>610</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>10</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_acq_start">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>610</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>GET</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_ip">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>170</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG IP Address</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_jig_enable">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>470</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>ENABLE</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_jig_ip">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>170</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>10.0.10.16</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_jig_connected">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>470</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
+     </property>
+     <property name="text">
+      <string>OFFLINE</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_clear">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>610</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>CLEAR</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path_5">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>610</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>ADU Channel</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_adu_channel">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>610</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>CH-00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-01</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-02</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-03</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-04</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-05</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-06</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-07</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-08</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-09</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-11</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-13</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-14</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-15</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-17</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-18</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-19</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-20</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-21</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-22</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-23</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-24</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-25</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-26</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-27</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-28</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-29</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-30</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CH-31</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_path_6">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>550</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>JIG Power Sensor:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_jig_power">
+     <property name="geometry">
+      <rect>
+       <x>680</x>
+       <y>550</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>n/a</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="qprogressBarACQ">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>560</y>
+       <width>301</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_progress">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>540</y>
+       <width>291</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="qtab_ant">
+    <attribute name="title">
+     <string>iTPM Antenna Test</string>
+    </attribute>
+    <widget class="QComboBox" name="qcombo_ant_view">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>30</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Plot Dual Pol</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Plot Pol X</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Plot Pol Y</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>RMS Table</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_ant_view">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>30</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Select View</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qbutton_ant_enable">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(11, 121, 255);
+color: rgb(251, 255, 5);</string>
+     </property>
+     <property name="text">
+      <string>ENABLE</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QWidget" name="plotWidgetAnt" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>1111</width>
+       <height>571</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QFrame" name="qframe_ant_rms">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>80</y>
+       <width>1061</width>
+       <height>581</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_ant_num">
+     <property name="geometry">
+      <rect>
+       <x>840</x>
+       <y>30</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Acquisition Number: -</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_ant_view_2">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>30</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Select Antenna</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_ant_select">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>30</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>ALL</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1-4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5-8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>9-12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>13-16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>9</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>11</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>13</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>14</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>15</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>16</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QWidget" name="plotWidgetAntFour" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>1111</width>
+       <height>571</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QWidget" name="plotWidgetAntOne" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>1111</width>
+       <height>571</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

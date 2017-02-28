@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+
+<project name='SKA-LAB'> <!-- First entry -->
+	<iTPM id='0'>
+        <subrack_position>0</subrack_position> 
+		<serial>1.02.01</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>2016-06_001_008</preadu_l>
+		<preadu_r>2016-06_009_016</preadu_r>
+	</iTPM>
+</project>
+
+
