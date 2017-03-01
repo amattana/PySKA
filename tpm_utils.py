@@ -1,10 +1,16 @@
 import sys,struct,os,time,socket
 sys.path.append("..\\")
 sys.path.append("..\\..\\")
+sys.path.append("../board")
+sys.path.append("../rf_jig")
+sys.path.append("../config")
+sys.path.append("../repo_utils")
 from PyQt4 import QtCore, QtGui
 import numpy as np
 from netproto.sdp_medicina import sdp_medicina as sdp_med
 from struct import *
+import manager as config_man
+from bsp.tpm import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -78,7 +84,21 @@ def save_raw(path,data,chan,seq):
     raw_file.close()
     return raw_filename
 
+def read_preadu_regs(Tpm):
+    reg_values  = Tpm.bsp.preadu_rd128(0)
+    reg_values += Tpm.bsp.preadu_rd128(1)
+    return reg_values
 
+
+def write_preadu_regs(Tpm, conf):
+    Tpm.bsp.preadu_wr128(0,conf[0:4])
+    time.sleep(0.2)
+    Tpm.bsp.preadu_wr128(1,conf[4:8])
+    time.sleep(0.2)
+    reg_values  = Tpm.bsp.preadu_rd128(0)
+    time.sleep(0.2)
+    reg_values += Tpm.bsp.preadu_rd128(1)
+    return reg_values
     
     
     

@@ -754,8 +754,9 @@ class iTPM(QtGui.QMainWindow):
                     #for c in xrange(self.antenna_test_avgnum):
                         self.freqs, self.spettro, self.dati = self.ant_test_single()
                         #self.dati = np.array(self.dati,dtype=np.float64)
-                        sys.stdout.write("\rAcquisition: #%d (%d/4) ...downloading...                 "%(self.antenna_test_acq_num+1,c+1))
-                        sys.stdout.flush()
+                        if self.ant_test_enabled:
+                            sys.stdout.write("\rAcquisition: #%d (%d/4) ...downloading...                 "%(self.antenna_test_acq_num+1,c+1))
+                            sys.stdout.flush()
                         self.adu_rms = self.adu_rms + np.sqrt(np.mean(np.power(self.dati,2),1))
                         #print np.power(self.dati,2)[0][0:3],np.mean(np.power(self.dati,2)[0][0:3],dtype=np.float64),np.sqrt(np.mean(np.power(self.dati,2)[0][0:3]),dtype=np.float64) 
                         #print self.adu_rms[0:5] 
@@ -779,7 +780,9 @@ class iTPM(QtGui.QMainWindow):
                     #print "Mediati!"
                     self.antenna_test_acq_num=self.antenna_test_acq_num+1
                     #print "Emitting Signal"
-                    sys.stdout.write("\rAcquisition: #%d (%d/4) ...refreshing plots/tables..."%(self.antenna_test_acq_num,c))
+                    if self.ant_test_enabled:
+                        sys.stdout.write("\rAcquisition: #%d (%d/4) ...refreshing plots/tables..."%(self.antenna_test_acq_num,c))
+                        sys.stdout.flush()
                     self.antenna_test_signal.emit()   
                        
                 except:
