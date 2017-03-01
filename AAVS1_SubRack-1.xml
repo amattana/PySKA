@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+
+<project name='SKA-LAB'> <!-- First entry -->
+	<iTPM id='0'>
+        <subrack_position>0</subrack_position> 
+		<serial>5041602005</serial>
+		<ipaddr>10.0.10.1</ipaddr>
+		<macaddr>d8-80-39-92-6b-b0</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>06/041-048</preadu_l>
+		<preadu_r>07/049-056</preadu_r>
+	</iTPM>
+	<iTPM id='1'> 
+        <subrack_position>1</subrack_position> 
+		<serial>5041602027</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<macaddr>d8:80:39:92:5a:90</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>08/057-064</preadu_l>
+		<preadu_r>09/065-072</preadu_r>
+	</iTPM>                                     
+	<iTPM id='2'> 
+        <subrack_position>2</subrack_position> 
+		<serial>5041602010</serial>
+		<ipaddr>10.0.10.3</ipaddr>
+		<macaddr>d8-80-39-92-57-a8</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>10/073-080</preadu_l>
+		<preadu_r>11/081-088</preadu_r>
+	</iTPM>                                     
+	<iTPM id='3'> 
+        <subrack_position>3</subrack_position> 
+		<serial>5041602002</serial>
+		<ipaddr>10.0.10.4</ipaddr>
+		<macaddr>n/a</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>12/089-096</preadu_l>
+		<preadu_r>13/097-104</preadu_r>
+	</iTPM>                                     
+</project>
+

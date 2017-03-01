@@ -24,10 +24,6 @@ __license__ = "GPL"
 __version__ = "1.0"
 __maintainer__ = "Andrea Mattana"
 
-if os.path.exists("..\\..\\..\\bitstream"):
-    DEBUG=1
-else:
-    DEBUG=0
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -60,7 +56,7 @@ def tpm_obj(Dialog, tpm_config):
     tpm['TPM'] = TPM(ip=tpm_config['ipaddr'], port=tpm_config['udpport'], timeout=tpm_config['udptimeout'])
 
     tpm['frame_tpm'] = QtGui.QFrame(Dialog)
-    tpm['frame_tpm'].setGeometry(QtCore.QRect((int(tpm_config['subrack_position'])*200)+10, 10, 181, 641))
+    tpm['frame_tpm'].setGeometry(QtCore.QRect((int(tpm_config['subrack_position'])*220)+10, 10, 201, 641))
     tpm['frame_tpm'].setAutoFillBackground(True)
     tpm['frame_tpm'].setStyleSheet(_fromUtf8("border-color: rgb(0, 0, 0);\n"
 "border-top-color: rgb(0, 0, 0);"))
@@ -71,61 +67,61 @@ def tpm_obj(Dialog, tpm_config):
 
     tpm['fpga0'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['fpga0'].setEnabled(False)
-    tpm['fpga0'].setGeometry(QtCore.QRect(10, 20, 151, 21))
+    tpm['fpga0'].setGeometry(QtCore.QRect(10, 20, 171, 21))
     tpm['fpga0'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['fpga0'].setText(_translate("Dialog", "FPGA 0", None))
     tpm['fpga0'].setStyleSheet(colors('white_on_red'))
 
     tpm['fpga1'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['fpga1'].setEnabled(False)
-    tpm['fpga1'].setGeometry(QtCore.QRect(10, 50, 151, 21))
+    tpm['fpga1'].setGeometry(QtCore.QRect(10, 50, 171, 21))
     tpm['fpga1'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['fpga1'].setText(_translate("Dialog", "FPGA 1", None))
     tpm['fpga1'].setStyleSheet(colors('white_on_red'))
 
     tpm['cpld_fw'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['cpld_fw'].setEnabled(False)
-    tpm['cpld_fw'].setGeometry(QtCore.QRect(10, 80, 151, 21))
+    tpm['cpld_fw'].setGeometry(QtCore.QRect(10, 80, 171, 21))
     tpm['cpld_fw'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['cpld_fw'].setText(_translate("Dialog", "CPLD FW Ver: n/a ", None))
 
     tpm['fpga_fw'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['fpga_fw'].setEnabled(False)
-    tpm['fpga_fw'].setGeometry(QtCore.QRect(10, 110, 151, 21))
+    tpm['fpga_fw'].setGeometry(QtCore.QRect(10, 110, 171, 21))
     tpm['fpga_fw'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['fpga_fw'].setText(_translate("Dialog", "FPGA FW Ver: n/a ", None))
 
     line_1 = QtGui.QFrame(tpm['frame_tpm'])
-    line_1.setGeometry(QtCore.QRect(10, 140, 151, 20))
+    line_1.setGeometry(QtCore.QRect(10, 140, 171, 20))
     line_1.setFrameShape(QtGui.QFrame.HLine)
     line_1.setFrameShadow(QtGui.QFrame.Sunken)
 
     tpm['pll_freq'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['pll_freq'].setEnabled(False)
-    tpm['pll_freq'].setGeometry(QtCore.QRect(10, 170, 151, 21))
+    tpm['pll_freq'].setGeometry(QtCore.QRect(10, 170, 171, 21))
     tpm['pll_freq'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['pll_freq'].setText(_translate("Dialog", "PLL 800 MHz", None))
 
     tpm['pll_lock'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['pll_lock'].setEnabled(False)
-    tpm['pll_lock'].setGeometry(QtCore.QRect(10, 200, 151, 21))
+    tpm['pll_lock'].setGeometry(QtCore.QRect(10, 200, 171, 21))
     tpm['pll_lock'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['pll_lock'].setText(_translate("Dialog", "PLL Locked", None))
 
     tpm['pll_ref'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['pll_ref'].setEnabled(False)
-    tpm['pll_ref'].setGeometry(QtCore.QRect(10, 230, 151, 21))
+    tpm['pll_ref'].setGeometry(QtCore.QRect(10, 230, 171, 21))
     tpm['pll_ref'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['pll_ref'].setText(_translate("Dialog", "Ext 10 MHz Ref", None))
 
     line_2 = QtGui.QFrame(tpm['frame_tpm'])
-    line_2.setGeometry(QtCore.QRect(10, 260, 151, 20))
+    line_2.setGeometry(QtCore.QRect(10, 260, 171, 20))
     line_2.setFrameShape(QtGui.QFrame.HLine)
     line_2.setFrameShadow(QtGui.QFrame.Sunken)
 
     tpm['label_preadu']= QtGui.QLabel(tpm['frame_tpm'])
     tpm['label_preadu'].setEnabled(False)
-    tpm['label_preadu'].setGeometry(QtCore.QRect(10, 300, 151, 21))
+    tpm['label_preadu'].setGeometry(QtCore.QRect(10, 300, 171, 21))
     tpm['label_preadu'].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
     tpm['label_preadu'].setMouseTracking(True)
     tpm['label_preadu'].setAcceptDrops(True)
@@ -134,40 +130,47 @@ def tpm_obj(Dialog, tpm_config):
     tpm['label_preadu'].setStyleSheet(colors("white_on_red"))
 
     line_3 = QtGui.QFrame(tpm['frame_tpm'])
-    line_3.setGeometry(QtCore.QRect(10, 350, 151, 20))
+    line_3.setGeometry(QtCore.QRect(10, 350, 171, 20))
     line_3.setFrameShape(QtGui.QFrame.HLine)
     line_3.setFrameShadow(QtGui.QFrame.Sunken)
 
     tpm['temp'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['temp'].setEnabled(False)
-    tpm['temp'].setGeometry(QtCore.QRect(10, 380, 151, 21))
+    tpm['temp'].setGeometry(QtCore.QRect(10, 380, 171, 21))
     tpm['temp'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['temp'].setText(_translate("Dialog", "Temp 60 deg [C]", None))
 
     line_4 = QtGui.QFrame(tpm['frame_tpm'])
-    line_4.setGeometry(QtCore.QRect(10, 420, 151, 20))
+    line_4.setGeometry(QtCore.QRect(10, 420, 171, 20))
     line_4.setFrameShape(QtGui.QFrame.HLine)
     line_4.setFrameShadow(QtGui.QFrame.Sunken)
 
     tpm['connected'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['connected'].setEnabled(True)
-    tpm['connected'].setGeometry(QtCore.QRect(10, 490, 151, 21))
+    tpm['connected'].setGeometry(QtCore.QRect(10, 490, 171, 21))
     tpm['connected'].setAlignment(QtCore.Qt.AlignCenter)
     tpm['connected'].setText(_translate("Dialog", "offline", None))
     tpm['connected'].setStyleSheet(colors("white_on_red"))
 
     tpm['serial'] = QtGui.QLabel(tpm['frame_tpm'])
     tpm['serial'].setEnabled(True)
-    tpm['serial'].setGeometry(QtCore.QRect(10, 540, 151, 21))
+    tpm['serial'].setGeometry(QtCore.QRect(10, 540, 171, 21))
     tpm['serial'].setAlignment(QtCore.Qt.AlignCenter)
-    tpm['serial'].setText(_translate("Dialog", "Board S/N: "+tpm_config['serial'], None))
+    tpm['serial'].setText(_translate("Dialog", "s/n: "+tpm_config['serial'], None))
 
     tpm['qipaddr'] = QtGui.QLabel(tpm['frame_tpm'])
-    tpm['qipaddr'].setGeometry(QtCore.QRect(10, 570, 151, 21))
+    tpm['qipaddr'].setGeometry(QtCore.QRect(10, 570, 171, 21))
     tpm['qipaddr'].setAlignment(QtCore.Qt.AlignCenter)
-    tpm['qipaddr'].setText(_translate("Dialog", "IP addr: "+tpm_config['ipaddr'], None))
+    tpm['qipaddr'].setText(_translate("Dialog", "IP: "+tpm_config['ipaddr'], None))
     tpm['qipaddr'].setEnabled(True)
     tpm['ipaddr'] = tpm_config['ipaddr']
+
+    tpm['qmacaddr'] = QtGui.QLabel(tpm['frame_tpm'])
+    tpm['qmacaddr'].setGeometry(QtCore.QRect(10, 600, 171, 21))
+    tpm['qmacaddr'].setAlignment(QtCore.Qt.AlignCenter)
+    tpm['qmacaddr'].setText(_translate("Dialog", "MAC: "+tpm_config['macaddr'], None))
+    tpm['qmacaddr'].setEnabled(True)
+
     return tpm
 
 '''
@@ -205,7 +208,7 @@ def tpm_obj(Dialog, tpm_config):
 
 class adu_Dialog(object):
     def setupUi(self, Dialog):
-        Dialog.resize(self.tpm_num*200, 710)
+        Dialog.resize(self.tpm_num*220, 710)
         Dialog.setAutoFillBackground(False)
         Dialog.setWindowTitle(_translate("Dialog", "TPM_Subrack", None))
         
@@ -214,7 +217,7 @@ class adu_Dialog(object):
             self.tpms += [tpm_obj(Dialog, self.subrack['srconfig'][tpm_index])]  
             
         self.button_update = QtGui.QPushButton(Dialog)
-        self.button_update.setGeometry(QtCore.QRect(((self.tpm_num*200)/2)-45, 685, 90, 31))
+        self.button_update.setGeometry(QtCore.QRect(((self.tpm_num*220)/2)-45, 665, 90, 31))
         self.button_update.setText(_translate("tpm_conf", "UPDATE", None))
         self.button_update.clicked.connect(lambda: self.updateUI())
         
