@@ -153,7 +153,10 @@ class iTPM(QtGui.QMainWindow):
         self.antenna_test_acq_num = 0
         self.antenna_test_avgnum = 4
         self.dati = 0
-        self.rms = 0
+        self.adu_rms = 0
+        self.volt_rms = 0
+        self.power_adc = 0
+        self.power_rf = 0
         
         Fs = 400
         f = 10
@@ -254,12 +257,12 @@ class iTPM(QtGui.QMainWindow):
 
 
     def create_ant_table(self):
-        self.ant_rms_vrms=[]
+        self.ant_rms_adurms=[]
         self.ant_rms_title=[]
         for i in xrange(32):
-            self.ant_rms_vrms += [create_label(self.mainWidget.qframe_ant_rms, ((i%8)*130+((((i+1)%8)%2)*30)), 60+((i/8)*140),"-13.5")]
+            self.ant_rms_adurms += [create_label(self.mainWidget.qframe_ant_rms, ((i%8)*130+((((i+1)%8)%2)*30)), 80+((i/8)*140),"-")]
         for i in xrange(16):
-            self.ant_rms_title += [create_label(self.mainWidget.qframe_ant_rms, 80+((i%4)*260), 20+((i/4)*140),"ANT "+str(i+1))]
+            self.ant_rms_title += [create_label(self.mainWidget.qframe_ant_rms, 80+((i%4)*260), 40+((i/4)*140),"ANT "+str(i+1))]
 
     def ant_enable(self):
         #if self.connected==True and fpgaIsProgrammed(self.tpm, 0):
@@ -267,12 +270,14 @@ class iTPM(QtGui.QMainWindow):
             self.ant_test_Thread = True
             self.ant_test_enabled = True
             self.mainWidget.qbutton_ant_enable.setText("DISABLE")
+            print "\nStart Antenna Measurements\n"
             if not self.process_antenna_test.isAlive():
                 self.process_antenna_test.start()
         else:
             self.ant_test_Thread = False
             self.ant_test_enabled = False
             self.mainWidget.qbutton_ant_enable.setText("ENABLE")
+            print "\nStop Antenna Measurements\n"
 
     def ant_save(self):
         self.mainWidget.plotWidgetAnt.hide()
@@ -744,16 +749,16 @@ class iTPM(QtGui.QMainWindow):
                     # prendi dati
                     #print "Snap data, then emit signal"
                     c=0
-                    self.rms = np.zeros(32)
+                    self.adu_rms = np.zeros(32)
                     while c<self.antenna_test_avgnum and not self.stopThreads and self.ant_test_enabled: 
                     #for c in xrange(self.antenna_test_avgnum):
                         self.freqs, self.spettro, self.dati = self.ant_test_single()
                         #self.dati = np.array(self.dati,dtype=np.float64)
-                        sys.stdout.write("\rAcquisition: #%d (%d/4)"%(self.antenna_test_acq_num+1,c+1))
+                        sys.stdout.write("\rAcquisition: #%d (%d/4) ...downloading...                 "%(self.antenna_test_acq_num+1,c+1))
                         sys.stdout.flush()
-                        self.rms = self.rms + np.sqrt(np.mean(np.power(self.dati,2),1))
+                        self.adu_rms = self.adu_rms + np.sqrt(np.mean(np.power(self.dati,2),1))
                         #print np.power(self.dati,2)[0][0:3],np.mean(np.power(self.dati,2)[0][0:3],dtype=np.float64),np.sqrt(np.mean(np.power(self.dati,2)[0][0:3]),dtype=np.float64) 
-                        #print self.rms[0:5] 
+                        #print self.adu_rms[0:5] 
                         if c==0:
                             self.spettri=[]
                             for v in xrange(32):
@@ -766,10 +771,15 @@ class iTPM(QtGui.QMainWindow):
                     self.spettro_mediato=[]
                     for x in xrange(32):
                         self.spettro_mediato += [self.spettri[x]/self.antenna_test_avgnum]
-                    self.rms = self.rms / self.antenna_test_avgnum
+                    self.adu_rms = self.adu_rms / self.antenna_test_avgnum           # Averaging 4 ADU_RMS 
+                    self.volt_rms = self.adu_rms * (1.7/256.)                        # VppADC9680/2^bits * ADU_RMS
+                    self.power_adc = 10*np.log10(np.power(self.volt_rms,2)/400.)+30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+                    self.power_rf = self.power_adc + 12                              # single ended to diff net loose 12 dBm
+                    #print self.adu_rms[0], self.volt_rms[0], self.power_adc[0], self.power_rf[0] 
                     #print "Mediati!"
                     self.antenna_test_acq_num=self.antenna_test_acq_num+1
                     #print "Emitting Signal"
+                    sys.stdout.write("\rAcquisition: #%d (%d/4) ...refreshing plots/tables..."%(self.antenna_test_acq_num,c))
                     self.antenna_test_signal.emit()   
                        
                 except:
@@ -811,10 +821,21 @@ class iTPM(QtGui.QMainWindow):
                     self.miniPlotsOne.updatePlot()
                     self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
-            else: # RMS Table
-                #print "Update RMS Values (tbi)"
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==3: # ADU RMS Table
                 for i in xrange(32):
-                    self.ant_rms_vrms[i].setText("%3.1f"%(self.rms[i]))
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.adu_rms[i]))
+
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==4: # Volt RMS Table
+                for i in xrange(32):
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.volt_rms[i]))
+
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==5: # ADC Power Table
+                for i in xrange(32):
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.power_adc[i]))
+                
+            else: # RF Power Table
+                for i in xrange(32):
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.power_rf[i]))
                 
             
 

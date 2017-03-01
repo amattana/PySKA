@@ -2567,9 +2567,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_ant_view">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>340</x>
        <y>30</y>
-       <width>161</width>
+       <width>191</width>
        <height>41</height>
       </rect>
      </property>
@@ -2600,7 +2600,22 @@ color: rgb(251, 255, 5);</string>
      </item>
      <item>
       <property name="text">
-       <string>RMS Table</string>
+       <string>ADU RMS</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Volt RMS</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ADC Power (dBm)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>RF Power (dBm)</string>
       </property>
      </item>
     </widget>
@@ -2609,7 +2624,7 @@ color: rgb(251, 255, 5);</string>
       <rect>
        <x>210</x>
        <y>30</y>
-       <width>131</width>
+       <width>111</width>
        <height>41</height>
       </rect>
      </property>
@@ -2712,9 +2727,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ant_num">
      <property name="geometry">
       <rect>
-       <x>840</x>
+       <x>860</x>
        <y>30</y>
-       <width>251</width>
+       <width>231</width>
        <height>41</height>
       </rect>
      </property>
@@ -2735,7 +2750,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ant_view_2">
      <property name="geometry">
       <rect>
-       <x>540</x>
+       <x>560</x>
        <y>30</y>
        <width>161</width>
        <height>41</height>
@@ -2758,7 +2773,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_ant_select">
      <property name="geometry">
       <rect>
-       <x>700</x>
+       <x>720</x>
        <y>30</y>
        <width>121</width>
        <height>41</height>
