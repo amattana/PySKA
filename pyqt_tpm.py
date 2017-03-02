@@ -145,6 +145,7 @@ class iTPM(QtGui.QMainWindow):
         self.miniPlots = MiniPlots(self.mainWidget.plotWidgetAnt, 16)
         self.miniPlotsFour = MiniPlots(self.mainWidget.plotWidgetAntFour, 4)
         self.miniPlotsOne = MiniPlots(self.mainWidget.plotWidgetAntOne, 1)
+        self.RMSbarPlot = BarPlot(self.mainWidget.plotWidgetBar)
         self.ant_test_Thread = False
         self.ant_test_enabled = False
         self.process_antenna_test = Thread(target=self.snap_antenna)
@@ -175,6 +176,7 @@ class iTPM(QtGui.QMainWindow):
         #self.miniPlotsFour.updatePlot()
         self.mainWidget.plotWidgetAntFour.hide()
         self.mainWidget.plotWidgetAntOne.hide()
+        self.mainWidget.plotWidgetBar.hide()
         self.mainWidget.plotWidgetAnt.show()
 
 
@@ -228,10 +230,16 @@ class iTPM(QtGui.QMainWindow):
         if self.mainWidget.qcombo_ant_view.currentIndex() <3:
             self.reshapePlot()
             self.mainWidget.qframe_ant_rms.hide()
+        elif self.mainWidget.qcombo_ant_view.currentIndex() == 3:
+            self.mainWidget.plotWidgetAntFour.hide()
+            self.mainWidget.plotWidgetAntOne.hide()
+            self.mainWidget.plotWidgetAnt.hide()
+            self.mainWidget.plotWidgetBar.show()
         else:
             self.mainWidget.plotWidgetAnt.hide()
             self.mainWidget.plotWidgetAntFour.hide()
             self.mainWidget.plotWidgetAntOne.hide()
+            self.mainWidget.plotWidgetBar.hide()
             self.mainWidget.qframe_ant_rms.show()
 
     def reshapePlot(self):
@@ -240,20 +248,17 @@ class iTPM(QtGui.QMainWindow):
                 self.mainWidget.plotWidgetAntFour.hide()
                 self.mainWidget.plotWidgetAntOne.hide()
                 self.mainWidget.plotWidgetAnt.show()
-                #self.miniPlots.plotCurve(self.freqs, self.spettro[0]*10-30, 1)
-                #self.miniPlots.updatePlot()
+                self.mainWidget.plotWidgetBar.hide()
             elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4:
                 self.mainWidget.plotWidgetAntFour.show()
                 self.mainWidget.plotWidgetAntOne.hide()
                 self.mainWidget.plotWidgetAnt.hide()
-                #self.miniPlotsFour.plotCurve(self.freqs, self.spettro[0]*10-60, 1)
-                #self.miniPlotsFour.updatePlot()
+                self.mainWidget.plotWidgetBar.hide()
             else:
                 self.mainWidget.plotWidgetAntFour.hide()
                 self.mainWidget.plotWidgetAntOne.show()
                 self.mainWidget.plotWidgetAnt.hide()
-                #self.miniPlotsOne.plotCurve(self.freqs, self.spettro[0]*10-80, 0)
-                #self.miniPlotsOne.updatePlot()
+                self.mainWidget.plotWidgetBar.hide()
 
 
     def create_ant_table(self):
@@ -808,31 +813,31 @@ class iTPM(QtGui.QMainWindow):
                         #print i,len(self.freqs),len(self.spettro_mediato[i])
                         self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
                     self.miniPlots.updatePlot()
-                    self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
                 elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4: # 4 Plots
                     self.miniPlotsFour.plotClear()
                     for i in self.groupAntennaPlot[self.mainWidget.qcombo_ant_select.currentIndex()-1]:
                         self.miniPlotsFour.plotCurve(self.freqs, self.spettro_mediato[i], i%8/2, yAxisRange = [-100,0], title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
                     self.miniPlotsFour.updatePlot()
-                    self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
                 else: # 1 Plot
                     self.miniPlotsOne.plotClear()
                     self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True)
                     self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
                     self.miniPlotsOne.updatePlot()
-                    self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
-            elif self.mainWidget.qcombo_ant_view.currentIndex() ==3: # ADU RMS Table
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==3: # ADU RMS Bar Plot
+                self.RMSbarPlot.plotBar(self.adu_rms)
+
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==4: # ADU RMS Table
                 for i in xrange(32):
                     self.ant_rms_adurms[i].setText("%3.1f"%(self.adu_rms[i]))
 
-            elif self.mainWidget.qcombo_ant_view.currentIndex() ==4: # Volt RMS Table
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==5: # Volt RMS Table
                 for i in xrange(32):
                     self.ant_rms_adurms[i].setText("%3.1f"%(self.volt_rms[i]))
 
-            elif self.mainWidget.qcombo_ant_view.currentIndex() ==5: # ADC Power Table
+            elif self.mainWidget.qcombo_ant_view.currentIndex() ==6: # ADC Power Table
                 for i in xrange(32):
                     self.ant_rms_adurms[i].setText("%3.1f"%(self.power_adc[i]))
                 
@@ -840,7 +845,7 @@ class iTPM(QtGui.QMainWindow):
                 for i in xrange(32):
                     self.ant_rms_adurms[i].setText("%3.1f"%(self.power_rf[i]))
                 
-            
+            self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
     def updateJIGpm(self):
         if self.mainWidget.qtext_jig_connected.text()=="ONLINE":
@@ -969,11 +974,11 @@ class iTPM(QtGui.QMainWindow):
     def board_rate(self):
         if self.connected:
             if self.board_fast_rate:
-                if subprocess.call(['python', '../board/reg.py', '3000000c', '0','--ip='+self.board_ip],stdout=DEVNULL)==0:
+                if subprocess.call(['python', '../board/reg.py', '3000000c', '1000','--ip='+self.board_ip],stdout=DEVNULL)==0:
                     self.mainWidget.qbutton_adu_rate.setText("SLOW RATE")
                     self.board_fast_rate=False
             else: 
-                if subprocess.call(['python', '../board/reg.py', '3000000c', '1000','--ip='+self.board_ip],stdout=DEVNULL)==0:
+                if subprocess.call(['python', '../board/reg.py', '3000000c', '1','--ip='+self.board_ip],stdout=DEVNULL)==0:
                     self.mainWidget.qbutton_adu_rate.setText("FAST RATE")
                     self.board_fast_rate=True
         else:

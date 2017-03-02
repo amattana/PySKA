@@ -116,8 +116,8 @@ class MplCanvas(FigureCanvas):
         self.axes1.xaxis.set_label_text("MHz", fontsize=10)
         self.axes1.yaxis.set_label_text("dB", fontsize=10)
         self.axes1.set_axis_bgcolor('white')
-        self.axes1.tick_params(axis='both', which='minor', labelsize=10)
-        self.axes1.tick_params(axis='both', which='major', labelsize=10)
+        self.axes1.tick_params(axis='both', which='both', labelsize=10)
+        #self.axes1.tick_params(axis='both', which='major', labelsize=10)
         self.axes1.set_ylim([-100, 0])
         self.axes1.set_xlim([0, 400])
 
@@ -227,8 +227,8 @@ class MiniCanvas(FigureCanvas):
             #self.ax[i].xaxis.set_label_text("MHz", fontsize=7)
             #self.ax[i].yaxis.set_label_text("dB", fontsize=9)
             self.ax[i].set_axis_bgcolor('white')
-            self.ax[i].tick_params(axis='both', which='minor', labelsize=8)
-            self.ax[i].tick_params(axis='both', which='major', labelsize=8)
+            #self.ax[i].tick_params(axis='both', which='minor', labelsize=8)
+            self.ax[i].tick_params(axis='both', which='both', labelsize=8)
             self.ax[i].set_ylim([-100, 0])
             self.ax[i].set_xlim([0, 400])
 
@@ -271,6 +271,71 @@ class MiniPlots(QtGui.QWidget):
         for i in xrange(self.nplot):
              self.canvas.ax[i].clear()
         self.updatePlot()
+
+class BarCanvas(FigureCanvas):
+
+    def __init__( self , parent = None, dpi = 100, size = (11,5.7)):
+        self.dpi = dpi
+        self.fig = Figure(size, dpi = self.dpi, facecolor='white')
+        self.fig.set_tight_layout(True)
+        self.ax = self.fig.add_subplot(1,1,1)
+        self.ax.set_axis_bgcolor('white')
+        self.ax.tick_params(axis='both', which='both', labelsize=8)
+        #self.ax.tick_params(axis='both', which='major', labelsize=8)
+        self.ax.set_xticks(xrange(33))
+        self.ax.set_yticks([5,10,15,20,25,30,35])
+        self.ax.set_ylim([0, 40])
+        self.ax.set_xlim([0, 17])
+
+        FigureCanvas.__init__( self, self.fig )
+        FigureCanvas.setSizePolicy( self, QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding )
+        FigureCanvas.updateGeometry( self )
+
+class BarPlot(QtGui.QWidget):
+    """ Class encapsulating a matplotlib plot"""
+    def __init__( self, parent = None):
+        QtGui.QWidget.__init__( self, parent )
+    #def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
+        """ Class initialiser """
+        #print self.nplot
+        self.canvas = BarCanvas() #create canvas that will hold our plot
+        self.updateGeometry()
+        self.vbl = QtGui.QVBoxLayout()
+        self.vbl.addWidget( self.canvas )
+        self.setLayout( self.vbl )
+        self.show()
+        self.ind = np.arange(16)
+
+    def resetSubplots(self):
+        self.nSubplot=0
+
+    def plotBar(self, data):
+        """ Plot the data as Bars"""
+        if len(data) != 0:
+            self.canvas.ax.clear()
+            self.canvas.ax.set_axis_bgcolor('white')
+            self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
+            #self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
+            self.canvas.ax.set_xticks(xrange(17))
+            self.canvas.ax.set_yticks([15,20])
+            self.canvas.ax.set_ylim([0, 40])
+            self.canvas.ax.set_xlim([0, 17])
+            self.canvas.ax.set_xlabel("ANTENNA")
+            self.canvas.ax.set_ylabel("ADU RMS")
+            self.canvas.ax.grid()
+            rects1 = self.canvas.ax.bar(self.ind+0.6, data[0::2], 0.4, color='b')
+            rects2 = self.canvas.ax.bar(self.ind+1, data[1::2], 0.4, color='g')
+            self.updatePlot()
+
+    def updatePlot(self):
+        self.canvas.draw()
+        self.show()
+        
+    def plotClear(self):
+        # Reset the plot landscape
+        self.canvas.ax.clear()
+        self.updatePlot()
+
 
 
 
