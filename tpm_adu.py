@@ -16,6 +16,8 @@ import tpm_preadu
 import os, sys
 from bsp.tpm import *
 from gui_utils import *
+import subprocess
+DEVNULL = open(os.devnull,'w')
 
 __author__ = "Andrea Mattana"
 __copyright__ = "Copyright 2016, Osservatorio di RadioAstronomia, INAF, Italy"
@@ -229,7 +231,9 @@ class adu_Dialog(object):
         
     def updateUI(self):
         for tpm_index in xrange(self.tpm_num):
-            if cmd_ping(self.tpms[tpm_index]['ipaddr']) == 0:
+            print "...updating..."
+            if subprocess.call(['python','ip_check.py','-i',self.tpms[tpm_index]['ipaddr']],stdout=DEVNULL)==0:
+            #if cmd_ping(self.tpms[tpm_index]['ipaddr']) == 0:               
                 self.tpms[tpm_index]['connected'].setStyleSheet(colors("black_on_green"))    
                 self.tpms[tpm_index]['connected'].setText(_translate("Dialog", "online", None))
                 self.tpms[tpm_index]['label_preadu'].setEnabled(True)
