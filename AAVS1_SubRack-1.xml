@@ -35,7 +35,7 @@
         <subrack_position>3</subrack_position> 
 		<serial>5041602002</serial>
 		<ipaddr>10.0.10.4</ipaddr>
-		<macaddr>n/a</macaddr>
+		<macaddr>d8:80:39:92:31:2e</macaddr>
 		<udpport>10000</udpport>
         <udptimeout>1</udptimeout>
 		<preadu_l>12/089-096</preadu_l>
