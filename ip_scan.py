@@ -45,6 +45,13 @@ def get_serial_from_mac(listamac, addr):
         i=i+1
     return sn,tpmnum
 
+def sort_ip_list(ip_list):
+    """Sort an IP address list."""
+    from IPy import IP
+    ipl = [(IP(ip).int(), ip) for ip in ip_list]
+    ipl.sort()
+    return [ip[1] for ip in ipl]
+
 def ip_scan():
     pool_size = 32
     #print "START"
@@ -79,6 +86,7 @@ def ip_scan():
         listamac=get_lista_serial()
         print "    IP     \t     MAC addr\t\tSerial Number\t   TPM#"
         print "------------------------------------------------------------------"
+        lista_ip = sort_ip_list(lista_ip)
         for ip in lista_ip:
             if platform.system()=="Linux":
                 p = subprocess.Popen(['arp', '-n',ip], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -94,8 +102,6 @@ def ip_scan():
                     mac=out.split("\n")[1].split()[2]
             seriale,aavs1num = get_serial_from_mac(listamac, mac)
             print ip,"\t", mac,"\t ", seriale,"\t   ",aavs1num 
-    print
-    
     return lista_ip
         
 if __name__ == "__main__":

@@ -67,7 +67,7 @@ class Ui_tpm_conf(object):
 
         self.cb_profiles = QtGui.QComboBox(tpm_conf)
         self.cb_profiles.setGeometry(QtCore.QRect(170, 230, 435, 31))
-        self.cb_profiles.addItems(glob.glob("*xml"))
+        self.cb_profiles.addItems(sorted(glob.glob("*xml")))
         self.cb_profiles.currentIndexChanged.connect(self.checkSubrackProfile)
 
         self.label_fpga_fw = QtGui.QLabel(tpm_conf)

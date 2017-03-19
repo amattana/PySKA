@@ -230,7 +230,7 @@ class MiniCanvas(FigureCanvas):
             #self.ax[i].tick_params(axis='both', which='minor', labelsize=8)
             self.ax[i].tick_params(axis='both', which='both', labelsize=8)
             self.ax[i].set_ylim([-100, 0])
-            self.ax[i].set_xlim([0, 400])
+            self.ax[i].set_xlim([50, 100])
 
         FigureCanvas.__init__( self, self.fig )
         FigureCanvas.setSizePolicy( self, QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding )
@@ -260,6 +260,7 @@ class MiniPlots(QtGui.QWidget):
             #auto_scale_y = True
             #self.canvas.ax[ant].clear()
             self.canvas.ax[ant].plot(assex, data, scaley=False)
+            #self.canvas.ax[ant].set_xlim([50, 100])
             #print "plot ", len(assex), len(data), ant
 
     def updatePlot(self):

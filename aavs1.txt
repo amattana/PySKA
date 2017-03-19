@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<project name='SKA-LAB'> <!-- First entry -->
+	<iTPM id='1'>
+        <subrack_position>0</subrack_position> 
+		<serial>5041602005</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<macaddr>d8-80-39-92-6b-b0</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>06/041-048</preadu_l>
+		<preadu_r>07/049-056</preadu_r>
+	</iTPM>
+	<iTPM id='2'>
+        <subrack_position>1</subrack_position> 
+		<serial>5041602027</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<macaddr>d8:80:39:92:5a:90</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>08/057-064</preadu_l>
+		<preadu_r>09/065-072</preadu_r>
+	</iTPM>
+	<iTPM id='3'>
+        <subrack_position>2</subrack_position> 
+		<serial>5041602010</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<macaddr>d8-80-39-92-57-a8</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>10/073-080</preadu_l>
+		<preadu_r>11/081-088</preadu_r>
+	</iTPM>
+	<iTPM id='4'>
+        <subrack_position>-1</subrack_position> 
+		<serial>5041602002</serial>
+		<ipaddr>10.0.10.2</ipaddr>
+		<macaddr>xx---missing---xx</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>12/089-096</preadu_l>
+		<preadu_r>13/097-104</preadu_r>
+	</iTPM>
+	<iTPM id='5'>
+        <subrack_position>0</subrack_position> 
+		<serial>5041602003</serial>
+		<ipaddr>10.0.10.5</ipaddr>
+		<macaddr>d8-80-39-92-44-fc</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>14/105-112</preadu_l>
+		<preadu_r>15/113-120</preadu_r>
+	</iTPM>
+	<iTPM id='6'>
+        <subrack_position>1</subrack_position> 
+		<serial>5041602008</serial>
+		<ipaddr>10.0.10.6</ipaddr>
+		<macaddr>d8-80-39-92-7b-26</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>16/121-128</preadu_l>
+		<preadu_r>17/129-136</preadu_r>
+	</iTPM>
+	<iTPM id='7'>
+        <subrack_position>2</subrack_position> 
+		<serial>5041602011</serial>
+		<ipaddr>10.0.10.7</ipaddr>
+		<macaddr>d8-80-39-92-79-a2</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>18/137-144</preadu_l>
+		<preadu_r>19/145-152</preadu_r>
+	</iTPM>
+	<iTPM id='8'>
+        <subrack_position>-1</subrack_position> 
+		<serial>5041602012</serial>
+		<ipaddr>10.0.10.8</ipaddr>
+		<macaddr>d8-80-39-92-0e-a8</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>20/153-160</preadu_l>
+		<preadu_r>21/161-168</preadu_r>
+	</iTPM>
+	<iTPM id='9'>
+        <subrack_position>0</subrack_position> 
+		<serial>5041602015</serial>
+		<ipaddr>10.0.10.9</ipaddr>
+		<macaddr>d8-80-39-92-1e-f7</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>22/169-176</preadu_l>
+		<preadu_r>23/177-184</preadu_r>
+	</iTPM>
+	<iTPM id='10'>
+        <subrack_position>1</subrack_position> 
+		<serial>5041602019</serial>
+		<ipaddr>10.0.10.10</ipaddr>
+		<macaddr>d8-80-39-92-0f-07</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>24/185-192</preadu_l>
+		<preadu_r>25/193/200</preadu_r>
+	</iTPM>
+	<iTPM id='11'>
+        <subrack_position>2</subrack_position> 
+		<serial>5041602021</serial>
+		<ipaddr>10.0.10.11</ipaddr>
+		<macaddr>d8-80-39-92-2f-02</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>26/201-208</preadu_l>
+		<preadu_r>27/209-216</preadu_r>
+	</iTPM>
+	<iTPM id='12'>
+        <subrack_position>-1</subrack_position> 
+		<serial>5041602030</serial>
+		<ipaddr>10.0.10.12</ipaddr>
+		<macaddr>d8-80-39-92-45-c3</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>28/217-224</preadu_l>
+		<preadu_r>29/225-232</preadu_r>
+	</iTPM>
+	<iTPM id='13'>
+        <subrack_position>0</subrack_position> 
+		<serial>5041602032</serial>
+		<ipaddr>10.0.10.13</ipaddr>
+		<macaddr>d8-80-39-92-45-7a</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>30/233-240</preadu_l>
+		<preadu_r>31/241-248</preadu_r>
+	</iTPM>
+	<iTPM id='14'>
+        <subrack_position>1</subrack_position> 
+		<serial>5041602035</serial>
+		<ipaddr>10.0.10.14</ipaddr>
+		<macaddr>d8-80-39-92-6a-1f</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>32/249-256</preadu_l>
+		<preadu_r>33/257-264</preadu_r>
+	</iTPM>
+	<iTPM id='15'>
+        <subrack_position>2</subrack_position> 
+		<serial>5041602036</serial>
+		<ipaddr>10.0.10.15</ipaddr>
+		<macaddr>d8-80-39-92-6a-db</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>34/265-272</preadu_l>
+		<preadu_r>35/273-280</preadu_r>
+	</iTPM>
+	<iTPM id='16'>
+        <subrack_position>-1</subrack_position> 
+		<serial>1.02.02</serial>
+		<ipaddr>10.0.10.16</ipaddr>
+		<macaddr>d8-80-39-92-69-3f</macaddr>
+		<udpport>10000</udpport>
+        <udptimeout>1</udptimeout>
+		<preadu_l>36/281-288</preadu_l>
+		<preadu_r>37/289-296</preadu_r>
+	</iTPM>
