@@ -296,10 +296,25 @@ class iTPM(QtGui.QMainWindow):
         dati=self.snapTPM()[0]
         #print "DATA", len(dati), dati[0][0:5]
         spettro = []
-        freqs=self.calcFreqs(dati[0])
-        for i in xrange(32):      
-            spettro += [self.plot_spectra(dati[i])]
+        n=8192 # split and average number, from 128k to 16 of 8k
+        freqs=self.calcFreqs(len(dati[0])/16)
+        #print "Freqs ",len(freqs)
+        for i in xrange(32):
+            l=dati[i]
+            sp=[l[i:i + n] for i in xrange(0, len(l), n)]
+            #print "SPLITTED",len(sp), len(sp[0])
+            singoli=np.zeros(len(self.plot_spectra(sp[0])))
+            #print "CHUNK" ,len(singoli)
+            for k in sp:
+                #print "K", len(k)
+                singolo = self.plot_spectra(k)
+                #print "Spettro", len(singolo), singolo[0:5]
+                singoli[:] += singolo
+                #print "Loop"
+            singoli[:] /= 16      
+            spettro += [singoli]
         #print "spettro", len(spettro), spettro[0][0:5]
+        #print "End of ant_test_single"
 
         return freqs, spettro, np.array(dati,dtype=np.float64)
 
@@ -335,19 +350,21 @@ class iTPM(QtGui.QMainWindow):
 
     def plot_spectra(self, vett):
         #spettro=np.zeros(len(vett)/2) # rem 1
-
+        #print "Doing spectrum of ", len(vett), "samples"
         window = np.hanning(len(vett))
+        #print "Windowing"
         spettro = np.fft.rfft(vett*window) # vedere se spettro[:]= accelera
+        #print "Computed Spectrum"
         N = len(spettro)
         acf = 2  #amplitude correction factor
         spettro[:] = abs((acf*spettro)/N)
         spettro[:] = 20*np.log10(spettro/127.0)
         #dB_FS = 10*log10(sum(abs(time_data(:,(n_time_record*(m-1))+1)).^2)/size(time_data(:,(n_time_record*(m-1))+1),1))-10*log10(0.5);
-
+        #print "End of subroutine"
         return (np.real(spettro))
         
-    def calcFreqs(self, vett):
-        x = np.arange(0,len(vett),1)
+    def calcFreqs(self, lenvett):
+        x = np.arange(0,lenvett,1)
         freqs = np.fft.rfftfreq(x.shape[-1])
         freqs[:] = freqs*self.sample_rate    # modificato
         return freqs
@@ -390,7 +407,7 @@ class iTPM(QtGui.QMainWindow):
 
     def plotFFTSingle(self, progress=True):
         data=self.snapTPM()[0][self.mainWidget.qcombo_adu_channel.currentIndex()] 
-        freqs=self.calcFreqs(data)     
+        freqs=self.calcFreqs(len(data))     
         spettro = self.plot_spectra(data)
         self.matlabPlotACQ.plotCurve(freqs, spettro, yAxisRange = [-100,0], title=self.mainWidget.qcombo_adu_channel.currentText(), xLabel="MHz", yLabel="dBFS", plotLog=True)
         if progress:
@@ -403,7 +420,7 @@ class iTPM(QtGui.QMainWindow):
             data=self.snapTPM()[0][adu_input]
             if progress:
                 self.updateProgressBar(i*100./avg_num, "Downloading...")
-            freqs=self.calcFreqs(data)     
+            freqs=self.calcFreqs(len(data))     
             spettro = self.plot_spectra(data)
             if i==0:
                 spettri=np.zeros(len(spettro))
@@ -466,7 +483,7 @@ class iTPM(QtGui.QMainWindow):
                         self.mainWidget.qtext_ch.setText(str(i))
                         time.sleep(0.1)
                         data=self.snapTPM()[0][i]      
-                        freqs=self.calcFreqs(data)     
+                        freqs=self.calcFreqs(len(data))     
                         spettro = self.plot_spectra(data)
                         self.matlabPlotADC.plotClear()
                         self.matlabPlotADC.plotCurve(freqs, spettro, yAxisRange = [-100,0], title="CH-"+str(i).zfill(2), xLabel="MHz", yLabel="dB", plotLog=True)
@@ -753,31 +770,14 @@ class iTPM(QtGui.QMainWindow):
                 try: 
                     # prendi dati
                     #print "Snap data, then emit signal"
-                    c=0
                     self.adu_rms = np.zeros(32)
-                    while c<self.antenna_test_avgnum and not self.stopThreads and self.ant_test_enabled: 
-                    #for c in xrange(self.antenna_test_avgnum):
-                        self.freqs, self.spettro, self.dati = self.ant_test_single()
-                        #self.dati = np.array(self.dati,dtype=np.float64)
+                    if not self.stopThreads and self.ant_test_enabled: 
+                        #print "Snapping..."
+                        self.freqs, self.spettro_mediato, self.dati = self.ant_test_single()
                         if self.ant_test_enabled:
-                            sys.stdout.write("\rAcquisition: #%d (%d/4) ...downloading...                 "%(self.antenna_test_acq_num+1,c+1))
+                            sys.stdout.write("\rAcquisition: #%d ...downloading...                 "%(self.antenna_test_acq_num+1))
                             sys.stdout.flush()
                         self.adu_rms = self.adu_rms + np.sqrt(np.mean(np.power(self.dati,2),1))
-                        #print np.power(self.dati,2)[0][0:3],np.mean(np.power(self.dati,2)[0][0:3],dtype=np.float64),np.sqrt(np.mean(np.power(self.dati,2)[0][0:3]),dtype=np.float64) 
-                        #print self.adu_rms[0:5] 
-                        if c==0:
-                            self.spettri=[]
-                            for v in xrange(32):
-                                self.spettri += [np.zeros(len(self.spettro[v]))]
-                        for z in xrange(32):
-                            spettro=np.array(self.spettro[z])
-                            self.spettri[z] = self.spettri[z] + spettro
-                        c=c+1
-                    #print "\nMedia..."     
-                    self.spettro_mediato=[]
-                    for x in xrange(32):
-                        self.spettro_mediato += [self.spettri[x]/self.antenna_test_avgnum]
-                    self.adu_rms = self.adu_rms / self.antenna_test_avgnum           # Averaging 4 ADU_RMS 
                     self.volt_rms = self.adu_rms * (1.7/256.)                        # VppADC9680/2^bits * ADU_RMS
                     self.power_adc = 10*np.log10(np.power(self.volt_rms,2)/400.)+30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
                     self.power_rf = self.power_adc + 12                              # single ended to diff net loose 12 dBm
@@ -786,7 +786,7 @@ class iTPM(QtGui.QMainWindow):
                     self.antenna_test_acq_num=self.antenna_test_acq_num+1
                     #print "Emitting Signal"
                     if self.ant_test_enabled:
-                        sys.stdout.write("\rAcquisition: #%d (%d/4) ...refreshing plots/tables..."%(self.antenna_test_acq_num,c))
+                        sys.stdout.write("\rAcquisition: #%d ...refreshing plots/tables..."%(self.antenna_test_acq_num))
                         sys.stdout.flush()
                     self.antenna_test_signal.emit()   
                        
