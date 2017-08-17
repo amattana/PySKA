@@ -15,7 +15,7 @@ from netproto.sdp_medicina import sdp_medicina as sdp_med
 import subprocess
 DEVNULL = open(os.devnull,'w')
 
-import sys, easygui 
+import sys, easygui, datetime 
 #from qt_rf_jig_utils import *
 from gui_utils import *
 from rf_jig import *
@@ -169,6 +169,9 @@ class iTPM(QtGui.QMainWindow):
         self.freqs=x
         self.data=0
         self.spettro_mediato=self.spettro
+        self.averaged_spectra=self.spettro
+        self.averaged_freqs=self.spettro
+
         #print len(self.spettro[0]),len(self.freqs)
         #self.miniPlots.plotCurve(self.freqs, (self.spettro[0]*10)-50, 1)
         #self.miniPlots.updatePlot()
@@ -210,6 +213,7 @@ class iTPM(QtGui.QMainWindow):
 
         # Plots
         clickable(self.mainWidget.qtext_clear).connect(lambda: self.plotClear()) 
+        clickable(self.mainWidget.qtext_save).connect(lambda: self.saveSingleSpectra()) 
         self.mainWidget.qbutton_ant_enable.clicked.connect(lambda: self.ant_enable())
         #self.mainWidget.qbutton_ant_save.clicked.connect(lambda: self.ant_save())
         #self.mainWidget.qbutton_ant_eq.clicked.connect(lambda: self.ant_eq())
@@ -225,6 +229,15 @@ class iTPM(QtGui.QMainWindow):
         for f in self.itpm_ips:
             self.mainWidget.qcombo_adu_ip.addItem(f)
 
+    def saveSingleSpectra(self):
+        fname=datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y%m%d_%H%M%S.txt")
+        tname=easygui.filesavebox(msg=None, title="Saving Spectra data to text file", default="~/Documents/TPM-Data/"+fname, filetypes=["*.txt"])
+        #print len(self.averaged_spectra),len(self.averaged_freqs)
+        f=open(tname,"w")
+        for i in xrange(len(self.averaged_spectra)):
+            f.write(str(self.averaged_freqs[i])+"\t"+str(self.averaged_spectra[i])+"\n")
+        f.close()
+        print "Written text file: ",tname
 
     def select_ant_view(self):
         if self.mainWidget.qcombo_ant_view.currentIndex() <3:
@@ -292,6 +305,7 @@ class iTPM(QtGui.QMainWindow):
 
 
     def ant_test_single(self):
+        remap=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
         #print "RUN", len(self.snapTPM()[0]), len(self.snapTPM()[0][0])
         dati=self.snapTPM()[0]
         #print "DATA", len(dati), dati[0][0:5]
@@ -300,8 +314,8 @@ class iTPM(QtGui.QMainWindow):
         freqs=self.calcFreqs(len(dati[0])/16)
         #print "Freqs ",len(freqs)
         for i in xrange(32):
-            l=dati[i]
-            sp=[l[i:i + n] for i in xrange(0, len(l), n)]
+            l=dati[remap[i]]
+            sp=[l[remap[i]:remap[i] + n] for remap[i] in xrange(0, len(l), n)]
             #print "SPLITTED",len(sp), len(sp[0])
             singoli=np.zeros(len(self.plot_spectra(sp[0])))
             #print "CHUNK" ,len(singoli)
@@ -315,7 +329,8 @@ class iTPM(QtGui.QMainWindow):
             spettro += [singoli]
         #print "spettro", len(spettro), spettro[0][0:5]
         #print "End of ant_test_single"
-
+        
+        # fixme
         return freqs, spettro, np.array(dati,dtype=np.float64)
 
 
@@ -426,10 +441,12 @@ class iTPM(QtGui.QMainWindow):
                 spettri=np.zeros(len(spettro))
             spettro=np.array(spettro)
             spettri = spettri + spettro
-        spettro_mediato=spettri/avg_num
-        self.matlabPlotACQ.plotCurve(freqs, spettro_mediato, yAxisRange = [-100,0], title=self.mainWidget.qcombo_adu_channel.currentText(), xLabel="MHz", yLabel="dBFS", plotLog=True)
+        self.averaged_spectra=spettri/avg_num
+        self.averaged_freqs=freqs
+        self.matlabPlotACQ.plotCurve(self.averaged_freqs, self.averaged_spectra, yAxisRange = [-100,0], title=self.mainWidget.qcombo_adu_channel.currentText(), xLabel="MHz", yLabel="dBFS", plotLog=True)
         self.updateProgressBar(100)
         
+
     def plotTimeDomain(self, progress=True):
         adu_input = int(self.mainWidget.qcombo_adu_channel.currentIndex())
         data=self.snapTPM()[0][self.mainWidget.qcombo_adu_channel.currentIndex()]        
@@ -804,26 +821,84 @@ class iTPM(QtGui.QMainWindow):
     def updateAntennaTest(self):
         if self.ant_test_enabled:
             #print "Signal emitted"
-            if self.mainWidget.qcombo_ant_view.currentIndex() <3: # Plots
+            if self.mainWidget.qcombo_ant_view.currentIndex() ==0: # Plots  Dual Pol
+                #print "Checking"
+                if self.mainWidget.qcombo_ant_select.currentIndex()==0: # 16 Plots
+                    #print "Starting plot 16 antennas"
+                    self.miniPlots.plotClear()
+                    for i in xrange(32):
+                        if i%32%2==0:   # solo pari
+                            plotcolor="b"
+                        else:
+                            plotcolor="g"
+                        #print i,len(self.freqs),len(self.spettro_mediato[i])
+                        self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlots.updatePlot()
+
+                elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4: # 4 Plots
+                    self.miniPlotsFour.plotClear()
+                    for i in self.groupAntennaPlot[self.mainWidget.qcombo_ant_select.currentIndex()-1]:
+                        if i%32%2==0:   # solo pari
+                            plotcolor="b"
+                        else:
+                            plotcolor="g"
+                        self.miniPlotsFour.plotCurve(self.freqs, self.spettro_mediato[i], i%8/2, yAxisRange = [-100,0], title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlotsFour.updatePlot()
+
+                else: # 1 Plot
+                    self.miniPlotsOne.plotClear()
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="b")
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="g")
+                    self.miniPlotsOne.updatePlot()
+
+            if self.mainWidget.qcombo_ant_view.currentIndex() ==1: # Plots  X
+                plotcolor="b"
                 #print "Checking"
                 if self.mainWidget.qcombo_ant_select.currentIndex()==0: # 16 Plots
                     #print "Starting plot 16 antennas"
                     self.miniPlots.plotClear()
                     for i in xrange(32):
                         #print i,len(self.freqs),len(self.spettro_mediato[i])
-                        self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
+                        if i%32%2==0:   # solo pari
+                            self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     self.miniPlots.updatePlot()
 
                 elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4: # 4 Plots
                     self.miniPlotsFour.plotClear()
                     for i in self.groupAntennaPlot[self.mainWidget.qcombo_ant_select.currentIndex()-1]:
-                        self.miniPlotsFour.plotCurve(self.freqs, self.spettro_mediato[i], i%8/2, yAxisRange = [-100,0], title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
+                        if i%32%2==0:   # solo pari
+                            self.miniPlotsFour.plotCurve(self.freqs, self.spettro_mediato[i], i%8/2, yAxisRange = [-100,0], title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     self.miniPlotsFour.updatePlot()
 
                 else: # 1 Plot
                     self.miniPlotsOne.plotClear()
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True)
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    #self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
+                    self.miniPlotsOne.updatePlot()
+
+            if self.mainWidget.qcombo_ant_view.currentIndex() ==2: # Plots  Y
+                plotcolor="g"
+                #print "Checking"
+                if self.mainWidget.qcombo_ant_select.currentIndex()==0: # 16 Plots
+                    #print "Starting plot 16 antennas"
+                    self.miniPlots.plotClear()
+                    for i in xrange(32):
+                        #print i,len(self.freqs),len(self.spettro_mediato[i])
+                        if i%32%2==1:   # solo dispari
+                            self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlots.updatePlot()
+
+                elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4: # 4 Plots
+                    self.miniPlotsFour.plotClear()
+                    for i in self.groupAntennaPlot[self.mainWidget.qcombo_ant_select.currentIndex()-1]:
+                        if i%32%2==1:   # solo dispari
+                            self.miniPlotsFour.plotCurve(self.freqs, self.spettro_mediato[i], i%8/2, yAxisRange = [-100,0], title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlotsFour.updatePlot()
+
+                else: # 1 Plot
+                    self.miniPlotsOne.plotClear()
+                    #self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True)
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = [-100,0], title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     self.miniPlotsOne.updatePlot()
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() ==3: # ADU RMS Bar Plot

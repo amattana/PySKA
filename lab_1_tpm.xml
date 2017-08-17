@@ -4,7 +4,8 @@
 	<iTPM id='0'>
         <subrack_position>0</subrack_position> 
 		<serial>1.02.01</serial>
-		<ipaddr>10.0.10.2</ipaddr>
+		<ipaddr>10.0.10.5</ipaddr>
+                <macaddr>xx</macaddr>
 		<udpport>10000</udpport>
         <udptimeout>1</udptimeout>
 		<preadu_l>2016-06_001_008</preadu_l>

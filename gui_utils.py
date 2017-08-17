@@ -254,12 +254,12 @@ class MiniPlots(QtGui.QWidget):
     def resetSubplots(self):
         self.nSubplot=0
 
-    def plotCurve(self, assex, data, ant, xAxisRange = None, yAxisRange = None, xLabel = "", yLabel = "", title="", label="", plotLog=False, nSubplots=1, hold=False):
+    def plotCurve(self, assex, data, ant, xAxisRange = None, yAxisRange = None, xLabel = "", yLabel = "", title="", label="", plotLog=False, nSubplots=1, hold=False, colore="b"):
         """ Plot the data as a curve"""
         if len(data) != 0:
             #auto_scale_y = True
             #self.canvas.ax[ant].clear()
-            self.canvas.ax[ant].plot(assex, data, scaley=False)
+            self.canvas.ax[ant].plot(assex, data, scaley=False, color=colore)
             #self.canvas.ax[ant].set_xlim([50, 100])
             #print "plot ", len(assex), len(data), ant
 

@@ -100,6 +100,37 @@ def write_preadu_regs(Tpm, conf):
     reg_values += Tpm.bsp.preadu_rd128(1)
     return reg_values
     
+def snapTPM(tpm):
+	try:
+		UDP_PORT = 0x1234 + int(tpm['IP'].split(".")[-1])
+		done = 0
+		sdp = sdp_med(UDP_PORT)
+		misure = []
+		#while(done != num or num == 0):
+		snap =  sdp.reassemble()
+		channel_id_list = snap[4:4+int(snap[3])]
+		channel_list = snap[4+int(snap[3]):]
+
+		#done += 1
+		#sys.stdout.write("\rAcq # %d/%d " %(done,num))
+		#sys.stdout.flush()
+		m = 0
+		dati = []
+		for n in range(len(channel_id_list)):
+			if channel_id_list[n] == "1":
+					#last_filename=save_raw(path, channel_list[m],n,done)
+				dati += [channel_list[m]]
+					#print len(data)
+				m += 1
+		misure += [dati]
+		del sdp
+		del dati
+		del channel_list
+		#?print 
+		return misure
+	except:
+		print "Unable to snap data!"
+		pass
     
     
     
