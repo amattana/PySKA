@@ -97,7 +97,7 @@ def plot_map(ant, marker='o', markersize=12, color='g', print_name=False):
     ax.plot(x,y, marker=marker, markersize=markersize, linestyle = 'None', color=color)
     if print_name:
         for i in range(len(name)):
-            ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10)
+            ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
 
 
 if __name__ == "__main__":
@@ -132,10 +132,20 @@ if __name__ == "__main__":
                       default = False,
                       help="If True do not show OFF antenna in the figure")
                       
+    parser.add_option("-o", "--noon", action='store_true',
+                      dest="no_on", 
+                      default = False,
+                      help="If True do not colour the antenna ON in the figure")
+                      
     parser.add_option("-a", "--noall", action='store_true',
                       dest="no_all", 
                       default = False,
                       help="If True do not show empty bases in the figures")
+                      
+    parser.add_option("-n", "--name", action='store_true',
+                      dest="ant_name", 
+                      default = False,
+                      help="If True show antenna bases numerber in the figures")
                       
     parser.add_option("-l", "--list", action='store_true',
                       dest="list_ant", 
@@ -162,23 +172,6 @@ if __name__ == "__main__":
 
     ax = fig.add_axes([0.08, 0.08, 0.85, 0.85])
     ax.set_title("AAVS 1.1 Antennas Map")
-
-    if not options.no_all:
-        plot_map(cells, marker='8', markersize=12, color='k')
-        plot_map(cells, marker='8', markersize=11, color='w')
-
-    TPMs=[]
-    for i in range(25):
-        a=[x for x in cells if x['TPM']==i]
-        if not a==[]:
-            TPMs+=[a]
-    for i in range(len(TPMs)):
-        plot_map(TPMs[i], marker='8', markersize=10, color=COLORS[i%8])
-
-    if not options.no_off:
-        spente=[a for a in cells if "OFF" in a['Power']]
-        plot_map(spente, marker='+', markersize=11, color='k')
-
 
     ax.axis([-25,25,-25,25])
 
@@ -215,6 +208,24 @@ if __name__ == "__main__":
         ax.annotate("SOUTH", xy=(-1.9,-24), fontweight='bold')
         ax.annotate("EAST", xy=(21.5,0), fontweight='bold')
         ax.annotate("WEST", xy=(-24.5,0), fontweight='bold')
+
+    if not options.no_all:
+        plot_map(cells, marker='8', markersize=12, color='k')
+        plot_map(cells, marker='8', markersize=11, color='w', print_name=options.ant_name)
+
+    TPMs=[]
+    for i in range(25):
+        a=[x for x in cells if x['TPM']==i]
+        if not a==[]:
+            TPMs+=[a]
+    if not options.no_on:
+        for i in range(len(TPMs)):
+            plot_map(TPMs[i], marker='8', markersize=10, color=COLORS[i%8])
+
+    if not options.no_off:
+        spente=[a for a in cells if "OFF" in a['Power']]
+        plot_map(spente, marker='+', markersize=11, color='k')
+
 
     if not options.no_save:
         fname=OUTPUT_PICTURE_DATA_PATH+datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y-%m-%d_%H%M%S_AAVS_MAP.png")
