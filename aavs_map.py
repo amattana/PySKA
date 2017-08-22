@@ -163,9 +163,9 @@ if __name__ == "__main__":
         print("\nUnable to find the server at accounts.google.com.\n\nContinuing with localfile: %s\n"%(EX_FILE))
         cells = read_from_local()
 
-    except:
-        print "Got a new exception! Exiting..."
-        exit()
+    #except:
+    #    print "Got a new exception! Exiting..."
+    #    exit()
 
 
     fig=plt.figure(num=None, figsize=(9,9), dpi=80, facecolor='w', edgecolor='w')
