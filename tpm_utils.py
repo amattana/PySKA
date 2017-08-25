@@ -12,6 +12,8 @@ from struct import *
 import manager as config_man
 from bsp.tpm import *
 
+
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -100,37 +102,109 @@ def write_preadu_regs(Tpm, conf):
     reg_values += Tpm.bsp.preadu_rd128(1)
     return reg_values
     
-def snapTPM(tpm):
-	try:
-		UDP_PORT = 0x1234 + int(tpm['IP'].split(".")[-1])
-		done = 0
-		sdp = sdp_med(UDP_PORT)
-		misure = []
-		#while(done != num or num == 0):
-		snap =  sdp.reassemble()
-		channel_id_list = snap[4:4+int(snap[3])]
-		channel_list = snap[4+int(snap[3]):]
+def tpm_obj(loc_ip):
+    tpm = {}
+    tpm['TPM'] = TPM(ip=loc_ip, port=10000, timeout=1)
+    tpm['IP']  = loc_ip
+    return tpm
 
-		#done += 1
-		#sys.stdout.write("\rAcq # %d/%d " %(done,num))
-		#sys.stdout.flush()
-		m = 0
-		dati = []
-		for n in range(len(channel_id_list)):
-			if channel_id_list[n] == "1":
-					#last_filename=save_raw(path, channel_list[m],n,done)
-				dati += [channel_list[m]]
-					#print len(data)
-				m += 1
+def snapTPM(tpm):
+    try:
+        UDP_PORT = 0x1234 + int(tpm['IP'].split(".")[-1])
+        done = 0
+        sdp = sdp_med(UDP_PORT)
+        misure = []
+        snap =  sdp.reassemble()
+        channel_id_list = snap[4:4+int(snap[3])]
+        channel_list = snap[4+int(snap[3]):]
+        m = 0
+        dati = []
+        for n in range(len(channel_id_list)):
+            if channel_id_list[n] == "1":
+                dati += [channel_list[m]]
+                m += 1
 		misure += [dati]
-		del sdp
-		del dati
-		del channel_list
-		#?print 
-		return misure
-	except:
-		print "Unable to snap data!"
-		pass
-    
-    
-    
+        del sdp
+        del dati
+        del channel_list
+        return misure
+    except:
+        print "Unable to snap data!"
+        pass
+
+def rms_color(w):
+    if w<5:
+        return "#0000ff"
+    elif w<10:
+        return "#00c5ff"
+    elif w<15:
+        return "#00ffc5"
+    elif w<20:
+        return "#22ff00"
+    elif w<25:
+        return "#ff9f00"
+    elif w<30:
+        return "#ff1d00"
+    else:
+        return "#c800c8"
+
+def calcFreqs(lenvett, sample_rate):
+    x = np.arange(0,lenvett,1)
+    freqs = np.fft.rfftfreq(x.shape[-1])
+    freqs[:] = freqs*sample_rate    # modificato
+    return freqs
+
+def calcSpectra(vett):
+    window = np.hanning(len(vett))
+    spettro = np.fft.rfft(vett*window)
+    N = len(spettro)
+    acf = 2  #amplitude correction factor
+    spettro[:] = abs((acf*spettro)/N)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        spettro[:] = 20*np.log10(spettro/127.0)
+    return (np.real(spettro))
+
+def get_raw_meas(objtpm, meas="RMS"):
+    TPM_ADU_REMAP=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
+    sample_rate=800
+    dati=snapTPM(objtpm)[0]
+    spettro = []
+    freqs=calcFreqs(len(dati[0])/16, sample_rate)
+    n=8192 # split and average number, from 128k to 16 of 8k
+    for i in xrange(32):
+        l=dati[TPM_ADU_REMAP[i]]
+        sp=[l[TPM_ADU_REMAP[i]:TPM_ADU_REMAP[i] + n] for TPM_ADU_REMAP[i] in xrange(0, len(l), n)]
+        singoli=np.zeros(len(calcSpectra(sp[0])))
+        for k in sp:
+            singolo = calcSpectra(k)
+            singoli[:] += singolo
+        singoli[:] /= 16      
+        spettro += [singoli]
+
+    if meas=="SPECTRA":
+        return freqs, spettro
+    else:
+        dati=np.array(dati,dtype=np.float64)
+
+        adu_rms = np.zeros(32)
+        adu_rms = adu_rms + np.sqrt(np.mean(np.power(dati,2),1))
+        if meas=="RMS":
+            return adu_rms
+        elif meas=="DBM":
+            volt_rms = adu_rms * (1.7/256.)                           # VppADC9680/2^bits * ADU_RMS
+            power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30     # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+            power_rf = power_adc + 12                                 # single ended to diff net loose 12 dBm
+            return power_rf
+
+#self.freqs, self.spettro_mediato, self.dati = get_raw_meas(objtpm, meas="SPECTRA")
+#freqs=self.calcFreqs(len(data))     
+#spettro = self.plot_spectra(data)
+#self.matlabPlotACQ.plotCurve(freqs, spettro, yAxisRange = [-100,0],title=self.mainWidget.qcombo_adu_channel.currentText(), xLabel="MHz", yLabel="dBFS", plotLog=True)
+
+#for i in xrange(32):
+#    if i%32%2==0:   # solo pari
+#        plotcolor="b"
+#    else:
+#        plotcolor="g"
+#    self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor) 
+

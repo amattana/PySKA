@@ -373,7 +373,8 @@ class iTPM(QtGui.QMainWindow):
         N = len(spettro)
         acf = 2  #amplitude correction factor
         spettro[:] = abs((acf*spettro)/N)
-        spettro[:] = 20*np.log10(spettro/127.0)
+        with np.errstate(divide='ignore', invalid='ignore'):
+            spettro[:] = 20*np.log10(spettro/127.0)
         #dB_FS = 10*log10(sum(abs(time_data(:,(n_time_record*(m-1))+1)).^2)/size(time_data(:,(n_time_record*(m-1))+1),1))-10*log10(0.5);
         #print "End of subroutine"
         return (np.real(spettro))

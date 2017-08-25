@@ -24,11 +24,14 @@ from ip_scan import *
 from optparse import OptionParser
 from openpyxl import load_workbook
 import matplotlib.pyplot as plt 
+import matplotlib.patches as patches
 import datetime,time
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import httplib2 
+
+colori=[['        RMS > 30  ','#c800c8'], ['25 < RMS < 30','#ff1d00'], ['20 < RMS < 25','#ff9f00'], ['15 < RMS < 20','#22ff00'], ['10 < RMS < 15','#00ffc5'], ['  5 < RMS < 10 ','#00c5ff'],['    0 < RMS < 5','#0000ff']]
 
 def read_from_google():
     # use creds to create a client to interact with the Google Drive API
@@ -65,6 +68,10 @@ def read_from_local():
                 else:
                     dic[keys[j]]=""
             cells += [dic]
+    else: 
+        print "Unable to find file:", options.EX_FILE
+        print "\nExiting with errors...\n"
+        exit()
     return cells
 
 def print_antennas_list():
@@ -98,6 +105,58 @@ def plot_map(ant, marker='o', markersize=12, color='g', print_name=False):
     if print_name:
         for i in range(len(name)):
             ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
+
+
+def onclick(event):                                                        
+    if event.dblclick and not event.xdata==None:                                                            
+        if event.button == 1:
+            sel=[x for x in cells if ((x['East']>event.xdata-0.4) and (x['East']<event.xdata+0.4))] 
+            res=[x for x in sel   if ((x['North']>event.ydata-0.4) and (x['North']<event.ydata+0.4))]
+            if len(res)==1:
+                board = {}
+                print "Selected antenna", int(res[0]['Base'])#, len(TPMs)#,res[0]['East'], res[0]['North']
+                for i in range(len(TPMs)):
+                    #for x in TPMs[i]['ANTENNE']:
+                    #    print x['Base'], " ",
+                    #print
+                    if len([x for x in TPMs[i]['ANTENNE'] if int(x['Base'])==int(res[0]['Base'])])>0:
+                        board['IP'] = TPMs[i]['IP']
+                        board['TPM'] = TPMs[i]['TPM']
+                        board['ANTENNE'] = [x for x in TPMs[i]['ANTENNE'] if int(x['Base'])==int(res[0]['Base'])]
+                        #print board['ANTENNE'], board['IP'] 
+                if not board=={}:
+                    if len(board['ANTENNE'])==1:
+                        freqs, spettro=get_raw_meas(board, meas="SPECTRA")
+                        fig_spectrum=plt.figure(num=2, figsize=(12,9), dpi=80, facecolor='w', edgecolor='w')
+                        axs = fig_spectrum.add_axes([0.08, 0.13, 0.85, 0.75])
+                        axs.axis([0,400,0,-100])
+                        axs.set_ylim([-100, 0])
+                        axs.set_xlim([0, 400])
+                        axs.set_xlabel('MHz', fontsize=14)
+                        axs.set_ylabel('dB', fontsize=14)
+                        msg = "Antenna Base # "+str(int(board['ANTENNE'][0]['Base']))+"     "
+                        msg += "Hybrid Cable: "+str(int(board['ANTENNE'][0]['Hybrid Cable']))+"     "
+                        msg += "Roxtec: "+str(int(board['ANTENNE'][0]['Roxtec']))+"\n"
+                        msg += "Ribbon: "+str(int(board['ANTENNE'][0]['Ribbon']))+"    "
+                        msg += "Fibre: "+str(int(board['ANTENNE'][0]['Fibre']))+"    "
+                        msg += "Colour: "+str(board['ANTENNE'][0]['Colour'])+"\n"
+                        msg += "TPM: "+str(int(board['ANTENNE'][0]['TPM']))+"   IP:"+board['IP']+"    "
+                        msg += "RX: "+str(int(board['ANTENNE'][0]['RX']))
+                        fig_spectrum.suptitle(msg, fontsize=16)
+                        axs.plot(freqs, spettro[(int(board['ANTENNE'][0]['RX'])-1)*2], scaley=False, color='b', label="Pol X")
+                        axs.plot(freqs, spettro[(int(board['ANTENNE'][0]['RX'])-1)*2+1], scaley=False, color='g', label="Pol Y")
+                        axs.legend(bbox_to_anchor=(0.36, -0.16, 1., .102), loc=3,ncol=2)#, mode="expand", borderaxespad=0.)
+                        fig_spectrum.show()
+
+            elif len(res)>2:
+                print "Search provides more than one result (found %d candidates)"%(len(res))
+            else:
+                #print "Double clicked on x:%4.2f and y:%4.2f, no antenna found here!"%(event.xdata,event.ydata)
+                pass
+        else:                                                            
+            pass                                                                                            
+    else:
+        pass
 
 
 if __name__ == "__main__":
@@ -152,25 +211,44 @@ if __name__ == "__main__":
                       default = False,
                       help="If enabled list the antenna map")
                       
+    parser.add_option("--local", action='store_true',
+                      dest="force_local",
+                      default = False,
+                      help="If enabled force the program to run with the locally stored excel file")
+
+    parser.add_option("--meas", 
+                      dest="meas",
+                      default = "",
+                      help="Choose from RMS (ADU RMS) or DBM (RF Power in dBm)")
+
+    parser.add_option("--plot_pol", 
+                      dest="plot_pol",
+                      default = "x",
+                      help="Select the polarization [x|y] to be shown")
+
+
     (options, args) = parser.parse_args()
 
 
-    try: 
-        cells = read_from_google()
-        print "\nSuccessfully connected to the online google spreadsheet!\n\n"
+    if not options.force_local:
+        try: 
+            cells = read_from_google()
+            print "\nSuccessfully connected to the online google spreadsheet!\n\n"
 
-    except httplib2.ServerNotFoundError:
-        print("\nUnable to find the server at accounts.google.com.\n\nContinuing with localfile: %s\n"%(EX_FILE))
+        except httplib2.ServerNotFoundError:
+            print("\nUnable to find the server at accounts.google.com.\n\nContinuing with localfile: %s\n"%(EX_FILE))
+            cells = read_from_local()
+
+        except:
+            print "Got a new exception! Exiting..."
+            exit()
+    else:
+        print "\nRunning with local file:", options.EX_FILE
         cells = read_from_local()
 
-    #except:
-    #    print "Got a new exception! Exiting..."
-    #    exit()
+    fig=plt.figure(num=None, figsize=(12,9), dpi=80, facecolor='w', edgecolor='w')
 
-
-    fig=plt.figure(num=None, figsize=(9,9), dpi=80, facecolor='w', edgecolor='w')
-
-    ax = fig.add_axes([0.08, 0.08, 0.85, 0.85])
+    ax = fig.add_axes([0.08, 0.08, 0.7, 0.85])
     ax.set_title("AAVS 1.1 Antennas Map")
 
     ax.axis([-25,25,-25,25])
@@ -213,11 +291,45 @@ if __name__ == "__main__":
         plot_map(cells, marker='8', markersize=12, color='k')
         plot_map(cells, marker='8', markersize=11, color='w', print_name=options.ant_name)
 
+    tpms=ip_scan()
+
     TPMs=[]
-    for i in range(25):
-        a=[x for x in cells if x['TPM']==i]
-        if not a==[]:
-            TPMs+=[a]
+    for i in tpms:
+        tpm = {}
+        tpm['TPM'] = TPM(ip=i, port=10000, timeout=1)
+        tpm['IP']  = i
+        tpm['ANTENNE'] = [x for x in cells if x['TPM']==int(i.split(".")[-1])]
+        TPMs += [tpm]
+
+    if not options.meas=="":
+        if options.plot_pol=='x':
+            pol=0
+            #ax.add_patch(patches.Rectangle((20, 20),    # (x,y)
+            #                                 8,         # width
+            #                                 2,         # height
+            #                                facecolor="red"))
+
+            ax.text(30, 20, "-       Pol X       -", bbox={'facecolor': '#22ff00', 'pad': 10})
+            ax.text(30, 17, "-       Pol Y       -", bbox={'facecolor': '#ff1d00', 'pad': 10})
+        else: 
+            pol=1
+        for tpm in TPMs:
+            rms=get_raw_meas(tpm, meas=options.meas)
+            for j in range(len(rms)/2):
+                x=float(str(tpm['ANTENNE'][j]['East']).replace(",","."))
+                y=float(str(tpm['ANTENNE'][j]['North']).replace(",","."))
+                ax.plot(x,y, marker='8', markersize=10, linestyle = 'None', color=rms_color(rms[(j*2)+pol]))
+
+        for i in range(len(colori)):
+            ax.text(30, -6-i*3, colori[i][0], bbox={'facecolor': colori[i][1], 'pad': 10})
+    print
+    pressed_x=0
+    pressed_y=0
+    fig.canvas.mpl_connect('button_press_event', onclick)
+    
+    plt.show()
+    exit()
+
     if not options.no_on:
         for i in range(len(TPMs)):
             plot_map(TPMs[i], marker='8', markersize=10, color=COLORS[i%8])

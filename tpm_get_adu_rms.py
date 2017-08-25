@@ -33,7 +33,8 @@ def plot_spectra(vett):
     N = len(spettro)
     acf = 2  #amplitude correction factor
     spettro[:] = abs((acf*spettro)/N)
-    spettro[:] = 20*np.log10(spettro/127.0)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        spettro[:] = 20*np.log10(spettro/127.0)
     #dB_FS = 10*log10(sum(abs(time_data(:,(n_time_record*(m-1))+1)).^2)/size(time_data(:,(n_time_record*(m-1))+1),1))-10*log10(0.5);
     #print "End of subroutine"
     return (np.real(spettro))
@@ -72,6 +73,7 @@ def snapTPM(tpm):
 		pass
 
 TPMs=['10.0.10.2', '10.0.10.3', '10.0.10.4', '10.0.10.5', '10.0.10.6', '10.0.10.25']
+TPMs=['10.0.10.2']
 remap=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
 tpms = []
 for i in range(len(TPMs)):
