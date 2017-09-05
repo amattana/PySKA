@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1150</width>
-    <height>749</height>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <x>20</x>
      <y>20</y>
      <width>1111</width>
-     <height>701</height>
+     <height>691</height>
     </rect>
    </property>
    <property name="cursor">
@@ -2092,44 +2092,6 @@ color: rgb(251, 255, 5);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="qbutton_acq_start">
-     <property name="geometry">
-      <rect>
-       <x>970</x>
-       <y>610</y>
-       <width>101</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cantarell</family>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <italic>false</italic>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(0, 255, 0);
-color: rgb(251, 255,5);</string>
-     </property>
-     <property name="text">
-      <string>GET</string>
-     </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-     <property name="default">
-      <bool>false</bool>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QLabel" name="qlabel_jig_ip">
      <property name="geometry">
       <rect>
@@ -2241,36 +2203,6 @@ background-color: rgb(255,60 , 0);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="qtext_clear">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>610</y>
-       <width>101</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 0, 0);
-color: rgb(251, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string>CLEAR</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="qlabel_jig_path_5">
      <property name="geometry">
       <rect>
@@ -2297,7 +2229,7 @@ color: rgb(251, 255, 255);</string>
     <widget class="QComboBox" name="qcombo_adu_channel">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>620</x>
        <y>610</y>
        <width>101</width>
        <height>41</height>
@@ -2559,10 +2491,48 @@ color: rgb(251, 255, 255);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QPushButton" name="qbutton_acq_start">
+     <property name="geometry">
+      <rect>
+       <x>980</x>
+       <y>610</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 255, 0);
+color: rgb(251, 255,5);</string>
+     </property>
+     <property name="text">
+      <string>GET</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
     <widget class="QLabel" name="qtext_save">
      <property name="geometry">
       <rect>
-       <x>730</x>
+       <x>740</x>
        <y>610</y>
        <width>101</width>
        <height>41</height>
@@ -2584,6 +2554,36 @@ color: rgb(251, 255, 5);</string>
      </property>
      <property name="text">
       <string>SAVE</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qtext_clear">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>610</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(251, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>CLEAR</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -2719,9 +2719,9 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
+       <y>80</y>
        <width>1111</width>
-       <height>571</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -2746,10 +2746,10 @@ color: rgb(251, 255, 5);</string>
     <widget class="QFrame" name="qframe_ant_rms">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>100</y>
+       <x>20</x>
+       <y>80</y>
        <width>1061</width>
-       <height>581</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -2762,9 +2762,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ant_num">
      <property name="geometry">
       <rect>
-       <x>860</x>
+       <x>850</x>
        <y>30</y>
-       <width>231</width>
+       <width>241</width>
        <height>41</height>
       </rect>
      </property>
@@ -2774,6 +2774,9 @@ color: rgb(251, 255, 5);</string>
        <weight>75</weight>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="toolTip">
+      <string/>
      </property>
      <property name="text">
       <string>Acquisition Number: -</string>
@@ -2797,6 +2800,12 @@ color: rgb(251, 255, 5);</string>
        <weight>75</weight>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="toolTip">
+      <string>Antenna Numbering referred to TPM front panel (optical fiber inputs) from 1 to 16. Pol X (BLUE) is West-East LNA bottom, Pol Y (GREEN) is North-South LNA top.</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
      </property>
      <property name="text">
       <string>Select Antenna</string>
@@ -2934,9 +2943,9 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
+       <y>80</y>
        <width>1111</width>
-       <height>571</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -2962,9 +2971,9 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
+       <y>80</y>
        <width>1111</width>
-       <height>571</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -2990,9 +2999,9 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
+       <y>80</y>
        <width>1111</width>
-       <height>581</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -3014,17 +3023,188 @@ color: rgb(251, 255, 5);</string>
       </size>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLineEdit" name="qtext_ymax">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>80</y>
-       <width>1101</width>
-       <height>20</height>
+       <x>840</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>Antenna Numbering referred to TPM optical fiber inputs on the front panel from 1 to 16. Pol X (BLUE) is West-East LNA bottom, Pol Y (GREEN) is North-South LNA top.</string>
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_xmax">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>X MAX:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_ymax">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Y MAX:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_xmin">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>X MIN:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_xmax">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>400</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_ymin">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Y MIN:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_ymin">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>-100</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="qtext_xmin">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>620</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>0</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

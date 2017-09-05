@@ -215,7 +215,7 @@ class MatplotlibPlot(QtGui.QWidget):
 
 class MiniCanvas(FigureCanvas):
 
-    def __init__( self , nplot, parent = None, dpi = 100, size = (11,5.7)):
+    def __init__( self , nplot, parent = None, dpi = 100, size = (11,5.3)):
         self.nplot=nplot
         self.dpi = dpi
         self.fig = Figure(size, dpi = self.dpi, facecolor='white')
@@ -240,7 +240,6 @@ class MiniPlots(QtGui.QWidget):
     """ Class encapsulating a matplotlib plot"""
     def __init__( self, parent = None , nplot = 16):
         QtGui.QWidget.__init__( self, parent )
-    #def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
         """ Class initialiser """
         self.nplot = nplot
         #print self.nplot
@@ -260,7 +259,10 @@ class MiniPlots(QtGui.QWidget):
             #auto_scale_y = True
             #self.canvas.ax[ant].clear()
             self.canvas.ax[ant].plot(assex, data, scaley=False, color=colore)
-            #self.canvas.ax[ant].set_xlim([50, 100])
+            if not xAxisRange == None:
+                self.canvas.ax[ant].set_xlim(xAxisRange)
+            if not yAxisRange == None:
+                self.canvas.ax[ant].set_ylim(yAxisRange)
             #print "plot ", len(assex), len(data), ant
 
     def updatePlot(self):
@@ -275,7 +277,7 @@ class MiniPlots(QtGui.QWidget):
 
 class BarCanvas(FigureCanvas):
 
-    def __init__( self , parent = None, dpi = 100, size = (11,5.7)):
+    def __init__( self , parent = None, dpi = 100, size = (11,5.3)):
         self.dpi = dpi
         self.fig = Figure(size, dpi = self.dpi, facecolor='white')
         self.fig.set_tight_layout(True)
