@@ -107,6 +107,16 @@ def plot_map(ant, marker='o', markersize=12, color='g', print_name=False):
             ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
 
 
+
+    #x = np.array([float(str(a['East']).replace(",",".")) for a in ant])
+    #y = np.array([float(str(a['North']).replace(",",".")) for a in ant])
+    #c=256*[20]
+    #s=256*[75]
+    #im=ax.scatter(x, y, c=c, s=s, cmap=plt.cm.jet)
+    #fig.colorbar(im, ax=ax)
+    #im.set_clim(0.0, 50)
+    #plt.show()
+
 def onclick(event):                                                        
     if event.dblclick and not event.xdata==None:                                                            
         if event.button == 1:
