@@ -256,51 +256,6 @@ if __name__ == "__main__":
         print "\nRunning with local file:", options.EX_FILE
         cells = read_from_local()
 
-    fig=plt.figure(num=None, figsize=(12,9), dpi=80, facecolor='w', edgecolor='w')
-
-    ax = fig.add_axes([0.08, 0.08, 0.7, 0.85])
-    ax.set_title("AAVS 1.1 Antennas Map")
-
-    ax.axis([-25,25,-25,25])
-
-    ax.axvline(0, color='b', linestyle='dotted')
-    ax.axhline(0, color='b', linestyle='dotted')
-
-    if not options.no_tpm:
-        ax.plot([-7.5,7.5],[20,-20],linestyle='dotted', color='b')
-        ax.plot([-19,19],[20,-20],linestyle='dotted', color='b')
-        ax.plot([-20,20],[8,-8],linestyle='dotted', color='b')
-        ax.plot([-20,20],[-7,7],linestyle='dotted', color='b')
-        ax.plot([-7.5,7.5],[-20,20],linestyle='dotted', color='b')
-        ax.plot([-19,19],[-20,20],linestyle='dotted', color='b')
-
-        ax.annotate("TPM-1", xy=(19,3))
-        ax.annotate("TPM-2", xy=(17,11))
-        ax.annotate("TPM-3", xy=(10,18))
-        ax.annotate("TPM-4", xy=(2,20))
-        ax.annotate("TPM-5", xy=(-5,20))
-        ax.annotate("TPM-6", xy=(-13,18))
-        ax.annotate("TPM-7", xy=(-20,11))
-        ax.annotate("TPM-8", xy=(-22,3))
-        ax.annotate("TPM-9", xy=(-22,-4))
-        ax.annotate("TPM-10", xy=(-20,-12))
-        ax.annotate("TPM-11", xy=(-13,-18))
-        ax.annotate("TPM-12", xy=(-5,-21))
-        ax.annotate("TPM-13", xy=(2,-21))
-        ax.annotate("TPM-14", xy=(10,-18))
-        ax.annotate("TPM-15", xy=(17,-12))
-        ax.annotate("TPM-16", xy=(19,-4))
-
-    if not options.no_coord:
-        ax.annotate("NORTH", xy=(-2,22), fontweight='bold')
-        ax.annotate("SOUTH", xy=(-1.9,-24), fontweight='bold')
-        ax.annotate("EAST", xy=(21.5,0), fontweight='bold')
-        ax.annotate("WEST", xy=(-24.5,0), fontweight='bold')
-
-    if not options.no_all:
-        plot_map(cells, marker='8', markersize=12, color='k')
-        plot_map(cells, marker='8', markersize=11, color='w', print_name=options.ant_name)
-
     tpms=ip_scan()
 
     TPMs=[]
@@ -311,33 +266,84 @@ if __name__ == "__main__":
         tpm['ANTENNE'] = [x for x in cells if x['TPM']==int(i.split(".")[-1])]
         TPMs += [tpm]
 
-    if not options.meas=="":
-        if options.plot_pol=='x':
-            pol=0
-            #ax.add_patch(patches.Rectangle((20, 20),    # (x,y)
-            #                                 8,         # width
-            #                                 2,         # height
-            #                                facecolor="red"))
+    plt.ion()
 
-            ax.text(30, 20, "-       Pol X       -", bbox={'facecolor': '#22ff00', 'pad': 10})
-            ax.text(30, 17, "-       Pol Y       -", bbox={'facecolor': '#ff1d00', 'pad': 10})
-        else: 
-            pol=1
-        for tpm in TPMs:
-            rms=get_raw_meas(tpm, meas=options.meas)
-            for j in range(len(rms)/2):
-                x=float(str(tpm['ANTENNE'][j]['East']).replace(",","."))
-                y=float(str(tpm['ANTENNE'][j]['North']).replace(",","."))
-                ax.plot(x,y, marker='8', markersize=10, linestyle = 'None', color=rms_color(rms[(j*2)+pol]))
+    while True:
+        fig=plt.figure(num=1, figsize=(12,9), dpi=80, facecolor='w', edgecolor='w')
+        ax = fig.add_axes([0.08, 0.08, 0.7, 0.85])
+        ax.set_title("AAVS 1.1 Antennas Map")
 
-        for i in range(len(colori)):
-            ax.text(30, -6-i*3, colori[i][0], bbox={'facecolor': colori[i][1], 'pad': 10})
-    print
-    pressed_x=0
-    pressed_y=0
-    fig.canvas.mpl_connect('button_press_event', onclick)
+        ax.axis([-25,25,-25,25])
+
+        ax.axvline(0, color='b', linestyle='dotted')
+        ax.axhline(0, color='b', linestyle='dotted')
+
+        if not options.no_tpm:
+            ax.plot([-7.5,7.5],[20,-20],linestyle='dotted', color='b')
+            ax.plot([-19,19],[20,-20],linestyle='dotted', color='b')
+            ax.plot([-20,20],[8,-8],linestyle='dotted', color='b')
+            ax.plot([-20,20],[-7,7],linestyle='dotted', color='b')
+            ax.plot([-7.5,7.5],[-20,20],linestyle='dotted', color='b')
+            ax.plot([-19,19],[-20,20],linestyle='dotted', color='b')
+
+            ax.annotate("TPM-1", xy=(19,3))
+            ax.annotate("TPM-2", xy=(17,11))
+            ax.annotate("TPM-3", xy=(10,18))
+            ax.annotate("TPM-4", xy=(2,20))
+            ax.annotate("TPM-5", xy=(-5,20))
+            ax.annotate("TPM-6", xy=(-13,18))
+            ax.annotate("TPM-7", xy=(-20,11))
+            ax.annotate("TPM-8", xy=(-22,3))
+            ax.annotate("TPM-9", xy=(-22,-4))
+            ax.annotate("TPM-10", xy=(-20,-12))
+            ax.annotate("TPM-11", xy=(-13,-18))
+            ax.annotate("TPM-12", xy=(-5,-21))
+            ax.annotate("TPM-13", xy=(2,-21))
+            ax.annotate("TPM-14", xy=(10,-18))
+            ax.annotate("TPM-15", xy=(17,-12))
+            ax.annotate("TPM-16", xy=(19,-4))
+
+        if not options.no_coord:
+            ax.annotate("NORTH", xy=(-2,22), fontweight='bold')
+            ax.annotate("SOUTH", xy=(-1.9,-24), fontweight='bold')
+            ax.annotate("EAST", xy=(21.5,0), fontweight='bold')
+            ax.annotate("WEST", xy=(-24.5,0), fontweight='bold')
+
+        if not options.no_all:
+            plot_map(cells, marker='8', markersize=12, color='k')
+            plot_map(cells, marker='8', markersize=11, color='w', print_name=options.ant_name)
+
+        if not options.meas=="":
+            if options.plot_pol=='x':
+                pol=0
+                #ax.add_patch(patches.Rectangle((20, 20),    # (x,y)
+                #                                 8,         # width
+                #                                 2,         # height
+                #                                facecolor="red"))
+
+                ax.text(30, 20, "-       Pol X       -", bbox={'facecolor': '#22ff00', 'pad': 10})
+                ax.text(30, 17, "-       Pol Y       -", bbox={'facecolor': '#ff1d00', 'pad': 10})
+            else: 
+                pol=1
+            for tpm in TPMs:
+                rms=get_raw_meas(tpm, meas=options.meas)
+                for j in range(len(rms)/2):
+                    x=float(str(tpm['ANTENNE'][j]['East']).replace(",","."))
+                    y=float(str(tpm['ANTENNE'][j]['North']).replace(",","."))
+                    ax.plot(x,y, marker='8', markersize=10, linestyle = 'None', color=rms_color(rms[(j*2)+pol]))
+
+            for i in range(len(colori)):
+                ax.text(30, -6-i*3, colori[i][0], bbox={'facecolor': colori[i][1], 'pad': 10})
+
+        ax.text(-8, -28.5, datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y/%m/%d %H:%M:%S UTC"), fontsize=16)
+        #print
+        pressed_x=0
+        pressed_y=0
+        fig.canvas.mpl_connect('button_press_event', onclick)
     
-    plt.show()
+        plt.draw()
+        plt.pause(0.1)
+        fig.clf()
     exit()
 
     if not options.no_on:
@@ -355,7 +361,6 @@ if __name__ == "__main__":
         print "Saved picture", fname
     if not options.no_plot:
         plt.show()
-
     if options.list_ant:
         print_antennas_list()
 
