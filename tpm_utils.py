@@ -108,26 +108,34 @@ def tpm_obj(loc_ip):
     tpm['IP']  = loc_ip
     return tpm
 
-def snapTPM(tpm):
+def snapTPM(tpm, debug=False):
     try:
-        UDP_PORT = 0x1234 + int(tpm['IP'].split(".")[-1])
-        done = 0
-        sdp = sdp_med(UDP_PORT)
-        misure = []
-        snap =  sdp.reassemble()
-        channel_id_list = snap[4:4+int(snap[3])]
-        channel_list = snap[4+int(snap[3]):]
-        m = 0
-        dati = []
-        for n in range(len(channel_id_list)):
-            if channel_id_list[n] == "1":
-                dati += [channel_list[m]]
-                m += 1
-		misure += [dati]
-        del sdp
-        del dati
-        del channel_list
-        return misure
+        if not debug:
+            UDP_PORT = 0x1234 + int(tpm['IP'].split(".")[-1])
+            done = 0
+            sdp = sdp_med(UDP_PORT)
+            misure = []
+            snap =  sdp.reassemble()
+            channel_id_list = snap[4:4+int(snap[3])]
+            channel_list = snap[4+int(snap[3]):]
+            m = 0
+            dati = []
+            for n in range(len(channel_id_list)):
+                if channel_id_list[n] == "1":
+                    dati += [channel_list[m]]
+                    m += 1
+       		misure += [dati]
+            del sdp
+            del dati
+            del channel_list
+            return misure
+        else:
+            f=open("data_stored","r")
+            b=[[]]
+            for i in range(32):
+                b[0] += [unpack(">"+str(2**17)+"b",f.read(2**17))]
+            f.close()
+            return(np.array(b))
     except:
         print "Unable to snap data!"
         pass
@@ -164,15 +172,19 @@ def calcSpectra(vett):
         spettro[:] = 20*np.log10(spettro/127.0)
     return (np.real(spettro))
 
-def get_raw_meas(objtpm, meas="RMS"):
+def get_raw_meas(objtpm, meas="RMS", debug=False):
+    i=debug
     TPM_ADU_REMAP=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
     sample_rate=800
-    dati=snapTPM(objtpm)[0]
+    dati=snapTPM(objtpm, debug=i)[0]
+    dati=[dati[k] for k in TPM_ADU_REMAP]
+#    print "SNAP LEN:",len(dati)
     spettro = []
     freqs=calcFreqs(len(dati[0])/16, sample_rate)
     n=8192 # split and average number, from 128k to 16 of 8k
     for i in xrange(32):
-        l=dati[TPM_ADU_REMAP[i]]
+        l=dati[i]
+#        print "ADU Input: ",i,"Remapped in ",TPM_ADU_REMAP[i], "Len: ", len(l)
         sp=[l[TPM_ADU_REMAP[i]:TPM_ADU_REMAP[i] + n] for TPM_ADU_REMAP[i] in xrange(0, len(l), n)]
         singoli=np.zeros(len(calcSpectra(sp[0])))
         for k in sp:
@@ -188,13 +200,11 @@ def get_raw_meas(objtpm, meas="RMS"):
 
         adu_rms = np.zeros(32)
         adu_rms = adu_rms + np.sqrt(np.mean(np.power(dati,2),1))
-        if meas=="RMS":
-            return adu_rms
-        elif meas=="DBM":
-            volt_rms = adu_rms * (1.7/256.)                           # VppADC9680/2^bits * ADU_RMS
-            power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30     # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
-            power_rf = power_adc + 12                                 # single ended to diff net loose 12 dBm
-            return power_rf
+      
+        volt_rms = adu_rms * (1.7/256.)                           # VppADC9680/2^bits * ADU_RMS
+        power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30     # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+        power_rf = power_adc + 12                                 # single ended to diff net loose 12 dBm
+        return adu_rms, power_rf
 
 #self.freqs, self.spettro_mediato, self.dati = get_raw_meas(objtpm, meas="SPECTRA")
 #freqs=self.calcFreqs(len(data))     

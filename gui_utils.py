@@ -340,5 +340,131 @@ class BarPlot(QtGui.QWidget):
         self.updatePlot()
 
 
+class MapCanvas(FigureCanvas):
+    def __init__(self, parent=None, dpi=80, size=(8, 7.2)):
+        self.dpi = dpi
+        self.fig = Figure(size, dpi=self.dpi, facecolor='white')
+        self.fig.set_tight_layout(True)
+        self.ax = self.fig.add_subplot(1, 1, 1)
+        self.ax.set_axis_bgcolor('white')
+        self.ax.axis([-25, 25, -25, 25])
+        #self.ax.axvline(0, color='b', linestyle='dotted')
+        #self.ax.axhline(0, color='b', linestyle='dotted')
+
+        self.ax.plot([0, 0], [-20, 20], linestyle='dotted', color='b')
+        self.ax.plot([-20, 20], [0, 0], linestyle='dotted', color='b')
+        self.ax.plot([-7.5, 7.5], [20, -20], linestyle='dotted', color='b')
+        self.ax.plot([-19, 19], [20, -20], linestyle='dotted', color='b')
+        self.ax.plot([-20, 20], [8, -8], linestyle='dotted', color='b')
+        self.ax.plot([-20, 20], [-7, 7], linestyle='dotted', color='b')
+        self.ax.plot([-7.5, 7.5], [-20, 20], linestyle='dotted', color='b')
+        self.ax.plot([-19, 19], [-20, 20], linestyle='dotted', color='b')
+
+        self.ax.annotate("TPM-1", xy=(19, 3), fontsize=10)
+        self.ax.annotate("TPM-2", xy=(17, 11), fontsize=10)
+        self.ax.annotate("TPM-3", xy=(10, 18), fontsize=10)
+        self.ax.annotate("TPM-4", xy=(2, 20), fontsize=10)
+        self.ax.annotate("TPM-5", xy=(-5, 20), fontsize=10)
+        self.ax.annotate("TPM-6", xy=(-13, 18), fontsize=10)
+        self.ax.annotate("TPM-7", xy=(-20, 11), fontsize=10)
+        self.ax.annotate("TPM-8", xy=(-22, 3), fontsize=10)
+        self.ax.annotate("TPM-9", xy=(-22, -4), fontsize=10)
+        self.ax.annotate("TPM-10", xy=(-20, -12), fontsize=10)
+        self.ax.annotate("TPM-11", xy=(-13, -18), fontsize=10)
+        self.ax.annotate("TPM-12", xy=(-5, -21), fontsize=10)
+        self.ax.annotate("TPM-13", xy=(2, -21), fontsize=10)
+        self.ax.annotate("TPM-14", xy=(10, -18), fontsize=10)
+        self.ax.annotate("TPM-15", xy=(17, -12), fontsize=10)
+        self.ax.annotate("TPM-16", xy=(19, -4), fontsize=10)
+
+        self.ax.annotate("NORTH", xy=(-2, 22), fontweight='bold', fontsize=9)
+        self.ax.annotate("SOUTH", xy=(-1.9, -24), fontweight='bold', fontsize=9)
+        self.ax.annotate("EAST", xy=(21.5, 0), fontweight='bold', fontsize=9)
+        self.ax.annotate("WEST", xy=(-24.5, 0), fontweight='bold', fontsize=9)
+
+        FigureCanvas.__init__(self, self.fig)
+        FigureCanvas.setSizePolicy(self, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
+
+
+class MapPlot(QtGui.QWidget):
+    """ Class encapsulating a matplotlib plot"""
+
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        # def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
+        """ Class initialiser """
+        # print self.nplot
+        self.canvas = MapCanvas()  # create canvas that will hold our plot
+        self.updateGeometry()
+        self.vbl = QtGui.QVBoxLayout()
+        self.vbl.addWidget(self.canvas)
+        self.setLayout(self.vbl)
+        self.show()
+
+    def resetSubplots(self):
+        self.nSubplot = 0
+
+    def plotMap(self, ant, marker='8', markersize=8, color='b'):
+        """ Plot the data as Bars"""
+        if len(ant) != 0:
+            
+            x = [float(str(a['East']).replace(",", ".")) for a in ant]
+            y = [float(str(a['North']).replace(",", ".")) for a in ant]
+            
+            self.canvas.ax.plot(x, y, marker=marker, markersize=markersize, linestyle='None', color=color)
+         
+            self.updatePlot()
+
+    def updatePlot(self):
+        self.canvas.draw()
+        self.show()
+
+    def oPlot(self, x, y, marker='8', markersize=8, color='b'):
+        self.canvas.ax.plot(x, y, marker=marker, markersize=markersize, linestyle='None', color=color)
+        self.updatePlot()
+
+    def plotClear(self):
+        # Reset the plot landscape
+        self.canvas.ax.clear()
+        self.canvas.ax.set_axis_bgcolor('white')
+        self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
+        self.canvas.ax.axis([-25, 25, -25, 25])
+        #self.canvas.ax.axvline(0, color='b', linestyle='dotted')
+        #self.canvas.ax.axhline(0, color='b', linestyle='dotted')
+
+        self.canvas.ax.plot([0, 0], [-20, 20], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-20, 20], [0, 0], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-7.5, 7.5], [20, -20], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-19, 19], [20, -20], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-20, 20], [8, -8], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-20, 20], [-7, 7], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-7.5, 7.5], [-20, 20], linestyle='dotted', color='b')
+        self.canvas.ax.plot([-19, 19], [-20, 20], linestyle='dotted', color='b')
+        self.canvas.ax.annotate("TPM-1", xy=(19, 3), fontsize=10)
+        self.canvas.ax.annotate("TPM-2", xy=(17, 11), fontsize=10)
+        self.canvas.ax.annotate("TPM-3", xy=(10, 18), fontsize=10)
+        self.canvas.ax.annotate("TPM-4", xy=(2, 20), fontsize=10)
+        self.canvas.ax.annotate("TPM-5", xy=(-5, 20), fontsize=10)
+        self.canvas.ax.annotate("TPM-6", xy=(-13, 18), fontsize=10)
+        self.canvas.ax.annotate("TPM-7", xy=(-20, 11), fontsize=10)
+        self.canvas.ax.annotate("TPM-8", xy=(-22, 3), fontsize=10)
+        self.canvas.ax.annotate("TPM-9", xy=(-22, -4), fontsize=10)
+        self.canvas.ax.annotate("TPM-10", xy=(-20, -12), fontsize=10)
+        self.canvas.ax.annotate("TPM-11", xy=(-13, -18), fontsize=10)
+        self.canvas.ax.annotate("TPM-12", xy=(-5, -21), fontsize=10)
+        self.canvas.ax.annotate("TPM-13", xy=(2, -21), fontsize=10)
+        self.canvas.ax.annotate("TPM-14", xy=(10, -18), fontsize=10)
+        self.canvas.ax.annotate("TPM-15", xy=(17, -12), fontsize=10)
+        self.canvas.ax.annotate("TPM-16", xy=(19, -4), fontsize=10)
+
+        self.canvas.ax.annotate("NORTH", xy=(-2, 22), fontweight='bold', fontsize=9)
+        self.canvas.ax.annotate("SOUTH", xy=(-1.9, -24), fontweight='bold', fontsize=9)
+        self.canvas.ax.annotate("EAST", xy=(21.5, 0), fontweight='bold', fontsize=9)
+        self.canvas.ax.annotate("WEST", xy=(-24.5, 0), fontweight='bold', fontsize=9)
+
+        self.updatePlot()
+
+
 
 
