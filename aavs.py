@@ -67,7 +67,7 @@ COLONNE = 12
 EX_FILE = "/home/mattana/Downloads/AAVS 1.1 Locations and connections.xlsx"
 OUTPUT_PICTURE_DATA_PATH = "/home/mattana/Documents/AAVS-DATA/"
 LOG_PATH = "/home/mattana/aavs_data"
-
+PATH_PLOT_LIST = "./.plotlists/"
 LABEL_WIDTH  = 23
 LABEL_HEIGHT = 15
 TEXT_WIDTH   = 50
@@ -174,47 +174,88 @@ def create_button(Dialog, x, y, text):
     return qbutton
 
 def create_record(i,diz):
-    wid = QtGui.QFrame()
-    wid.setFrameShape(1)
-    wid.setFixedSize(710,20)
-    create_label(wid, 8, 2, 15, 18, str(i))
-    create_label(wid, 35, 2, 30, 18, str(diz['Base']))
-    create_label(wid, 82, 2, 30, 18, str(diz['Hybrid Cable']))
-    create_label(wid, 120, 2, 30, 18, str(diz['Roxtec']))
-    create_label(wid, 155, 2, 30, 18, str(diz['Ribbon']))
-    create_label(wid, 190, 2, 30, 18, str(diz['Fibre']))
-    create_label(wid, 230, 2, 50, 18, str(diz['Colour']))
-    create_label(wid, 290, 2, 20, 18, str(diz['TPM']))
-    create_label(wid, 320, 2, 20, 18, str(diz['RX']))
-    create_flag(wid, 360, 2, "yellow", "N")
-    create_flag(wid, 390, 2, "green", "S")
-    create_flag(wid, 420, 2, "green", "D")
-    create_flag(wid, 450, 2, "green", "F")
-    create_flag(wid, 480, 2, "green", "G")
-    create_flag(wid, 510, 2, "green", "C")
-    create_flag(wid, 540, 2, "green", "P")
-    create_flag(wid, 570, 2, "green", "R")
-    create_button(wid, 610, 2, "Plot")
-    create_button(wid, 650, 2, "Att")
-    return wid
+    record = {}
+
+    record['frame'] = QtGui.QFrame()
+    record['frame'].setFrameShape(1)
+    record['frame'].setFixedSize(960,20)
+    create_label(record['frame'], 8, 2, 15, 18, str(i))
+    record['Base']=int(diz['Base'])
+    record['TPM']=diz['TPM']
+    record['RX']=diz['RX']
+    create_label(record['frame'], 35, 2, 30, 18, str(int(diz['Base'])))
+    if not diz['Hybrid Cable']=="":
+        create_label(record['frame'], 82, 2, 30, 18, str(int(diz['Hybrid Cable'])))
+    if not diz['Roxtec']=="":
+        create_label(record['frame'], 120, 2, 30, 18, str(int(diz['Roxtec'])))
+    if not diz['Ribbon']=="":
+        create_label(record['frame'], 155, 2, 30, 18, str(int(diz['Ribbon'])))
+        create_label(record['frame'], 190, 2, 30, 18, str(int(diz['Fibre'])))
+    create_label(record['frame'], 230, 2, 50, 18, str(diz['Colour']))
+    if not diz['TPM']=="":
+        create_label(record['frame'], 290, 2, 20, 18, str(int(diz['TPM'])))
+        create_label(record['frame'], 320, 2, 20, 18, str(int(diz['RX'])))
+    create_flag(record['frame'], 380, 2, "yellow", "N")
+    create_flag(record['frame'], 410, 2, "green", "S")
+    create_flag(record['frame'], 440, 2, "green", "D")
+    create_flag(record['frame'], 470, 2, "green", "F")
+    create_flag(record['frame'], 500, 2, "green", "G")
+    create_flag(record['frame'], 530, 2, "green", "C")
+    create_flag(record['frame'], 560, 2, "green", "P")
+    create_flag(record['frame'], 590, 2, "green", "R")
+    record['add']=create_button(record['frame'], 650, 2, "Plot")
+    record['att']=create_button(record['frame'], 690, 2, "Att")
+
+    return record
 
 
-    # rec['Roxtec'] = create_label(Dialog, 270, 90, diz['Roxtec'])
-    # rec['Ribbon'] = create_label(Dialog, 270, 90, diz['Ribbon'])
-    # rec['Fibre'] = create_label(Dialog, 270, 90, diz['Fibre'])
-    # rec['Colour'] = create_label(Dialog, 270, 90, diz['Colour'])
-    # rec['East'] = create_label(Dialog, 270, 90, diz['East'])
-    # rec['North'] = create_label(Dialog, 270, 90, diz['North'])
+def create_plot_record(ant, cells):
+    record = {}
+    diz = [x for x in cells if x['Base']==ant][0]
+    record['frame'] = QtGui.QFrame()
+    record['frame'].setFrameShape(1)
+    record['frame'].setFixedSize(960,20)
+    #create_label(record['frame'], 8, 2, 15, 18, str(i))
+    record['Base']=int(diz['Base'])
+    record['TPM']=diz['TPM']
+    record['RX']=diz['RX']
+    create_label(record['frame'], 35, 2, 30, 18, str(int(diz['Base'])))
+    if not diz['Hybrid Cable']=="":
+        create_label(record['frame'], 82, 2, 30, 18, str(int(diz['Hybrid Cable'])))
+    if not diz['Roxtec']=="":
+        create_label(record['frame'], 120, 2, 30, 18, str(int(diz['Roxtec'])))
+    if not diz['Ribbon']=="":
+        create_label(record['frame'], 155, 2, 30, 18, str(int(diz['Ribbon'])))
+        create_label(record['frame'], 190, 2, 30, 18, str(int(diz['Fibre'])))
+    create_label(record['frame'], 230, 2, 50, 18, str(diz['Colour']))
+    if not diz['TPM']=="":
+        create_label(record['frame'], 290, 2, 20, 18, str(int(diz['TPM'])))
+        create_label(record['frame'], 320, 2, 20, 18, str(int(diz['RX'])))
+    create_flag(record['frame'], 380, 2, "yellow", "N")
+    create_flag(record['frame'], 410, 2, "green", "S")
+    create_flag(record['frame'], 440, 2, "green", "D")
+    create_flag(record['frame'], 470, 2, "green", "F")
+    create_flag(record['frame'], 500, 2, "green", "G")
+    create_flag(record['frame'], 530, 2, "green", "C")
+    create_flag(record['frame'], 560, 2, "green", "P")
+    create_flag(record['frame'], 590, 2, "green", "R")
+    record['Color']=create_color_list(record['frame'],640,1)
 
-    #rec['value'] = create_label(Dialog, 45+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "0")
-    #rec['text'] = create_text(Dialog,  80+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "0")
-    #rec['minus'] = create_button(Dialog,  140+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "-")
-    #rec['plus'] = create_button(Dialog,  170+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "+")
-    #rec['lo'] = create_flag(Dialog, 210+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "green", "LO")
-    #rec['hi'] = create_flag(Dialog, 260+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "yellow", "HI")
-    #rec['rf'] = create_flag(Dialog, 310+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "green", rf_map[1])
-    #rec['of'] = create_flag(Dialog, 360+(((idx & 8)>>3)*TABLE_HSPACE), 90+((idx & 7)*TABLE_VSPACE)+(((idx & 16)>>4)*280), "cyan", rf_map[2])
-    #return rec
+    return record
+
+def create_color_list(frame,x,y):
+    listacolori=QtGui.QComboBox(frame)
+    listacolori.addItem("blue")
+    listacolori.addItem("green")
+    listacolori.addItem("red")
+    listacolori.addItem("black")
+    listacolori.addItem("yellow")
+    listacolori.addItem("cyan")
+    listacolori.setGeometry(QtCore.QRect(x, y, 100, 18))
+    listacolori.setFont(QtGui.QFont("Ubuntu", 9))
+    return listacolori
+
+
 
 def font_bold():
     font = QtGui.QFont()
@@ -284,9 +325,9 @@ class AAVS(QtGui.QMainWindow):
         self.runMap()
         self.show()
 
-    def load_events(self):
-        self.mainWidget.button_runMap.clicked.connect(lambda: self.runMap())
-        self.mainWidget.button_saveMap.clicked.connect(lambda: self.saveMap())
+        self.initPlotList()
+
+
 
     def runMap(self):
         print "RUN MAP"
@@ -391,14 +432,111 @@ class AAVS(QtGui.QMainWindow):
         myform = QtGui.QFormLayout()
         myform.setVerticalSpacing(0)
         myform.setHorizontalSpacing(0)
+        self.records = []
         for i in xrange(len(self.cells)):
-            myform.addRow(create_record(i, self.cells[i]))
+            self.records += [create_record(i, self.cells[i])]
+            ant=int(self.records[i]['Base'])
+            self.records[i]['add'].clicked.connect(lambda status, g=ant: self.addPlot(g))
+            self.records[i]['att'].clicked.connect(lambda status, g=ant: self.openPreadu(g))
+
+            myform.addRow(self.records[i]['frame'])
             #myform.addRow(QtGui.QLabel("Ciao"))
         mygroupbox.setLayout(myform)
         self.mainWidget.qscroll_aavs.setWidget(mygroupbox)
         self.mainWidget.qscroll_aavs.setWidgetResizable(True)
         self.mainWidget.qscroll_aavs.setFixedHeight(221)
         #print("len(self.cells)=%d"%len(self.cells))
+
+
+
+    def initPlotList(self):
+        self.plotRecords = QtGui.QGroupBox()
+        myform2 = QtGui.QFormLayout()
+        myform2.setVerticalSpacing(0)
+        myform2.setHorizontalSpacing(0)
+        #myform.addRow()
+        self.plotRecords.setLayout(myform2)
+        self.mainWidget.qscroll_plot.setWidget(self.plotRecords)
+        self.mainWidget.qscroll_plot.setWidgetResizable(True)
+        self.mainWidget.qscroll_plot.setFixedHeight(120)
+        self.plotList = []
+
+    def addPlot(self, ant, color=0):
+        print "Adding to the plot list Antenna # %d"%(ant)
+
+        rec = create_plot_record(ant, self.cells)
+        rec['Color'].setCurrentIndex(color)
+        rec['Color'].currentIndexChanged.connect(lambda state, g=rec: self.change_color(g))
+        myform=self.plotRecords.layout()
+
+        myform.addRow(rec['frame'])
+        self.plotRecords.setLayout(myform)
+        self.plotList += [[rec['Base'],color]]
+        pass
+
+    def change_color(self,r):
+        for i in xrange(len(self.plotList)):
+            if self.plotList[i][0] == r['Base']:
+                self.plotList[i] = [r['Base'],r['Color'].currentIndex()]
+                break
+
+
+    def openPreadu(self, record):
+        pass
+
+
+    def clearPlotList(self):
+        self.initPlotList()
+        self.plotList = []
+        print "Plot List deleted!"
+
+    def savePlotList(self):
+        if not os.path.exists(PATH_PLOT_LIST):
+            os.makedirs(PATH_PLOT_LIST)
+        okscrivi = True
+        if os.path.isfile(PATH_PLOT_LIST+self.mainWidget.qtext_listname.text()+".list"):
+            result = QtGui.QMessageBox.question(self,
+                          "Confirm Overwrite...",
+                          "Are you sure you want to overwrite the existing file \""+self.mainWidget.qtext_listname.text()+"\" ?",
+                          QtGui.QMessageBox.Yes| QtGui.QMessageBox.No)
+
+            if result == QtGui.QMessageBox.Yes:
+                okscrivi = True
+            else:
+                okscrivi = False
+        if okscrivi:
+            with open(PATH_PLOT_LIST+self.mainWidget.qtext_listname.text()+".list","w") as f:
+                print self.plotList
+                for (ant,color) in self.plotList:
+                    print ant,color
+                    f.write(str(ant)+","+str(color)+"\n")
+            print "Plot List \""+self.mainWidget.qtext_listname.text()+"\" saved!"
+
+    def loadPlotList(self):
+        nomelista = easygui.fileopenbox(msg='Please select the Plot List', default=".plotlists/*.list")
+        try:
+            with open(nomelista, "r") as f:
+                a=f.readlines()
+        except:
+            print "Not able to load the list file!"
+            pass
+        self.clearPlotList()
+        for i in a:
+            print i
+            self.addPlot(int(i.strip().split(",")[0]), int(i.strip().split(",")[1]))
+
+        print "Plot List loaded."
+
+    def load_events(self):
+        self.mainWidget.button_runMap.clicked.connect(lambda: self.runMap())
+        self.mainWidget.button_saveMap.clicked.connect(lambda: self.saveMap())
+        self.mainWidget.qbutton_DeleteList.clicked.connect(lambda: self.clearPlotList())
+        self.mainWidget.qbutton_SaveList.clicked.connect(lambda: self.savePlotList())
+        self.mainWidget.qbutton_LoadList.clicked.connect(lambda: self.loadPlotList())
+        #self.mainWidget.cb_poly.update.connect(lambda: self.change_pol())
+
+    def change_pol(self):
+        print "EVENT"
 
 if __name__ == "__main__":
     os.system("python ../config/setup.py")
