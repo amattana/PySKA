@@ -978,12 +978,12 @@
     <attribute name="title">
      <string>Plot Spectra</string>
     </attribute>
-    <widget class="QWidget" name="plotWidgetMap_2" native="true">
+    <widget class="QWidget" name="plotWidgetSpectra" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>781</width>
+       <width>1031</width>
        <height>491</height>
       </rect>
      </property>
@@ -1009,8 +1009,8 @@
     <widget class="QLabel" name="qlabel_ymin">
      <property name="geometry">
       <rect>
-       <x>450</x>
-       <y>570</y>
+       <x>60</x>
+       <y>520</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1032,8 +1032,8 @@
     <widget class="QLabel" name="qlabel_ymax">
      <property name="geometry">
       <rect>
-       <x>610</x>
-       <y>570</y>
+       <x>220</x>
+       <y>520</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1056,7 +1056,7 @@
      <property name="geometry">
       <rect>
        <x>130</x>
-       <y>570</y>
+       <y>580</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1078,8 +1078,8 @@
     <widget class="QLineEdit" name="qtext_ymax">
      <property name="geometry">
       <rect>
-       <x>690</x>
-       <y>570</y>
+       <x>300</x>
+       <y>520</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1101,8 +1101,8 @@
     <widget class="QLineEdit" name="qtext_ymin">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>570</y>
+       <x>130</x>
+       <y>520</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1125,7 +1125,7 @@
      <property name="geometry">
       <rect>
        <x>220</x>
-       <y>570</y>
+       <y>580</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1151,7 +1151,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>570</y>
+       <y>580</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1174,7 +1174,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>570</y>
+       <y>580</y>
        <width>71</width>
        <height>31</height>
       </rect>
@@ -1196,8 +1196,8 @@
     <widget class="QPushButton" name="qbutton_plotSave">
      <property name="geometry">
       <rect>
-       <x>690</x>
-       <y>520</y>
+       <x>790</x>
+       <y>580</y>
        <width>98</width>
        <height>27</height>
       </rect>
@@ -1209,14 +1209,53 @@
     <widget class="QPushButton" name="qbutton_plotStart">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>520</y>
+       <x>660</x>
+       <y>580</y>
        <width>98</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
       <string>Start</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_plotList">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>580</y>
+       <width>191</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_plotSelected">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>520</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Run Selected</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_plotSequence">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>550</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Run Sequence</string>
      </property>
     </widget>
    </widget>

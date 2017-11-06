@@ -230,7 +230,7 @@ class MiniCanvas(FigureCanvas):
             #self.ax[i].tick_params(axis='both', which='minor', labelsize=8)
             self.ax[i].tick_params(axis='both', which='both', labelsize=8)
             self.ax[i].set_ylim([-100, 0])
-            self.ax[i].set_xlim([50, 100])
+            self.ax[i].set_xlim([0, 100])
 
         FigureCanvas.__init__( self, self.fig )
         FigureCanvas.setSizePolicy( self, QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding )
@@ -238,12 +238,12 @@ class MiniCanvas(FigureCanvas):
 
 class MiniPlots(QtGui.QWidget):
     """ Class encapsulating a matplotlib plot"""
-    def __init__( self, parent = None , nplot = 16):
-        QtGui.QWidget.__init__( self, parent )
+    def __init__( self, parent = None , nplot = 16, dpi = 100):
+        QtGui.QWidget.__init__( self, parent)
         """ Class initialiser """
         self.nplot = nplot
         #print self.nplot
-        self.canvas = MiniCanvas(self.nplot) #create canvas that will hold our plot
+        self.canvas = MiniCanvas(self.nplot, dpi=dpi) #create canvas that will hold our plot
         self.updateGeometry()
         self.vbl = QtGui.QVBoxLayout()
         self.vbl.addWidget( self.canvas )
@@ -253,12 +253,14 @@ class MiniPlots(QtGui.QWidget):
     def resetSubplots(self):
         self.nSubplot=0
 
-    def plotCurve(self, assex, data, ant, xAxisRange = None, yAxisRange = None, xLabel = "", yLabel = "", title="", label="", plotLog=False, nSubplots=1, hold=False, colore="b"):
+    #def plotCurve(self, assex, data, ant, xAxisRange = None, yAxisRange = None, colore="b", xLabel = "", yLabel = "", title="", label="", plotLog=False, nSubplots=1, hold=False):
+    def plotCurve(self, assex, data, ant, xAxisRange=None, yAxisRange=None, colore="b", xLabel="", yLabel="", title="", label="", plotLog=False, nSubplots=1, hold=False):
         """ Plot the data as a curve"""
+        #print "Plotto"
         if len(data) != 0:
             #auto_scale_y = True
             #self.canvas.ax[ant].clear()
-            self.canvas.ax[ant].plot(assex, data, scaley=False, color=colore)
+            self.canvas.ax[ant].plot(assex, data, scaley=True, color=colore)
             if not xAxisRange == None:
                 self.canvas.ax[ant].set_xlim(xAxisRange)
             if not yAxisRange == None:
@@ -466,5 +468,86 @@ class MapPlot(QtGui.QWidget):
         self.updatePlot()
 
 
+class AAVS_SNAP_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(970, 560)
+        self.frame = QtGui.QFrame(Dialog)
+        self.frame.setGeometry(QtCore.QRect(10, 10, 950, 470))
+        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtGui.QFrame.Raised)
+        self.qlabel_antnum = QtGui.QLabel(Dialog)
+        self.qlabel_antnum.setGeometry(QtCore.QRect(30, 490, 191, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_antnum.setFont(font)
+        self.qlabel_antnum.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_hc = QtGui.QLabel(Dialog)
+        self.qlabel_hc.setGeometry(QtCore.QRect(30, 520, 191, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_hc.setFont(font)
+        self.qlabel_hc.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_rox = QtGui.QLabel(Dialog)
+        self.qlabel_rox.setGeometry(QtCore.QRect(300, 490, 101, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_rox.setFont(font)
+        self.qlabel_rox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_rib = QtGui.QLabel(Dialog)
+        self.qlabel_rib.setGeometry(QtCore.QRect(300, 520, 101, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_rib.setFont(font)
+        self.qlabel_rib.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_fib = QtGui.QLabel(Dialog)
+        self.qlabel_fib.setGeometry(QtCore.QRect(530, 490, 101, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_fib.setFont(font)
+        self.qlabel_fib.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_col = QtGui.QLabel(Dialog)
+        self.qlabel_col.setGeometry(QtCore.QRect(530, 520, 150, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_col.setFont(font)
+        self.qlabel_col.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_tpm = QtGui.QLabel(Dialog)
+        self.qlabel_tpm.setGeometry(QtCore.QRect(740, 490, 101, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_tpm.setFont(font)
+        self.qlabel_tpm.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.qlabel_rx = QtGui.QLabel(Dialog)
+        self.qlabel_rx.setGeometry(QtCore.QRect(740, 520, 101, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.qlabel_rx.setFont(font)
+        self.qlabel_rx.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+
+        self.qlabel_antnum.setText("Antenna Number:")
+        self.qlabel_hc.setText("Hybrid Cable:")
+        self.qlabel_rox.setText("Roxtec:")
+        self.qlabel_rib.setText("Ribbon:")
+        self.qlabel_fib.setText("Fibre:")
+        self.qlabel_col.setText("Colour:")
+        self.qlabel_tpm.setText("TPM:")
+        self.qlabel_rx.setText("RX:")
 
 

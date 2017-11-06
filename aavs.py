@@ -44,11 +44,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 import httplib2
 from openpyxl import load_workbook
 
+from optparse import OptionParser
+
 # Matplotlib stuff
 import matplotlib
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+
 
 # Other stuff
 import numpy as np
@@ -58,8 +61,6 @@ import struct
 from threading import Thread
 
 # Some globals
-
-DEBUG = True
 
 COLORS = ['b','g','r','c','m','y','k','w']
 RIGHE = 257
@@ -277,7 +278,7 @@ class AAVS(QtGui.QMainWindow):
     #jig_pm_signal = QtCore.pyqtSignal()
     #antenna_test_signal = QtCore.pyqtSignal()
 
-    def __init__(self, uiFile):
+    def __init__(self, uiFile, flag_debug=False):
         """ Initialise main window """
         super(AAVS, self).__init__()
 
@@ -287,7 +288,7 @@ class AAVS(QtGui.QMainWindow):
         self.setWindowTitle("AAVS")
         self.resize(1100,680)
 
-        self.debug = DEBUG
+        self.debug = flag_debug
 
         print "The program is running with flag DEBUG set to:",self.debug 
 
@@ -308,7 +309,8 @@ class AAVS(QtGui.QMainWindow):
         self.gb_condom = self.mainWidget.cb_condom.isChecked()
         self.gb_capacitor = self.mainWidget.cb_capacitor.isChecked()
         self.gb_feed = self.mainWidget.cb_feed.isChecked()
-
+        self.switchtox = False
+        self.switchtoy = False
         self.load_events()
         self.loadAAVSdata()
 
@@ -323,10 +325,14 @@ class AAVS(QtGui.QMainWindow):
         self.mapPlot = MapPlot(self.mainWidget.plotWidgetMap)
         self.mapPlot.plotClear()
         self.runMap()
+        self.mapPlot.canvas.mpl_connect('button_press_event', self.onclick)
         self.show()
 
         self.initPlotList()
+        self.updatePlotList()
 
+        self.spectraPlot = MiniPlots(self.mainWidget.plotWidgetSpectra, 16, dpi=92)
+        #self.spectraPlot.plotClear()
 
 
     def runMap(self):
@@ -349,6 +355,9 @@ class AAVS(QtGui.QMainWindow):
         self.mapPlot.plotMap(self.cells, marker='8', markersize=12, color='k')
         self.mapPlot.plotMap(self.cells, marker='8', markersize=10, color='w')
 
+        spente=[a for a in self.cells if "OFF" in a['Power']]
+        self.mapPlot.plotMap(spente, marker='+', markersize=11, color='k')
+
 
         for tpm in self.TPMs:
             if len(tpm['ANTENNE'])>0:
@@ -362,7 +371,7 @@ class AAVS(QtGui.QMainWindow):
                     tpm['ANTENNE'][j]['RMS-Y']=rms[(j*2)+1]
                     tpm['ANTENNE'][j]['DBM-X']=dbm[(j*2)]
                     tpm['ANTENNE'][j]['DBM-Y']=dbm[(j*2)+1]
-                    if (rms[(j*2)] > 90) or (rms[(j*2)+1] > 90):
+                    if (rms[(j*2)] > 105) or (rms[(j*2)+1] > 105):
                         self.plotOscilla( x, y)
                     else:   
                         if self.map_meas=="RMS":
@@ -405,19 +414,20 @@ class AAVS(QtGui.QMainWindow):
         print "PLOT MAP"
 
     def loadAAVSdata(self):
-        try:
-            self.cells = read_from_google()
-            print "\nSuccessfully connected to the online google spreadsheet!\n\n"
+        if not self.debug:
+            try:
+                self.cells = read_from_google()
+                print "\nSuccessfully connected to the online google spreadsheet!\n\n"
 
-        except httplib2.ServerNotFoundError:
-            print("\nUnable to find the server at accounts.google.com.\n\nContinuing with localfile: %s\n"%(EX_FILE))
-            self.cells = read_from_local()
-            print "done!"
-
-        if self.debug:
-            tpms=['10.0.10.6']
+            except httplib2.ServerNotFoundError:
+                print("\nUnable to find the server at accounts.google.com.\n\nContinuing with local file: %s\n"%(EX_FILE))
+                self.cells = read_from_local()
+                print "done!"
+            tpms = ip_scan()
         else:
-            tpms=ip_scan()
+            print("\nReading local file: %s\n" % (EX_FILE))
+            self.cells = read_from_local()
+            tpms=['10.0.10.6']
 
         self.TPMs=[]
         for i in tpms:
@@ -447,8 +457,6 @@ class AAVS(QtGui.QMainWindow):
         self.mainWidget.qscroll_aavs.setFixedHeight(221)
         #print("len(self.cells)=%d"%len(self.cells))
 
-
-
     def initPlotList(self):
         self.plotRecords = QtGui.QGroupBox()
         myform2 = QtGui.QFormLayout()
@@ -473,6 +481,14 @@ class AAVS(QtGui.QMainWindow):
         self.plotRecords.setLayout(myform)
         self.plotList += [[rec['Base'],color]]
         pass
+
+    def updatePlotList(self):
+        self.mainWidget.qcombo_plotList.clear()
+        lista=sorted(os.listdir(PATH_PLOT_LIST))
+        for i in lista:
+            self.mainWidget.qcombo_plotList.addItem(i.split(".")[0])
+        pass
+
 
     def change_color(self,r):
         for i in xrange(len(self.plotList)):
@@ -511,6 +527,7 @@ class AAVS(QtGui.QMainWindow):
                     print ant,color
                     f.write(str(ant)+","+str(color)+"\n")
             print "Plot List \""+self.mainWidget.qtext_listname.text()+"\" saved!"
+        self.updatePlotList()
 
     def loadPlotList(self):
         nomelista = easygui.fileopenbox(msg='Please select the Plot List', default=".plotlists/*.list")
@@ -527,21 +544,120 @@ class AAVS(QtGui.QMainWindow):
 
         print "Plot List loaded."
 
+    def change_poly(self):
+        if not self.switchtox:
+            print self.mainWidget.cb_polx.isChecked(), self.mainWidget.cb_poly.isChecked(),
+            self.switchtoy = True
+            if self.mainWidget.cb_poly.isChecked():
+                self.poly = True
+                self.polx = False
+                self.mainWidget.cb_polx.setChecked(False)
+            elif not self.mainWidget.cb_polx.isChecked():
+                self.poly = True
+                self.mainWidget.cb_poly.setChecked(True)
+            self.switchtoy = False
+            print self.mainWidget.cb_polx.isChecked(),self.mainWidget.cb_poly.isChecked()
+
+    def change_polx(self):
+        if not self.switchtoy:
+            print self.mainWidget.cb_polx.isChecked(), self.mainWidget.cb_poly.isChecked(),
+            self.switchtox = True
+            if self.mainWidget.cb_polx.isChecked():
+                self.polx = True
+                self.poly = False
+                self.mainWidget.cb_poly.setChecked(False)
+            elif not self.mainWidget.cb_poly.isChecked():
+                 self.polx = True
+                 self.mainWidget.cb_polx.setChecked(True)
+            self.switchtox=False
+            print self.mainWidget.cb_polx.isChecked(),self.mainWidget.cb_poly.isChecked()
+
+    #def plotSpectra(self):
+
+    def onclick(self, event):
+        #print("APRITI!!!")
+        if event.dblclick and not event.xdata == None:
+            self.popwd = QtGui.QDialog()
+            self.popw = AAVS_SNAP_Dialog()
+            self.popw.setupUi(self.popwd)
+            self.popwd.show()
+
+            self.popwPlot = MiniPlots(self.popw.frame, 1, dpi=85)
+            if event.button == 1:
+                sel = [x for x in self.cells if ((x['East'] > event.xdata - 0.4) and (x['East'] < event.xdata + 0.4))]
+                res = [x for x in sel if ((x['North'] > event.ydata - 0.4) and (x['North'] < event.ydata + 0.4))]
+                if len(res) == 1:
+                    board = {}
+                    print "Selected antenna", int(res[0]['Base'])  # , len(TPMs)#,res[0]['East'], res[0]['North']
+                    for i in range(len(self.TPMs)):
+                        # for x in TPMs[i]['ANTENNE']:
+                        #    print x['Base'], " ",
+                        # print
+                        if len([x for x in self.TPMs[i]['ANTENNE'] if int(x['Base']) == int(res[0]['Base'])]) > 0:
+                            board['IP'] = self.TPMs[i]['IP']
+                            board['TPM'] = self.TPMs[i]['TPM']
+                            board['ANTENNE'] = [x for x in self.TPMs[i]['ANTENNE'] if int(x['Base']) == int(res[0]['Base'])]
+                            # print board['ANTENNE'], board['IP']
+                    if not board == {}:
+                        if len(board['ANTENNE']) == 1:
+                            freqs, spettro = get_raw_meas(board, meas="SPECTRA", debug=self.debug)
+                            self.popwPlot.plotCurve(freqs, spettro[(int(board['ANTENNE'][0]['RX']) - 1) * 2], 0,colore='b', label="Pol X")
+                            self.popwPlot.plotCurve(freqs, spettro[(int(board['ANTENNE'][0]['RX']) - 1) * 2 + 1], 0, colore='g', label="Pol Y")
+                            self.popwPlot.updatePlot()
+                            self.popw.qlabel_antnum.setText("Antenna Base # " + str(int(board['ANTENNE'][0]['Base'])))
+                            self.popw.qlabel_hc.setText("Hybrid Cable: " + str(int(board['ANTENNE'][0]['Hybrid Cable'])))
+                            self.popw.qlabel_rox.setText("Roxtec: " + str(int(board['ANTENNE'][0]['Roxtec'])))
+                            self.popw.qlabel_rib.setText("Ribbon: " + str(int(board['ANTENNE'][0]['Ribbon'])))
+                            self.popw.qlabel_fib.setText("Fibre: " + str(int(board['ANTENNE'][0]['Fibre'])))
+                            self.popw.qlabel_col.setText("Colour: " + str(board['ANTENNE'][0]['Colour']))
+                            self.popw.qlabel_tpm.setText("TPM: " + str(int(board['ANTENNE'][0]['TPM'])))
+                            self.popw.qlabel_rx.setText("RX: " + str(int(board['ANTENNE'][0]['RX'])))
+
+
+                elif len(res) > 2:
+                    print "Search provides more than one result (found %d candidates)" % (len(res))
+                else:
+                    # print "Double clicked on x:%4.2f and y:%4.2f, no antenna found here!"%(event.xdata,event.ydata)
+                    pass
+            else:
+                pass
+        else:
+            pass
+
     def load_events(self):
         self.mainWidget.button_runMap.clicked.connect(lambda: self.runMap())
         self.mainWidget.button_saveMap.clicked.connect(lambda: self.saveMap())
         self.mainWidget.qbutton_DeleteList.clicked.connect(lambda: self.clearPlotList())
         self.mainWidget.qbutton_SaveList.clicked.connect(lambda: self.savePlotList())
         self.mainWidget.qbutton_LoadList.clicked.connect(lambda: self.loadPlotList())
-        #self.mainWidget.cb_poly.update.connect(lambda: self.change_pol())
+        self.mainWidget.cb_poly.stateChanged.connect(lambda: self.change_poly())
+        self.mainWidget.cb_polx.stateChanged.connect(lambda: self.change_polx())
 
-    def change_pol(self):
-        print "EVENT"
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(970, 560)
+        self.frame = QtGui.QFrame(Dialog)
+        self.frame.setGeometry(QtCore.QRect(10, 10, 950, 470))
+        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame.setObjectName(_fromUtf8("frame"))
+        Dialog.setWindowTitle("Spectra")
+
 
 if __name__ == "__main__":
+    parser = OptionParser()
+    parser.add_option("-d", "--debug", action='store_true',
+                      dest="debug",
+                      default=False,
+                      help="If set the program runs in debug mode")
+
+
+    (options, args) = parser.parse_args()
+
     os.system("python ../config/setup.py")
     app = QtGui.QApplication(sys.argv)
-    window = AAVS("aavs.ui")
+    window = AAVS("aavs.ui",options.debug)
 
     #window.housekeeping_signal.connect(window.updateHK)
     #window.jig_pm_signal.connect(window.updateJIGpm)
