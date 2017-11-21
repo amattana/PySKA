@@ -224,3 +224,25 @@ def get_raw_meas(objtpm, nsamples=1024,debug=False):
 #        plotcolor="g"
 #    self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, yAxisRange = [-100,0], title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor) 
 
+def programming_cplds(da,a):
+    for i in xrange(da,a+1):
+        print "\n\n#################################################"
+        print "\nDownloading CPLD Firmware of TPM # ",i
+        os.system("python cpld_fw_write.py -f /home/mattana/cpld_v250117b0_rb.bit --ip=10.0.10."+str(i))
+        print "\nTPM # ",i, " done!"
+        time.sleep(2)
+
+def configure_tpms(da,a):
+    for i in xrange(da,a+1):
+    print "\n\n#################################################"
+    os.system("python test.py -f 800 -i 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 -s --ip=10.0.10."+str(i))
+        print "\nTPM # ",i, " done!"
+        time.sleep(2)
+
+def programming_fpgas(da,a):
+    for i in xrange(da,a+1):
+        print "\n\n#################################################"
+        print "\nDownloading Xilinx Firmware of TPM # ",i
+        os.system("python fpga_prog.py -f ../bitstream/itpm_v1_1_tpm_test_wrap_test31.bit --ip=10.0.10."+str(i))                         print "\nTPM # ",i, " done!"
+        time.sleep(2)
+
