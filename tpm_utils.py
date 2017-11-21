@@ -172,7 +172,14 @@ def calcSpectra(vett):
         spettro[:] = 20*np.log10(spettro/127.0)
     return (np.real(spettro))
 
-def get_raw_meas(objtpm, meas="RMS", debug=False):
+def get_raw_meas(objtpm, nsamples=1024,debug=False):
+    '''
+    Get acquisition from TPM
+    :param objtpm: a TPM object (can generated it by using tpm_obj(ip))
+    :param nsamples=1024: input for the FFT, will return nsample/2 FFT bins
+    :param debug=Fasle: If true do not acquire from TPM but use data stored in a file
+    :return: freqs, spettro, np.array(dati,dtype=np.float64)[32], adu_rms[32], power_rf[32]
+    '''
     i=debug
     TPM_ADU_REMAP=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
     sample_rate=800
@@ -180,8 +187,10 @@ def get_raw_meas(objtpm, meas="RMS", debug=False):
     dati=[dati[k] for k in TPM_ADU_REMAP]
 #    print "SNAP LEN:",len(dati)
     spettro = []
-    freqs=calcFreqs(len(dati[0])/16, sample_rate)
-    n=8192 # split and average number, from 128k to 16 of 8k
+    #freqs=calcFreqs(len(dati[0])/16, sample_rate) # originale
+    freqs=calcFreqs(len(dati[0])/(2**17/nsamples), sample_rate) # aavs1 federico
+    #n=8192 # split and average number, from 128k to 16 of 8k # originale
+    n=nsamples # split and average number, from 128k to 16 of 8k # aavs1 federico
     for i in xrange(32):
         l=dati[i]
 #        print "ADU Input: ",i,"Remapped in ",TPM_ADU_REMAP[i], "Len: ", len(l)
@@ -190,21 +199,18 @@ def get_raw_meas(objtpm, meas="RMS", debug=False):
         for k in sp:
             singolo = calcSpectra(k)
             singoli[:] += singolo
-        singoli[:] /= 16      
+        #singoli[:] /= 16 # originale
+        singoli[:] /= (2**17/nsamples) # federico
         spettro += [singoli]
+    dati=np.array(dati,dtype=np.float64)
 
-    if meas=="SPECTRA":
-        return freqs, spettro
-    else:
-        dati=np.array(dati,dtype=np.float64)
+    adu_rms = np.zeros(32)
+    adu_rms = adu_rms + np.sqrt(np.mean(np.power(dati,2),1))
 
-        adu_rms = np.zeros(32)
-        adu_rms = adu_rms + np.sqrt(np.mean(np.power(dati,2),1))
-      
-        volt_rms = adu_rms * (1.7/256.)                           # VppADC9680/2^bits * ADU_RMS
-        power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30     # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
-        power_rf = power_adc + 12                                 # single ended to diff net loose 12 dBm
-        return adu_rms, power_rf
+    volt_rms = adu_rms * (1.7/256.)                           # VppADC9680/2^bits * ADU_RMS
+    power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30     # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+    power_rf = power_adc + 12                                 # single ended to diff net loose 12 dBm
+    return freqs, spettro, np.array(dati,dtype=np.float64), adu_rms, power_rf
 
 #self.freqs, self.spettro_mediato, self.dati = get_raw_meas(objtpm, meas="SPECTRA")
 #freqs=self.calcFreqs(len(data))     

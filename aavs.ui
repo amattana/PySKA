@@ -63,8 +63,8 @@
     <widget class="QCheckBox" name="cb_polx">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>70</y>
+       <x>760</x>
+       <y>40</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -79,8 +79,8 @@
     <widget class="QCheckBox" name="cb_poly">
      <property name="geometry">
       <rect>
-       <x>900</x>
-       <y>70</y>
+       <x>870</x>
+       <y>40</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -89,11 +89,11 @@
       <string>Pol Y</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cb_base">
+    <widget class="QCheckBox" name="cb_basename">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>140</y>
+       <x>760</x>
+       <y>110</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -105,8 +105,8 @@
     <widget class="QCheckBox" name="cb_tpm">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>170</y>
+       <x>760</x>
+       <y>140</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -124,8 +124,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>260</y>
+       <x>860</x>
+       <y>370</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -140,8 +140,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>290</y>
+       <x>860</x>
+       <y>400</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -156,8 +156,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>320</y>
+       <x>860</x>
+       <y>430</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -172,8 +172,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>350</y>
+       <x>860</x>
+       <y>460</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -188,8 +188,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>380</y>
+       <x>860</x>
+       <y>490</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -198,59 +198,43 @@
       <string>GND Jacket</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cb_condom">
+    <widget class="QCheckBox" name="cb_base">
      <property name="enabled">
       <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>410</y>
+       <x>860</x>
+       <y>220</y>
        <width>141</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Condom</string>
+      <string>Basements</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cb_capacitor">
+    <widget class="QCheckBox" name="cb_debug">
      <property name="enabled">
       <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>820</x>
-       <y>440</y>
+       <x>860</x>
+       <y>310</y>
        <width>141</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Capacitor</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="cb_feed">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>470</y>
-       <width>151</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>No Feedthrough</string>
+      <string>Debug</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="cb_rms">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>100</y>
+       <x>760</x>
+       <y>70</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -259,14 +243,14 @@
       <string>RMS</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QCheckBox" name="cb_dBm">
      <property name="geometry">
       <rect>
-       <x>900</x>
-       <y>100</y>
+       <x>870</x>
+       <y>70</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -278,40 +262,261 @@
     <widget class="QPushButton" name="button_runMap">
      <property name="geometry">
       <rect>
-       <x>800</x>
-       <y>520</y>
+       <x>840</x>
+       <y>570</y>
        <width>81</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>Run</string>
+      <string>RUN</string>
      </property>
     </widget>
     <widget class="QPushButton" name="button_saveMap">
      <property name="geometry">
       <rect>
-       <x>900</x>
-       <y>520</y>
+       <x>940</x>
+       <y>570</y>
        <width>81</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>Save</string>
+      <string>SAVE</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="cb_group">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>230</y>
+       <x>760</x>
+       <y>180</y>
        <width>141</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
       <string>Group by:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="button_reload">
+     <property name="geometry">
+      <rect>
+       <x>740</x>
+       <y>570</y>
+       <width>81</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>RELOAD</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_debug">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>310</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_nc">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>370</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_sc">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>400</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_dbl">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>430</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_fer">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>460</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_gnd">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>490</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_base">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>220</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_off">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>280</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_off">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>280</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Powered Off</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_gold">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>340</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_gold">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>340</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Golden Outlet</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_ant">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>250</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Antennas</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="count_ant">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>250</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
@@ -1092,7 +1297,7 @@
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>-20</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1115,7 +1320,7 @@
       </font>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>-80</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1196,7 +1401,7 @@
     <widget class="QPushButton" name="qbutton_plotSave">
      <property name="geometry">
       <rect>
-       <x>790</x>
+       <x>870</x>
        <y>580</y>
        <width>98</width>
        <height>27</height>
@@ -1209,7 +1414,7 @@
     <widget class="QPushButton" name="qbutton_plotStart">
      <property name="geometry">
       <rect>
-       <x>660</x>
+       <x>740</x>
        <y>580</y>
        <width>98</width>
        <height>27</height>
@@ -1229,34 +1434,131 @@
       </rect>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cb_plotSelected">
+    <widget class="QLabel" name="qlabel_comment">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>660</x>
        <y>520</y>
-       <width>141</width>
-       <height>21</height>
+       <width>381</width>
+       <height>51</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Run Selected</string>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
-     <property name="checked">
+     <property name="text">
+      <string>Select antenna list and
+press Start to run the Live Plot</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cb_plotSequence">
+    <widget class="QFrame" name="frame">
      <property name="geometry">
       <rect>
-       <x>440</x>
-       <y>550</y>
-       <width>141</width>
-       <height>21</height>
+       <x>430</x>
+       <y>510</y>
+       <width>121</width>
+       <height>71</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Run Sequence</string>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
      </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <widget class="QRadioButton" name="rb_single">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>116</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Single Plot</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="rb_multi">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>116</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Multi Plot</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>510</y>
+       <width>121</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <widget class="QRadioButton" name="rb_polx">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>81</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pol X</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="rb_poly">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>81</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pol Y</string>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

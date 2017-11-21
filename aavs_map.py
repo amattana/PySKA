@@ -100,12 +100,13 @@ def print_antennas_list():
 def plot_map(ant, marker='o', markersize=12, color='g', print_name=False):
     x = [float(str(a['East']).replace(",",".")) for a in ant]
     y = [float(str(a['North']).replace(",",".")) for a in ant]
+    #name = [a['Hybrid Cable'] for a in ant]
     name = [a['Base'] for a in ant]
     ax.plot(x,y, marker=marker, markersize=markersize, linestyle = 'None', color=color)
     if print_name:
         for i in range(len(name)):
+            #ax.annotate("%s"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
             ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
-
 
 
     #x = np.array([float(str(a['East']).replace(",",".")) for a in ant])
@@ -258,6 +259,7 @@ if __name__ == "__main__":
 
     tpms=ip_scan()
 
+    tpms=['10.0.10.1']
     TPMs=[]
     for i in tpms:
         tpm = {}

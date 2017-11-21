@@ -115,7 +115,7 @@ class MplCanvas(FigureCanvas):
         self.axes1  = self.fig.add_axes( [0.12, 0.12, 0.84, 0.8] )
         self.axes1.xaxis.set_label_text("MHz", fontsize=10)
         self.axes1.yaxis.set_label_text("dB", fontsize=10)
-        self.axes1.set_axis_bgcolor('white')
+        #self.axes1.set_facecolor('white')
         self.axes1.tick_params(axis='both', which='both', labelsize=10)
         #self.axes1.tick_params(axis='both', which='major', labelsize=10)
         self.axes1.set_ylim([-100, 0])
@@ -184,7 +184,7 @@ class MatplotlibPlot(QtGui.QWidget):
 
             self.canvas.axes1.xaxis.set_label_text(xLabel, fontsize=10)
             self.canvas.axes1.yaxis.set_label_text(yLabel, fontsize=10)
-            self.canvas.axes1.set_axis_bgcolor('white')
+            #self.canvas.axes1.set_facecolor('white')
             self.canvas.axes1.tick_params(axis='both', which='minor', labelsize=10)
             self.canvas.axes1.tick_params(axis='both', which='major', labelsize=10)
             self.canvas.axes1.set_ylim(yAxisRange)
@@ -223,14 +223,14 @@ class MiniCanvas(FigureCanvas):
         self.ax = []
         #print self.nplot,math.sqrt(self.nplot)
         for i in xrange(self.nplot):
-            self.ax += [self.fig.add_subplot(math.sqrt(self.nplot),math.sqrt(self.nplot),i+1)]
+            self.ax += [self.fig.add_subplot(np.ceil(math.sqrt(self.nplot)),np.ceil(math.sqrt(self.nplot)),i+1)]
             #self.ax[i].xaxis.set_label_text("MHz", fontsize=7)
             #self.ax[i].yaxis.set_label_text("dB", fontsize=9)
-            self.ax[i].set_axis_bgcolor('white')
+#            self.ax[i].set_facecolor('white')
             #self.ax[i].tick_params(axis='both', which='minor', labelsize=8)
             self.ax[i].tick_params(axis='both', which='both', labelsize=8)
-            self.ax[i].set_ylim([-100, 0])
-            self.ax[i].set_xlim([0, 100])
+            self.ax[i].set_ylim([-80, -20])
+            self.ax[i].set_xlim([0, 400])
 
         FigureCanvas.__init__( self, self.fig )
         FigureCanvas.setSizePolicy( self, QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding )
@@ -254,7 +254,7 @@ class MiniPlots(QtGui.QWidget):
         self.nSubplot=0
 
     #def plotCurve(self, assex, data, ant, xAxisRange = None, yAxisRange = None, colore="b", xLabel = "", yLabel = "", title="", label="", plotLog=False, nSubplots=1, hold=False):
-    def plotCurve(self, assex, data, ant, xAxisRange=None, yAxisRange=None, colore="b", xLabel="", yLabel="", title="", label="", plotLog=False, nSubplots=1, hold=False):
+    def plotCurve(self, assex, data, ant, xAxisRange=None, yAxisRange=None, colore="b", xLabel="", yLabel="", title="", titlesize=8, label="", plotLog=False, nSubplots=1, hold=False):
         """ Plot the data as a curve"""
         #print "Plotto"
         if len(data) != 0:
@@ -265,6 +265,9 @@ class MiniPlots(QtGui.QWidget):
                 self.canvas.ax[ant].set_xlim(xAxisRange)
             if not yAxisRange == None:
                 self.canvas.ax[ant].set_ylim(yAxisRange)
+            if not title=="":
+                self.canvas.ax[ant].set_title(title, fontsize=titlesize)
+            self.canvas.ax[ant].grid(True)
             #print "plot ", len(assex), len(data), ant
 
     def updatePlot(self):
@@ -284,7 +287,7 @@ class BarCanvas(FigureCanvas):
         self.fig = Figure(size, dpi = self.dpi, facecolor='white')
         self.fig.set_tight_layout(True)
         self.ax = self.fig.add_subplot(1,1,1)
-        self.ax.set_axis_bgcolor('white')
+        #self.ax.set_facecolor('white')
         self.ax.tick_params(axis='both', which='both', labelsize=8)
         #self.ax.tick_params(axis='both', which='major', labelsize=8)
         self.ax.set_xticks(xrange(33))
@@ -316,9 +319,10 @@ class BarPlot(QtGui.QWidget):
 
     def plotBar(self, data):
         """ Plot the data as Bars"""
+        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13, 10, 11, 8, 9]
         if len(data) != 0:
             self.canvas.ax.clear()
-            self.canvas.ax.set_axis_bgcolor('white')
+            #self.canvas.ax.set_facecolor('white')
             self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
             #self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
             self.canvas.ax.set_xticks(xrange(17))
@@ -328,8 +332,15 @@ class BarPlot(QtGui.QWidget):
             self.canvas.ax.set_xlabel("ANTENNA")
             self.canvas.ax.set_ylabel("ADU RMS")
             self.canvas.ax.grid()
-            rects1 = self.canvas.ax.bar(self.ind+0.6, data[0::2], 0.4, color='b')
-            rects2 = self.canvas.ax.bar(self.ind+1, data[1::2], 0.4, color='g')
+            dati = []
+            #print len(data)
+            #print data
+            for i in range(len(data)):
+                dati += [data[remap[i]]]
+            #print len(dati)
+            #print dati
+            rects1 = self.canvas.ax.bar(self.ind+0.6, dati[0::2], 0.4, color='b')
+            rects2 = self.canvas.ax.bar(self.ind+1, dati[1::2], 0.4, color='g')
             self.updatePlot()
 
     def updatePlot(self):
@@ -348,7 +359,7 @@ class MapCanvas(FigureCanvas):
         self.fig = Figure(size, dpi=self.dpi, facecolor='white')
         self.fig.set_tight_layout(True)
         self.ax = self.fig.add_subplot(1, 1, 1)
-        self.ax.set_axis_bgcolor('white')
+        #self.ax.set_facecolor('white')
         self.ax.axis([-25, 25, -25, 25])
         #self.ax.axvline(0, color='b', linestyle='dotted')
         #self.ax.axhline(0, color='b', linestyle='dotted')
@@ -370,14 +381,14 @@ class MapCanvas(FigureCanvas):
         self.ax.annotate("TPM-6", xy=(-13, 18), fontsize=10)
         self.ax.annotate("TPM-7", xy=(-20, 11), fontsize=10)
         self.ax.annotate("TPM-8", xy=(-22, 3), fontsize=10)
-        self.ax.annotate("TPM-9", xy=(-22, -4), fontsize=10)
-        self.ax.annotate("TPM-10", xy=(-20, -12), fontsize=10)
-        self.ax.annotate("TPM-11", xy=(-13, -18), fontsize=10)
-        self.ax.annotate("TPM-12", xy=(-5, -21), fontsize=10)
-        self.ax.annotate("TPM-13", xy=(2, -21), fontsize=10)
-        self.ax.annotate("TPM-14", xy=(10, -18), fontsize=10)
-        self.ax.annotate("TPM-15", xy=(17, -12), fontsize=10)
-        self.ax.annotate("TPM-16", xy=(19, -4), fontsize=10)
+        self.ax.annotate("TPM-16", xy=(-22, -4), fontsize=10)
+        self.ax.annotate("TPM-15", xy=(-20, -12), fontsize=10)
+        self.ax.annotate("TPM-14", xy=(-13, -18), fontsize=10)
+        self.ax.annotate("TPM-13", xy=(-5, -21), fontsize=10)
+        self.ax.annotate("TPM-12", xy=(2, -21), fontsize=10)
+        self.ax.annotate("TPM-11", xy=(10, -18), fontsize=10)
+        self.ax.annotate("TPM-10", xy=(17, -12), fontsize=10)
+        self.ax.annotate("TPM-9", xy=(19, -4), fontsize=10)
 
         self.ax.annotate("NORTH", xy=(-2, 22), fontweight='bold', fontsize=9)
         self.ax.annotate("SOUTH", xy=(-1.9, -24), fontweight='bold', fontsize=9)
@@ -426,10 +437,19 @@ class MapPlot(QtGui.QWidget):
         self.canvas.ax.plot(x, y, marker=marker, markersize=markersize, linestyle='None', color=color)
         self.updatePlot()
 
+    def printBase(self, ant):
+        if len(ant) != 0:
+            x = [float(str(a['East']).replace(",", ".")) for a in ant]
+            y = [float(str(a['North']).replace(",", ".")) for a in ant]
+        name = [a['Base'] for a in ant]
+        for i in range(len(x)):
+            self.canvas.ax.annotate("%d"%name[i], xy=(x[i],y[i]), fontsize=10, fontweight='bold')
+        self.updatePlot()
+
     def plotClear(self):
         # Reset the plot landscape
         self.canvas.ax.clear()
-        self.canvas.ax.set_axis_bgcolor('white')
+        #self.canvas.ax.set_facecolor('white')
         self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
         self.canvas.ax.axis([-25, 25, -25, 25])
         #self.canvas.ax.axvline(0, color='b', linestyle='dotted')
@@ -451,14 +471,14 @@ class MapPlot(QtGui.QWidget):
         self.canvas.ax.annotate("TPM-6", xy=(-13, 18), fontsize=10)
         self.canvas.ax.annotate("TPM-7", xy=(-20, 11), fontsize=10)
         self.canvas.ax.annotate("TPM-8", xy=(-22, 3), fontsize=10)
-        self.canvas.ax.annotate("TPM-9", xy=(-22, -4), fontsize=10)
-        self.canvas.ax.annotate("TPM-10", xy=(-20, -12), fontsize=10)
-        self.canvas.ax.annotate("TPM-11", xy=(-13, -18), fontsize=10)
-        self.canvas.ax.annotate("TPM-12", xy=(-5, -21), fontsize=10)
-        self.canvas.ax.annotate("TPM-13", xy=(2, -21), fontsize=10)
-        self.canvas.ax.annotate("TPM-14", xy=(10, -18), fontsize=10)
-        self.canvas.ax.annotate("TPM-15", xy=(17, -12), fontsize=10)
-        self.canvas.ax.annotate("TPM-16", xy=(19, -4), fontsize=10)
+        self.canvas.ax.annotate("TPM-16", xy=(-22, -4), fontsize=10)
+        self.canvas.ax.annotate("TPM-15", xy=(-20, -12), fontsize=10)
+        self.canvas.ax.annotate("TPM-14", xy=(-13, -18), fontsize=10)
+        self.canvas.ax.annotate("TPM-13", xy=(-5, -21), fontsize=10)
+        self.canvas.ax.annotate("TPM-12", xy=(2, -21), fontsize=10)
+        self.canvas.ax.annotate("TPM-11", xy=(10, -18), fontsize=10)
+        self.canvas.ax.annotate("TPM-10", xy=(17, -12), fontsize=10)
+        self.canvas.ax.annotate("TPM-9", xy=(19, -4), fontsize=10)
 
         self.canvas.ax.annotate("NORTH", xy=(-2, 22), fontweight='bold', fontsize=9)
         self.canvas.ax.annotate("SOUTH", xy=(-1.9, -24), fontweight='bold', fontsize=9)
