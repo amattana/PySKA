@@ -61,7 +61,11 @@ import datetime
 COLONNE = 20
 RIGHE = 256
 COLORS = ['b','g','r','c','m','y','k','w']
+<<<<<<< HEAD
 OUT_PATH = "./data/"
+=======
+OUT_PATH = "/data/data_2/2017-11-AAVS-FIX/"
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
 MAP_PATH = "Maps"
 MOVIE_FOLDER = "Videos"
 PATH_PLOT_LIST = "./.plotlists/"
@@ -222,16 +226,20 @@ if __name__ == "__main__":
                       default=5,
                       help="Time interval in minutes")
 
+<<<<<<< HEAD
     parser.add_option("-b", "--board",
                       dest="board",
                       default=1,
                       help="Board number # (10.0.10.#)")
 
 
+=======
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
 
     (options, args) = parser.parse_args()
 
     print "\n######################################################"
+<<<<<<< HEAD
     print "\n\nTPM Data Logger"
     print "\n\n  - Time interval is "+str(options.time)+"minutes"
     #print "\n\nReading AAVS1 Google Spreadsheet"
@@ -243,6 +251,19 @@ if __name__ == "__main__":
 
     # Search for TPMs
     TPMs = ["10.0.10."+str(options.board)]
+=======
+    print "\n\nAAVS1 Data Logger"
+    print "\n\n  - Time interval is "+str(options.time)+"minutes"
+    print "\n\nReading AAVS1 Google Spreadsheet"
+
+    # Read google Spreadsheet
+    cells = loadAAVSdata()
+    tpm_used = max([a['TPM'] for a in cells if not a['TPM'] == ""])+1
+    tpm_used=16
+
+    # Search for TPMs
+    TPMs = ip_scan()
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
     data = datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y/%m/%d")
     ora = datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%H:%M:%S")
     print "\nStart Logging on " + data + " at " + ora + "\n\n"
@@ -259,6 +280,7 @@ if __name__ == "__main__":
         os.makedirs(OUT_PATH)
         print "\nGenerating directory for today data... (" + OUT_PATH + ")"
 
+<<<<<<< HEAD
     ## Creating Directory to store the videos
     #if not os.path.exists(OUT_PATH + MOVIE_FOLDER):
     #    os.makedirs(OUT_PATH + MOVIE_FOLDER)
@@ -274,13 +296,34 @@ if __name__ == "__main__":
     try:
         while True:
             counter = counter +1
+=======
+    # Creating Directory to store the videos
+    if not os.path.exists(OUT_PATH + MOVIE_FOLDER):
+        os.makedirs(OUT_PATH + MOVIE_FOLDER)
+        os.makedirs(OUT_PATH + MOVIE_FOLDER + "/Pol-X")
+        os.makedirs(OUT_PATH + MOVIE_FOLDER + "/Pol-Y")
+        os.makedirs(OUT_PATH + MAP_PATH)
+        os.makedirs(OUT_PATH + MAP_PATH + "/Pol-X")
+        os.makedirs(OUT_PATH + MAP_PATH + "/Pol-Y")
+        print "\nGenerating directories for Videos... (" + OUT_PATH + MOVIE_FOLDER + ") + Pol-X and Pol-Y"
+
+    plt.ioff()
+    try:
+        while True:
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
             ora = datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y-%m-%d_%H%M%S")
             rms_map = []
             for i in  TPMs:
                 tpm = int(i.split(".")[-1])
+<<<<<<< HEAD
                 #check=[x for x in cells if (x['TPM']==int(i.split(".")[-1]))]
                 #if check==[]:
                 #    continue
+=======
+                check=[x for x in cells if (x['TPM']==int(i.split(".")[-1]))]
+                if check==[]:
+                    continue
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
                 if not os.path.exists(OUT_PATH+i):
                     os.makedirs(OUT_PATH+i)
                 freqs, spettro, rawdata , rms, rfpower = get_raw_meas(tpm_obj(i))
@@ -297,17 +340,26 @@ if __name__ == "__main__":
                             fname += "Pol-X/"
                             if not os.path.exists(fname):
                                 os.makedirs(fname)
+<<<<<<< HEAD
                             fname += str("TPM-%02d" % (int(i.split(".")[-1]))) + str("_RX-%02d" % (int(rx + 1))) #+ "_BASE-"
                             #base = [x for x in cells if (x['TPM'] == int(i.split(".")[-1]) and x['RX'] == (rx + 1))]
                             #if base == []:
                             #    continue
                             #fname += str("%03d" % (base[0]['Base']))
+=======
+                            fname += str("TPM-%02d" % (int(i.split(".")[-1]))) + str("_RX-%02d" % (int(rx + 1))) + "_BASE-"
+                            base = [x for x in cells if (x['TPM'] == int(i.split(".")[-1]) and x['RX'] == (rx + 1))]
+                            if base == []:
+                                continue
+                            fname += str("%03d" % (base[0]['Base']))
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
                             fname += "_Pol-X_" + ora
                         else:
                             pol="Y"
                             fname += "Pol-Y/"
                             if not os.path.exists(fname):
                                 os.makedirs(fname)
+<<<<<<< HEAD
                             fname += str("TPM-%02d"%(int(i.split(".")[-1])))+str("_RX-%02d"%(int(rx+1)))#+"_BASE-"
                             #base = [x for x in cells if (x['TPM']==int(i.split(".")[-1]) and x['RX']==(rx+1))]
                             #if base==[]:
@@ -358,4 +410,50 @@ if __name__ == "__main__":
 # data=struct.unpack(">"+str(int(l))+"d",a[8:])
 # plt.plot(data)
 # plt.show()
+=======
+                            fname += str("TPM-%02d"%(int(i.split(".")[-1])))+str("_RX-%02d"%(int(rx+1)))+"_BASE-"
+                            base = [x for x in cells if (x['TPM']==int(i.split(".")[-1]) and x['RX']==(rx+1))]
+                            if base==[]:
+                                continue
+                            fname += str("%03d"%(base[0]['Base']))
+                            fname += "_Pol-Y_" + ora
+
+                        if not base==[]:
+                            with open(fname+".spe","wb") as f:
+                                f.write(struct.pack(">d", len(spettro[(rx*2)+p])))
+                                f.write(struct.pack(">"+str(len(spettro[(rx*2)+p]))+"d", *spettro[(rx*2)+p]))
+                            with open(fname+".tdd","wb") as f:
+                                f.write(struct.pack(">d", len(rawdata[(rx*2)+p])))
+                                f.write(struct.pack(">"+str(len(rawdata[(rx*2)+p]))+"d", *rawdata[(rx*2)+p]))
+                            plotta(spettro[(rx*2)+p],fname,pol)
+
+                            print "Written files:",fname
+                print
+            print "\nGenerating AAVS1 MAP for samples"+ora+"... ",
+            generateMap(cells, tpm_used, rms_map, ora, OUT_PATH, MAP_PATH)
+
+            print datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y/%m/%d %H:%M:%S"),
+            print "\n  -  Next acquisition will be done in ",options.time," minutes"
+            time.sleep(60*int(options.time))
+            print "\n",datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y/%m/%d %H:%M:%S"),
+            print "  -  Starting new acquisition\n"
+    except KeyboardInterrupt:
+
+        for tpm in TPMs:
+            for rx in range(1,17):
+                for pol in ["X","Y"]:
+                    data_path = OUT_PATH + tpm + "/RX-" + str("%02d" % (rx)) + "/Pol-" + pol
+                    if os.path.exists(data_path):
+                        fname = "TPM-" + str("%02d" % (int(tpm.split(".")[-1]))) + "_RX-" + str("%02d" % (rx)) + "_Pol-" + pol + ".avi"
+                        print "\n\nGenerating movie for " + fname
+                        cmd = "ffmpeg -f image2 -i " + data_path + "/%*.png  " + OUT_PATH + MOVIE_FOLDER + "/Pol-" + pol + "/" + fname
+                        print "\n",cmd,"\n\n"
+                        os.system(cmd)
+
+
+# with open("/home/mattana/aavs_data/10.0.10.3/2017-11-07_160741_TPM-03_RX-16_BASE-54.0_Pol-Y.dat","r") as f:
+#     a=f.read()
+# data=struct.unpack(">4097d",a)
+# plt.plot(data)
+>>>>>>> 5001e6e33527d3c355c9d63d5e75999e59c0edf6
 

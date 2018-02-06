@@ -256,6 +256,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.plotWidgetAntOne.hide()
             self.mainWidget.plotWidgetBar.hide()
             self.mainWidget.qframe_ant_rms.show()
+        self.updateAntennaTest()
 
     def reshapePlot(self):
         if self.mainWidget.qcombo_ant_view.currentIndex() <3:
@@ -312,8 +313,10 @@ class iTPM(QtGui.QMainWindow):
         dati=self.snapTPM()[0]
         #print "DATA", len(dati), dati[0][0:5]
         spettro = []
-        n=8192 # split and average number, from 128k to 16 of 8k
-        freqs=self.calcFreqs(len(dati[0])/16)
+        #n=8192 # split and average number, from 128k to 16 of 8k  federico
+        n=1024 # split and average number, from 128k to 16 of 8k
+        #freqs=self.calcFreqs(len(dati[0])/16) #modified federico
+        freqs=self.calcFreqs(len(dati[0])/128)
         #print "Freqs ",len(freqs)
         for i in xrange(32):
             l=dati[remap[i]]
@@ -327,7 +330,7 @@ class iTPM(QtGui.QMainWindow):
                 #print "Spettro", len(singolo), singolo[0:5]
                 singoli[:] += singolo
                 #print "Loop"
-            singoli[:] /= 16      
+            singoli[:] /= 128
             spettro += [singoli]
         #print "spettro", len(spettro), spettro[0][0:5]
         #print "End of ant_test_single"
@@ -822,6 +825,7 @@ class iTPM(QtGui.QMainWindow):
 
 
     def updateAntennaTest(self):
+        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13, 10, 11, 8, 9]
         if self.ant_test_enabled:
             #print "Signal emitted"
             self.xAxisRange=[float(self.mainWidget.qtext_xmin.text()), float(self.mainWidget.qtext_xmax.text())]
@@ -911,7 +915,7 @@ class iTPM(QtGui.QMainWindow):
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() ==4: # ADU RMS Table
                 for i in xrange(32):
-                    self.ant_rms_adurms[i].setText("%3.1f"%(self.adu_rms[i]))
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.adu_rms[remap[i]]))
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() ==5: # Volt RMS Table
                 for i in xrange(32):
@@ -923,7 +927,7 @@ class iTPM(QtGui.QMainWindow):
                 
             else: # RF Power Table
                 for i in xrange(32):
-                    self.ant_rms_adurms[i].setText("%3.1f"%(self.power_rf[i]))
+                    self.ant_rms_adurms[i].setText("%3.1f"%(self.power_rf[remap[i]]))
                 
             self.mainWidget.qlabel_ant_num.setText("Acquisition Number: "+str(self.antenna_test_acq_num))
 
