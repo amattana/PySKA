@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+
+'''
+
+   TPM Spectra Viever 
+
+   Used to plot spectra saved using tpm_dump.py
+
+'''
+
+__copyright__ = "Copyright 2018, Istituto di RadioAstronomia, INAF, Italy"
+__credits__ = ["Andrea Mattana"]
+__license__ = "GPL"
+__version__ = "1.0"
+__maintainer__ = "Andrea Mattana"
+
+
+from matplotlib import pyplot as plt
+import struct,os,glob
+from optparse import OptionParser
+import numpy as np
+
+def calcSpectrum(vett):
+    window = np.hanning(len(vett))
+    spettro = np.fft.rfft(vett*window)
+    N = len(spettro)
+    acf = 2  #amplitude correction factor
+    spettro[:] = abs((acf*spettro)/N)
+    return (np.real(spettro))
+
+def calcSpectra(vett, nsample):
+    #window = np.hanning(nsample)
+    #spettro = []
+    sp=[vett[a:a+nsample] for a in xrange(0, len(vett), nsample)]
+    singoli=np.zeros(len(calcSpectrum(sp[0])))
+    for k in sp:
+        singolo = calcSpectrum(k)
+        singoli[:] += singolo
+    singoli[:] /= (2**17/nsample) # federico
+    #spettro += [singoli]
+    spettro = np.array(singoli)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        result = 20*np.log10(spettro/127.0)
+    return result
+
+
+def calc_dbm(data):
+    dati=np.array(data,dtype=np.float64)
+    adu_rms = np.sqrt(np.mean(np.power(dati,2),0))
+    volt_rms = adu_rms * (1.7/256.)
+    power_adc = 10*np.log10(np.power(volt_rms,2)/400.)+30
+    power_rf = power_adc + 12
+    return power_rf
+
+
+
+if __name__ == "__main__":
+    parser = OptionParser()
+    
+    parser.add_option("-f", "--file",
+                      dest="spe_file",
+                      default="",
+                      help="Input Time Domain Data file '.tdd' saved using tpm_dump.py")
+
+    parser.add_option("-d", "--directory",
+                      dest="directory",
+                      default="",
+                      help="Directory containing '.tdd' files to be averaged")
+
+    (options, args) = parser.parse_args()
+    
+    
+    if options.spe_file=="" or not os.path.isfile(options.spe_file):
+        d=options.directory
+        if not d[-1]=="/":
+            d = d + "/"
+        if os.path.isdir(d): 
+            MEAS = sorted(glob.glob(d+"*tdd"))
+            val = []
+            max_adc = []
+            min_adc = []
+            spettri = []
+            #pylab.ion()
+            fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(7, 9.6))
+
+            for meas in MEAS:
+                with open(meas,"r") as f:
+                    a=f.read()
+                l = struct.unpack(">d",a[0:8])[0]
+                data=struct.unpack(">"+str(int(l))+"d",a[8:])
+                val += [calc_dbm(data)]
+                max_adc += [max(data)]
+                min_adc += [min(data)]
+                spettri += [calcSpectra(data, 1024)]
+                
+            ax1.plot(range(len(min_adc)),np.zeros(len(min_adc))+127, color='r')
+            ax1.plot(range(len(min_adc)),np.zeros(len(min_adc))-128, color='r')
+            ax1.plot(min_adc, color='b')
+            ax1.plot(max_adc, color='b')
+            ax1.set_xlim([0,100])
+            ax1.set_title("ADC Max and Min Raw Values (8 bit Clipping)")
+            ax1.set_xlabel('Samples (time)')
+            ax1.set_ylabel("ADC Counts")
+            ax1.grid(True)
+
+            ax2.plot(val)
+            ax2.set_xlim([0,100])
+
+            print len(val), len(min_adc), len(spettri), len(spettri[0])
+            ax2.set_title("RF Power measured by ADC")
+            ax2.set_xlabel('Samples (time)')
+            ax2.set_ylabel("RF Power (dBm)")
+            ax2.grid(True)
+
+            ax3.imshow(np.transpose(spettri), interpolation='none', aspect='auto', extent=[0,100,400,0])
+            ax3.set_xlim([0,100])
+            ax3.set_title("Spectrogram")
+            ax3.set_xlabel('Spectra (time)')
+            ax3.set_ylabel("MHz")
+            plt.tight_layout()
+            plt.show()
+            #a=raw_input("Program terminated, type a char to end")
+            #sys.exit()
+    else:
+        print "\n\nInvalid Directory!"
+
