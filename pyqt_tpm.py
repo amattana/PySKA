@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from PyQt4 import QtCore, QtGui, uic
 import sys, os, socket
 sys.path.append("../board")
@@ -313,9 +314,9 @@ class iTPM(QtGui.QMainWindow):
         dati=self.snapTPM()[0]
         #print "DATA", len(dati), dati[0][0:5]
         spettro = []
-        #n=8192 # split and average number, from 128k to 16 of 8k  federico
-        n=1024 # split and average number, from 128k to 16 of 8k
-        #freqs=self.calcFreqs(len(dati[0])/16) #modified federico
+        #n=8192*4 # split and average number, from 128k to 16 of 8k  federico qui ne medi 8
+        n=1024 # split and average number, from 128k to 16 of 8k qui ne medi 128
+        #freqs=self.calcFreqs(len(dati[0])/16*4) #modified federico
         freqs=self.calcFreqs(len(dati[0])/128)
         #print "Freqs ",len(freqs)
         for i in xrange(32):
@@ -330,7 +331,7 @@ class iTPM(QtGui.QMainWindow):
                 #print "Spettro", len(singolo), singolo[0:5]
                 singoli[:] += singolo
                 #print "Loop"
-            singoli[:] /= 128
+            singoli[:] /= 128#16
             spettro += [singoli]
         #print "spettro", len(spettro), spettro[0][0:5]
         #print "End of ant_test_single"
@@ -841,7 +842,7 @@ class iTPM(QtGui.QMainWindow):
                         else:
                             plotcolor="g"
                         #print i,len(self.freqs),len(self.spettro_mediato[i])
-                        self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(i+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                        self.miniPlots.plotCurve(self.freqs, self.spettro_mediato[i], i/2, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(i/2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     self.miniPlots.updatePlot()
 
                 elif self.mainWidget.qcombo_ant_select.currentIndex()>=1 and self.mainWidget.qcombo_ant_select.currentIndex()<=4: # 4 Plots
@@ -1040,7 +1041,7 @@ class iTPM(QtGui.QMainWindow):
             if not self.sample_rate == 800:
                 cmd += " -f "+str(self.sample_rate)
             cmd += " -i "+self.adu_input
-            os.system(cmd)
+            os.system(cmd + " --server-ip=10.0.10.200 ")
             time.sleep(0.5)
             self.updateUI()
             time.sleep(0.5)
