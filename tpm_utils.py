@@ -130,7 +130,9 @@ def snapTPM(tpm, debug=False):
             del channel_list
             return misure
         else:
-            f=open("data_stored","r")
+            #print "Opening simulated data"
+            f=open("/home/amattana/work/SKA-AAVS1/tools/pyska/data_stored","r")
+            #print "Preparing data"
             b=[[]]
             for i in range(32):
                 b[0] += [unpack(">"+str(2**17)+"b",f.read(2**17))]
@@ -172,7 +174,7 @@ def calcSpectra(vett):
         spettro[:] = 20*np.log10(spettro/127.0)
     return (np.real(spettro))
 
-def get_raw_meas(objtpm, nsamples=1024,debug=False):
+def get_raw_meas(objtpm, nsamples=1024, debug=False):
     '''
     Get acquisition from TPM
     :param objtpm: a TPM object (can generated it by using tpm_obj(ip))
@@ -182,7 +184,11 @@ def get_raw_meas(objtpm, nsamples=1024,debug=False):
     '''
     i=debug
     TPM_ADU_REMAP=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
+
     sample_rate=800
+    if debug:
+        objtpm = 0
+    #print objtpm, i
     dati=snapTPM(objtpm, debug=i)[0]
     dati=[dati[k] for k in TPM_ADU_REMAP]
 #    print "SNAP LEN:",len(dati)
@@ -199,6 +205,7 @@ def get_raw_meas(objtpm, nsamples=1024,debug=False):
         for k in sp:
             singolo = calcSpectra(k)
             singoli[:] += singolo
+            #singoli[:] = singolo
         #singoli[:] /= 16 # originale
         singoli[:] /= (2**17/nsamples) # federico
         spettro += [singoli]
@@ -234,8 +241,8 @@ def programming_cplds(da,a):
 
 def configure_tpms(da,a):
     for i in xrange(da,a+1):
-    print "\n\n#################################################"
-    os.system("python test.py -f 800 -i 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 -s --ip=10.0.10."+str(i))
+        print "\n\n#################################################"
+        os.system("python test.py -f 800 -i 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 -s --ip=10.0.10."+str(i))
         print "\nTPM # ",i, " done!"
         time.sleep(2)
 
@@ -243,6 +250,7 @@ def programming_fpgas(da,a):
     for i in xrange(da,a+1):
         print "\n\n#################################################"
         print "\nDownloading Xilinx Firmware of TPM # ",i
-        os.system("python fpga_prog.py -f ../bitstream/itpm_v1_1_tpm_test_wrap_test31.bit --ip=10.0.10."+str(i))                         print "\nTPM # ",i, " done!"
+        os.system("python fpga_prog.py -f ../bitstream/itpm_v1_1_tpm_test_wrap_test31.bit --ip=10.0.10."+str(i))
+        print "\nTPM # ",i, " done!"
         time.sleep(2)
 
