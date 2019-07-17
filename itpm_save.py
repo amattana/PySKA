@@ -40,15 +40,108 @@ def readfile(filename):
     return vett
 
 
+def closest(serie, num):
+    return serie.tolist().index(min(serie.tolist(), key=lambda z: abs(z - num)))
+
+
 def calcSpectra(vett):
     window = np.hanning(len(vett))
     spettro = np.fft.rfft(vett * window)
     N = len(spettro)
     acf = 2  # amplitude correction factor
     spettro[:] = abs((acf * spettro) / N)
-    with np.errstate(divide='ignore', invalid='ignore'):
-        spettro[:] = 20 * np.log10(spettro / 127.0)
+    # print len(vett), len(spettro), len(np.real(spettro))
     return (np.real(spettro))
+
+
+def calcolaspettro(dati, nsamples=131072):
+    n = nsamples  # split and average number, from 128k to 16 of 8k # aavs1 federico
+    sp = [dati[x:x + n] for x in xrange(0, len(dati), n)]
+    mediato = np.zeros(len(calcSpectra(sp[0])))
+    for k in sp:
+        singolo = calcSpectra(k)
+        mediato[:] += singolo
+    # singoli[:] /= 16 # originale
+    mediato[:] /= (2 ** 17 / nsamples)  # federico
+    with np.errstate(divide='ignore', invalid='ignore'):
+        mediato[:] = 20 * np.log10(mediato / 127.0)
+    return mediato
+
+
+def dB2Linear(valueIndB):
+    """
+    Convert input from dB to linear scale.
+    Parameters
+    ----------
+    valueIndB : float | np.ndarray
+        Value in dB
+    Returns
+    -------
+    valueInLinear : float | np.ndarray
+        Value in Linear scale.
+    Examples
+    --------
+    #>>> dB2Linear(30)
+    1000.0
+    """
+    return pow(10, valueIndB / 10.0)
+
+
+def linear2dB(valueInLinear):
+    """
+    Convert input from linear to dB scale.
+    Parameters
+    ----------
+    valueInLinear : float | np.ndarray
+        Value in Linear scale.
+    Returns
+    -------
+    valueIndB : float | np.ndarray
+        Value in dB scale.
+    Examples
+    --------
+    #>>> linear2dB(1000)
+    30.0
+    """
+    return 10.0 * np.log10(valueInLinear)
+
+
+def dBm2Linear(valueIndBm):
+    """
+    Convert input from dBm to linear scale.
+    Parameters
+    ----------
+    valueIndBm : float | np.ndarray
+        Value in dBm.
+    Returns
+    -------
+    valueInLinear : float | np.ndarray
+        Value in linear scale.
+    Examples
+    --------
+    #>>> dBm2Linear(60)
+    1000.0
+    """
+    return dB2Linear(valueIndBm) / 1000.
+
+
+def linear2dBm(valueInLinear):
+    """
+    Convert input from linear to dBm scale.
+    Parameters
+    ----------
+    valueInLinear : float | np.ndarray
+        Value in Linear scale
+    Returns
+    -------
+    valueIndBm : float | np.ndarray
+        Value in dBm.
+    Examples
+    --------
+    #>>> linear2dBm(1000)
+    60.0
+    """
+    return linear2dB(valueInLinear * 1000.)
 
 
 def mark_armonics(ax1, spettri, num):
@@ -73,11 +166,11 @@ def mark_armonics(ax1, spettri, num):
     return hds
 
 
-def plotta_spettro(ax1, spettri, title):
+def plotta_spettro(ax1, spettri, title, colore='b'):
     x = np.linspace(0, 400, len(spettri))
     ax1.set_title(title)
-    ax1.plot(x, spettri, color='b')
-    ax1.set_ylim([-90, 12])
+    ax1.plot(x[2:-1], spettri[2:-1], color=colore)
+    ax1.set_ylim([-100, 0])
     ax1.set_xlim([0, 400])
     ax1.set_xlabel("MHz")  # \n\n"+title)
     ax1.set_ylabel("dBm")
@@ -246,46 +339,73 @@ def set_channel(channel_ok, channel_id):
     return channel_ok
 
 
-def save_raw(path, data, chan, seq):
+def save_adu_raw(path, data, chan, seq):
     raw_filename = path + "input_" + str(chan).zfill(2) + "_" + str(seq - 1).zfill(3) + ".bin"
     raw_file = open(raw_filename, "wb")
     raw_file.write(data)
     raw_file.close()
     return raw_filename
 
+def save_tpm_raw(path, data, chan, pol, seq):
+    raw_filename = path + "Fibre-" + str(chan).zfill(2) + "_POL-" + pol + "_" + str(seq - 1).zfill(3) + ".raw"
+    raw_file = open(raw_filename, "wb")
+    raw_file.write(data)
+    raw_file.close()
+    return raw_filename
 
-MAP = [["Fiber #1", "Y"],
-       ["Fiber #1", "X"],
-       ["Fiber #2", "Y"],
-       ["Fiber #2", "X"],
-       ["Fiber #3", "Y"],
-       ["Fiber #3", "X"],
-       ["Fiber #4", "Y"],
-       ["Fiber #4", "X"],
-       ["Fiber #16", "X"],
-       ["Fiber #16", "Y"],
-       ["Fiber #15", "X"],
-       ["Fiber #15", "Y"],
-       ["Fiber #14", "X"],
-       ["Fiber #14", "Y"],
-       ["Fiber #13", "X"],
-       ["Fiber #13", "Y"],
-       ["Fiber #5", "Y"],
-       ["Fiber #5", "X"],
-       ["Fiber #6", "Y"],
-       ["Fiber #6", "X"],
-       ["Fiber #7", "Y"],
-       ["Fiber #7", "X"],
-       ["Fiber #8", "Y"],
-       ["Fiber #8", "X"],
-       ["Fiber #12", "X"],
-       ["Fiber #12", "Y"],
-       ["Fiber #11", "X"],
-       ["Fiber #11", "Y"],
-       ["Fiber #10", "X"],
-       ["Fiber #10", "Y"],
-       ["Fiber #9", "X"],
-       ["Fiber #9", "Y"]]
+
+MAP = [["Fibre #1", "Y"],
+       ["Fibre #1", "X"],
+       ["Fibre #2", "Y"],
+       ["Fibre #2", "X"],
+       ["Fibre #3", "Y"],
+       ["Fibre #3", "X"],
+       ["Fibre #4", "Y"],
+       ["Fibre #4", "X"],
+       ["Fibre #16", "X"],
+       ["Fibre #16", "Y"],
+       ["Fibre #15", "X"],
+       ["Fibre #15", "Y"],
+       ["Fibre #14", "X"],
+       ["Fibre #14", "Y"],
+       ["Fibre #13", "X"],
+       ["Fibre #13", "Y"],
+       ["Fibre #5", "Y"],
+       ["Fibre #5", "X"],
+       ["Fibre #6", "Y"],
+       ["Fibre #6", "X"],
+       ["Fibre #7", "Y"],
+       ["Fibre #7", "X"],
+       ["Fibre #8", "Y"],
+       ["Fibre #8", "X"],
+       ["Fibre #12", "X"],
+       ["Fibre #12", "Y"],
+       ["Fibre #11", "X"],
+       ["Fibre #11", "Y"],
+       ["Fibre #10", "X"],
+       ["Fibre #10", "Y"],
+       ["Fibre #9", "X"],
+       ["Fibre #9", "Y"]]
+
+MAP_TPM_ADU = [[1,0],
+               [3,2],
+               [5,4],
+               [7,6],
+
+               [17,16],
+               [19,18],
+               [21,20],
+               [23,22],
+
+               [30,31],
+               [28,29],
+               [26,27],
+               [24,25],
+
+               [14,15],
+               [12,13],
+               [10,11],
+               [8,9]]
 
 TARGET_LEVEL = 10.4  # NO ADA
 # TARGET_LEVEL = -9.4 # CON ADA
@@ -293,7 +413,9 @@ POW_METER_TIMEOUT = 2000
 SIG_GEN_MAX_LEVEL = 13
 
 SW_PATH = "D:\\SKA-TPM\\"
-DATA_PATH = "2019-07_AAVS1.5_TEST_PREADU/"
+DATA_PATH = "/data/"
+
+colori = ['b', 'g']
 
 GEN_ADDR = 25
 POWMETER_ADDR = 14
@@ -327,6 +449,10 @@ if __name__ == "__main__":
                       dest="acq_num",
                       default=100,
                       help="Number of acquisition")
+    parser.add_option("-f", "--fibre",
+                      dest="fibre",
+                      default=0, type="int",
+                      help="TPM Input Fibre (1-16)")
     parser.add_option("-b", "--board_ip",
                       dest="board_ip",
                       default="10.0.10.2",
@@ -346,12 +472,25 @@ if __name__ == "__main__":
                       dest="cpl_att",
                       default=False,
                       help="if the power is read from a coupler take into account of its attenuation")
+    parser.add_option("--resolution",
+                      dest="resolution",
+                      default=1000, type="int",
+                      help="Frequency resolution in KHz (it will be truncated to the closest possible)")
+
     (options, args) = parser.parse_args()
+
+    resolutions = 2 ** np.array(range(16)) * (800000.0 / 2 ** 17)
+    rbw = int(closest(resolutions, options.resolution))
+    avg = 2 ** rbw
+    nsamples = 2 ** 17 / avg
+    RBW = (avg * (400000.0 / 65536.0))
 
     if options.cpl_att:
         # print "CPL Correction Factor Enabled"
         cpl_curve = read_cpl_curve(FILE_CPL)
     # print cpl_curve
+
+    today = datetime.datetime.strftime(datetime.datetime.utcnow(), "%Y-%m-%d")
 
     if not options.no_sig_gen:
         # Find GPIB plugged devices
@@ -415,8 +554,23 @@ if __name__ == "__main__":
                 record + 1, records, int(float(path.split('_')[-1][:-1]))))
                 time.sleep(0.5)
             else:
-                # path = DATA_PATH+'CH-'+str(options.channel).zfill(2)+'\\'+datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y-%m-%d_%H%M%S\\")
-                path = DATA_PATH + str(options.board_ip) + '/CH-' + str(options.channel).zfill(2) + '/'
+
+                # Here without signal generator
+                path = DATA_PATH + today + "_" + str(options.board_ip)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+
+                if not options.fibre == 0:
+                    path += "/F" + str(options.fibre).zfill(2)
+                    if not os.path.exists(path+"/POL-Y"):
+                        os.makedirs(path+"/POL-X")
+                    if not os.path.exists(path+"/POL-Y"):
+                        os.makedirs(path+"/POL-Y")
+                else:
+                    path += "CH-" + str(options.channel).zfill(2)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                path += '/'
                 print "Data will be saved in: ", path
         else:
             if not options.no_sig_gen:
@@ -540,12 +694,16 @@ if __name__ == "__main__":
                 m = 0
                 # print  len(channel_id_list)
                 for n in range(len(channel_id_list)):
-                    if channel_id_list[n] == "1" and int(options.channel) == 32:
-                        last_filename = save_raw(path, channel_list[n], n, done)
-                        m += 1
-                    elif channel_id_list[n] == "1" and n == int(options.channel):
-                        last_filename = save_raw(path, channel_list[n], n, done)
-                        m += 1
+                    if channel_id_list[n] == "1":
+                        if not options.fibre == 0 and n in MAP_TPM_ADU[options.fibre-1]:
+                            last_filename = save_tpm_raw(path+"POL-"+MAP[n][1]+"/", channel_list[n], options.fibre, MAP[n][1], done)
+                            m += 1
+                        elif int(options.channel) == 32:
+                            last_filename = save_adu_raw(path, channel_list[n], n, done)
+                            m += 1
+                        elif options.fibre == 0 and n == int(options.channel):
+                            last_filename = save_adu_raw(path, channel_list[n], n, done)
+                            m += 1
 
             del sdp
             record += 1
@@ -560,7 +718,53 @@ if __name__ == "__main__":
     # del sdp
     print("\n\nMeasurements Completed in %d seconds." % (time.time() - start_time))
 
-    if options.plotta and int(options.channel) < 32:
+    if options.plotta and not options.fibre == 0:
+        gs = gridspec.GridSpec(3, 2, height_ratios=[1, 6, 1])
+        fig = plt.figure(figsize=(14, 6), facecolor='w')
+        ax = []
+        for x in range(4):
+            ax += [fig.add_subplot(gs[x+2])]
+        ax_title = fig.add_subplot(gs[0:2])
+
+        #title = "Board: #" + board.split(".")[-1] + "  ,  " + tpm_str
+        for e, p in enumerate(["POL-X/","POL-Y/"]):
+            l = sorted(glob.glob(path + p + "*raw"))
+            dati = readfile(l[0])
+            spettri = np.zeros(len(calcolaspettro(dati, nsamples)))
+            print ""
+            for f in l:
+                dati = readfile(f)
+                spettri[:] += dB2Linear(calcolaspettro(dati, nsamples))
+            spettri /= len(l)
+            spettri = linear2dB(spettri)
+            ax[e].cla()
+            plotta_spettro(ax[e], spettri, p[:-1], colori[e])
+
+            adu_rms = np.sqrt(np.mean(np.power(dati, 2), 0))
+            volt_rms = adu_rms * (1.7 / 256.)  # VppADC9680/2^bits * ADU_RMS
+            power_adc = 10 * np.log10(
+                np.power(volt_rms, 2) / 400.) + 30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+            power_rf = power_adc + 12  # single ended to diff net loose 12 dBm
+
+            ax[e+2].cla()
+            ax[e+2].plot(range(100), color='w')
+            ax[e+2].set_axis_off()
+            ax[e+2].annotate("Total Power: %3.1f dBm" % power_rf, (33, 82), fontsize=12)
+
+        ax_title.cla()
+        ax_title.plot(range(100), color='w')
+        ax_title.set_axis_off()
+        title = "TPM Board: " + options.board_ip + "    Fibre: " + str(options.fibre)
+        title += "     RBW: " + "%3.1f KHz"%(RBW)
+        ax_title.annotate(title, (30, 30), fontsize=18)
+
+        plt.tight_layout()
+        plt.show()
+
+        sys.stdout.write("\rDirectory processed: " + path + "                       \n")
+        sys.stdout.flush()
+
+    elif options.plotta and int(options.channel) < 32:
         # print "\nPlotting "+last_filename[:-10]+str(options.channel).zfill(2)+last_filename[-8:]
         # os.system("python tpm_reader.py -f "+last_filename[:-10]+str(options.channel).zfill(2)+last_filename[-8:])
 
@@ -573,15 +777,15 @@ if __name__ == "__main__":
         board = path.split("/")[-3]
         tpm_str = "   TPM Input: " + MAP[int(ch[-2:])][0] + "  Pol-" + MAP[int(ch[-2:])][1]
         title = "Board: #" + board.split(".")[-1] + "  ADU Channel #" + ch[-2:] + ",  " + tpm_str
-        l = sorted(glob.glob(path + "*bin"))
+        l = sorted(glob.glob(path + "*raw"))
         dati = readfile(l[0])
-        spettri = np.zeros(len(calcSpectra(dati)))
+        spettri = np.zeros(len(calcolaspettro(dati, nsamples)))
         print ""
         for f in l:
             dati = readfile(f)
             sys.stdout.write("\rProcessing file: " + f)
             sys.stdout.flush()
-            spettri[:] += calcSpectra(dati)
+            spettri[:] += calcolaspettro(dati, nsamples)
         spettri /= len(l)
         spettri += 10
         ax1.cla()

@@ -144,8 +144,8 @@ if __name__ == "__main__":
                       help="Print Single Tone analysys like Spectrum Analyzer")
     (options, args) = parser.parse_args()
 
-    filepath = easygui.fileopenbox(msg='Please select the source files')
-    path = filepath[:filepath.rfind("/")+1]
+    filepath = easygui.fileopenbox(msg='Please select the source files', multiple=True)
+    path = filepath[0][:filepath[0].rfind("/")+1]
     gs = gridspec.GridSpec(2, 1, height_ratios=[6,1])
     fig = plt.figure(figsize=(9, 6), facecolor='w')
     #plt.ion()
@@ -155,17 +155,17 @@ if __name__ == "__main__":
     board=path.split("/")[-3]
     tpm_str = "   TPM Input: " + MAP[int(ch[-2:])][0] + "  Pol-" + MAP[int(ch[-2:])][1]
     title = "Board: #" + board.split(".")[-1] + "  ADU Channel #" + ch[-2:] + ",  " + tpm_str
-    l = sorted(glob.glob(path+"*bin"))
-    dati = readfile(l[0])
+    #l = sorted(glob.glob(path+"*bin"))
+    dati = readfile(filepath[0])
     spettri=np.zeros(len(calcSpectra(dati)))
     print ""
-    for f in l:
+    for f in filepath:
         dati=readfile(f)
         sys.stdout.write("\rProcessing file: " +f)
         sys.stdout.flush()
         spettri[:] += calcSpectra(dati)
-    spettri /= len(l)
-    spettri += 10
+    spettri /= len(filepath)
+    # spettri += 10
     ax1.cla()
     plotta_spettro(ax1,spettri,title)
     ax2.cla()
