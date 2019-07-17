@@ -15,10 +15,12 @@ __version__ = "1.0"
 __maintainer__ = "Andrea Mattana"
 
 
+#from __future__ import division
 from matplotlib import pyplot as plt
 import struct,os,glob
 from optparse import OptionParser
 import numpy as np
+from datetime import datetime, timedelta
 
 def calcSpectrum(vett):
     window = np.hanning(len(vett))
@@ -52,7 +54,10 @@ def calc_dbm(data):
     power_rf = power_adc + 12
     return power_rf
 
-
+def totimestamp(dt, epoch=datetime(1970,1,1)):
+    td = dt - epoch
+    # return td.total_seconds()
+    return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6
 
 if __name__ == "__main__":
     parser = OptionParser()
@@ -78,7 +83,7 @@ if __name__ == "__main__":
             MEAS = sorted(glob.glob(d+"*tdd"))
             val = []
             max_adc = []
-            min_adc = []
+            x = []
             spettri = []
             #pylab.ion()
             fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(7, 9.6))
@@ -90,30 +95,33 @@ if __name__ == "__main__":
                 data=struct.unpack(">"+str(int(l))+"d",a[8:])
                 val += [calc_dbm(data)]
                 max_adc += [max(data)]
-                min_adc += [min(data)]
                 spettri += [calcSpectra(data, 1024)]
+                x += [totimestamp(datetime.strptime(meas[meas.rfind("/")+1+28:-4],"%Y-%m-%d_%H%M%S"))]
+                #ax3.imshow(np.transpose(calcSpectra(data, 1024)), interpolation='none', aspect='auto', extent=[0,len(max_adc),400,0])
+
                 
-            ax1.plot(range(len(min_adc)),np.zeros(len(min_adc))+127, color='r')
-            ax1.plot(range(len(min_adc)),np.zeros(len(min_adc))-128, color='r')
-            ax1.plot(min_adc, color='b')
-            ax1.plot(max_adc, color='b')
-            ax1.set_xlim([0,100])
-            ax1.set_title("ADC Max and Min Raw Values (8 bit Clipping)")
+            ax1.plot(x,np.zeros(len(max_adc))+127, color='r')
+            #ax1.plot(x,np.zeros(len(max_adc))+127, color='r', linestyle=None, marker=".")
+
+            ax1.plot(x,max_adc, color='b', linestyle="None", marker=".")
+            ax1.set_xlim([x[0],x[-1]])
+            ax1.set_ylim([0,150])
+            ax1.set_title("ADC Raw Values (Clipping)")
             ax1.set_xlabel('Samples (time)')
             ax1.set_ylabel("ADC Counts")
             ax1.grid(True)
 
-            ax2.plot(val)
-            ax2.set_xlim([0,100])
+            ax2.plot(x,val, linestyle="None", marker=".")
+            ax2.set_xlim([x[0],x[-1]])
 
-            print len(val), len(min_adc), len(spettri), len(spettri[0])
+            #print len(val), len(min_adc), len(spettri), len(spettri[0])
             ax2.set_title("RF Power measured by ADC")
             ax2.set_xlabel('Samples (time)')
             ax2.set_ylabel("RF Power (dBm)")
             ax2.grid(True)
 
-            ax3.imshow(np.transpose(spettri), interpolation='none', aspect='auto', extent=[0,100,400,0])
-            ax3.set_xlim([0,100])
+            ax3.imshow(np.transpose(spettri), interpolation='none', aspect='auto', extent=[0,len(max_adc),400,0])
+            ax3.set_xlim([0,len(max_adc)])
             ax3.set_title("Spectrogram")
             ax3.set_xlabel('Spectra (time)')
             ax3.set_ylabel("MHz")
