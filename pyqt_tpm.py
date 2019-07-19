@@ -857,8 +857,8 @@ class iTPM(QtGui.QMainWindow):
 
                 else: # 1 Plot
                     self.miniPlotsOne.plotClear()
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="b")
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="g")
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(self.mainWidget.qcombo_ant_select.currentIndex()-5+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="b")
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(self.mainWidget.qcombo_ant_select.currentIndex()-5+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore="g")
                     self.miniPlotsOne.updatePlot()
 
             if self.mainWidget.qcombo_ant_view.currentIndex() ==1: # Plots  X
@@ -882,7 +882,7 @@ class iTPM(QtGui.QMainWindow):
 
                 else: # 1 Plot
                     self.miniPlotsOne.plotClear()
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(self.mainWidget.qcombo_ant_select.currentIndex()-5+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     #self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True)
                     self.miniPlotsOne.updatePlot()
 
@@ -908,7 +908,7 @@ class iTPM(QtGui.QMainWindow):
                 else: # 1 Plot
                     self.miniPlotsOne.plotClear()
                     #self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2], 0, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2), xLabel="MHz", yLabel="dBFS", plotLog=True)
-                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str((self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
+                    self.miniPlotsOne.plotCurve(self.freqs, self.spettro_mediato[(self.mainWidget.qcombo_ant_select.currentIndex()-5)*2+1], 0, xAxisRange=self.xAxisRange, yAxisRange = self.yAxisRange, title="ANT "+str(self.mainWidget.qcombo_ant_select.currentIndex()-5+1), xLabel="MHz", yLabel="dBFS", plotLog=True, colore=plotcolor)
                     self.miniPlotsOne.updatePlot()
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() ==3: # ADU RMS Bar Plot

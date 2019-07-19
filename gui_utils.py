@@ -260,7 +260,7 @@ class MiniPlots(QtGui.QWidget):
         if len(data) != 0:
             #auto_scale_y = True
             #self.canvas.ax[ant].clear()
-            self.canvas.ax[ant].plot(assex, data, scaley=True, color=colore)
+            self.canvas.ax[ant].plot(assex[2:-1], data[2:-1], scaley=True, color=colore)
             if not xAxisRange == None:
                 self.canvas.ax[ant].set_xlim(xAxisRange)
             if not yAxisRange == None:
