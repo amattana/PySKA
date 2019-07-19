@@ -532,7 +532,7 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>620</x>
-       <y>450</y>
+       <y>520</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -559,7 +559,7 @@ background-color: rgb(255,60 , 0);</string>
      <property name="geometry">
       <rect>
        <x>620</x>
-       <y>520</y>
+       <y>590</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -681,8 +681,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qtext_pps">
      <property name="geometry">
       <rect>
-       <x>620</x>
-       <y>590</y>
+       <x>870</x>
+       <y>450</y>
        <width>211</width>
        <height>41</height>
       </rect>

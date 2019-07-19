@@ -711,6 +711,13 @@ class iTPM(QtGui.QMainWindow):
             else:
                 self.mainWidget.qtext_adc.setStyleSheet(colors('black_on_green'))
                 self.ready = True
+            # PPS Test
+            if ((not self.tpm.rmp.rd32(0 * 0x10000000 + 0x90020) == 0) and
+                (not self.tpm.rmp.rd32(1 * 0x10000000 + 0x90020) == 0)):
+                self.mainWidget.qtext_pps.setStyleSheet(colors('black_on_green'))
+            else:
+                self.mainWidget.qtext_pps.setStyleSheet(colors('white_on_red'))
+
         else:
             self.connected = False
             self.mainWidget.qtext_connected.setStyleSheet(colors("white_on_red"))    
@@ -727,6 +734,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qtext_adu_pll_ref.setStyleSheet(colors('white_on_red'))
             self.mainWidget.qtext_adu_pll_ref.setText("REF INT/EXT")
             self.mainWidget.qtext_adc.setStyleSheet(colors('white_on_red'))
+            self.mainWidget.qtext_pps.setStyleSheet(colors('white_on_red'))
 
             #self.mainWidget.qtext_meas_temp.setText("n/a")
             #self.mainWidget.qtext_meas_temp.setStyleSheet(colors("white_on_red"))
