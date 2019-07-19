@@ -84,8 +84,8 @@
     <widget class="QLabel" name="qtext_fpga0">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>540</y>
+       <x>590</x>
+       <y>230</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -111,8 +111,8 @@ background-color: rgb(255,60 , 0);</string>
     <widget class="QLabel" name="qtext_fpga1">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>600</y>
+       <x>870</x>
+       <y>230</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -139,7 +139,7 @@ background-color: rgb(255,60 , 0);</string>
      <property name="geometry">
       <rect>
        <x>870</x>
-       <y>540</y>
+       <y>520</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -166,7 +166,7 @@ background-color: rgb(255,60 , 0);</string>
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>540</y>
+       <y>160</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -193,7 +193,7 @@ background-color: rgb(255,60 , 0);</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>210</y>
+       <y>160</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -231,7 +231,7 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>210</y>
+       <y>230</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -257,8 +257,8 @@ background-color: rgb(255,60 , 0);</string>
     <widget class="QLabel" name="qlabel_fpga_fw">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>270</y>
+       <x>590</x>
+       <y>160</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -284,8 +284,8 @@ background-color: rgb(255,60 , 0);</string>
     <widget class="QLabel" name="qtext_adu_temp">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>600</y>
+       <x>310</x>
+       <y>230</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -308,38 +308,11 @@ background-color: rgb(255,60 , 0);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="qtext_adu_amps">
-     <property name="geometry">
-      <rect>
-       <x>870</x>
-       <y>210</y>
-       <width>211</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255,255,255);
-background-color: rgb(255,60 , 0);</string>
-     </property>
-     <property name="text">
-      <string>Amps: n/a</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QPushButton" name="qbutton_adu_setup">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>470</y>
+       <x>870</x>
+       <y>340</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -376,8 +349,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_set_pll">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>350</y>
+       <x>180</x>
+       <y>340</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -408,8 +381,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLineEdit" name="qtext_adu_fw">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>140</y>
+       <x>810</x>
+       <y>90</y>
        <width>271</width>
        <height>41</height>
       </rect>
@@ -421,8 +394,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_adu_fw">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>140</y>
+       <x>590</x>
+       <y>90</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -445,8 +418,8 @@ color: rgb(251, 255, 5);</string>
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>350</y>
-       <width>211</width>
+       <y>340</y>
+       <width>141</width>
        <height>41</height>
       </rect>
      </property>
@@ -467,8 +440,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QPushButton" name="qbutton_adu_fw">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>270</y>
+       <x>870</x>
+       <y>160</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -502,198 +475,12 @@ color: rgb(251, 255, 5);</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="qlabel_adu_supply">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>30</y>
-       <width>131</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Power Supply</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="qcombo_supply">
-     <property name="geometry">
-      <rect>
-       <x>810</x>
-       <y>30</y>
-       <width>271</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <item>
-      <property name="text">
-       <string>UNREGISTERED PSU</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>HP 6033A (NI GPIB-USB)</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="qlabel_adu_supply_2">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>90</y>
-       <width>131</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Set Voltage</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="qtext_power_volt">
-     <property name="geometry">
-      <rect>
-       <x>810</x>
-       <y>90</y>
-       <width>271</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>16</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>15.00</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="qlabel_adu_supply_3">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>140</y>
-       <width>181</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Set Current Limit</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="qtext_power_amps">
-     <property name="geometry">
-      <rect>
-       <x>810</x>
-       <y>140</y>
-       <width>271</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>16</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>8.0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="qbutton_psupply_enable">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>210</y>
-       <width>211</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cantarell</family>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
-       <italic>false</italic>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(11, 121, 255);
-color: rgb(251, 255, 5);</string>
-     </property>
-     <property name="text">
-      <string>SWITCH ON</string>
-     </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-     <property name="default">
-      <bool>false</bool>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QLabel" name="qlabel_adu_conf_2">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>410</y>
-       <width>211</width>
+       <x>500</x>
+       <y>340</y>
+       <width>191</width>
        <height>41</height>
       </rect>
      </property>
@@ -714,9 +501,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_set_input">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>410</y>
-       <width>271</width>
+       <x>710</x>
+       <y>340</y>
+       <width>121</width>
        <height>41</height>
       </rect>
      </property>
@@ -744,8 +531,8 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qtext_adu_pll_lock">
      <property name="geometry">
       <rect>
-       <x>590</x>
-       <y>540</y>
+       <x>620</x>
+       <y>450</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -771,8 +558,8 @@ background-color: rgb(255,60 , 0);</string>
     <widget class="QLabel" name="qtext_adu_pll_ref">
      <property name="geometry">
       <rect>
-       <x>590</x>
-       <y>600</y>
+       <x>620</x>
+       <y>520</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -799,7 +586,7 @@ background-color: rgb(255,60 , 0);</string>
      <property name="geometry">
       <rect>
        <x>870</x>
-       <y>600</y>
+       <y>590</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -891,51 +678,31 @@ color: rgb(251, 255, 5);</string>
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="qbutton_adu_rate">
+    <widget class="QLabel" name="qtext_pps">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>470</y>
+       <x>620</x>
+       <y>590</y>
        <width>211</width>
        <height>41</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>Cantarell</family>
        <pointsize>20</pointsize>
        <weight>75</weight>
-       <italic>false</italic>
        <bold>true</bold>
       </font>
      </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="statusTip">
-      <string/>
-     </property>
-     <property name="whatsThis">
-      <string/>
-     </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(11, 121, 255);
-color: rgb(251, 255, 5);</string>
+      <string notr="true">color: rgb(255,255,255);
+background-color: rgb(255,60 , 0);</string>
      </property>
      <property name="text">
-      <string>FAST RATE</string>
+      <string>PPS</string>
      </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-     <property name="default">
-      <bool>false</bool>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
