@@ -7,6 +7,7 @@ sys.path.append("../config")
 sys.path.append("../repo_utils")
 #sys.path.append("../board/pyska")
 from tpm_utils import *
+import tpm_preadu
 #from ska_tpm import xmlparser
 #from jig_adu_test import *
 from bsp.tpm import *
@@ -139,6 +140,7 @@ class iTPM(QtGui.QMainWindow):
         self.tpm_config   = xmlparser("lab_1_tpm.xml")
         #self.mainWidget.qtext_adu_ip.setText(self.tpm_config[0]['ipaddr'])
         self.jig = None
+        self.preadu = None
 
         self.connected = False
         self.matlabPlotACQ = MatplotlibPlot(self.mainWidget.plotWidgetACQ)
@@ -203,6 +205,7 @@ class iTPM(QtGui.QMainWindow):
         self.mainWidget.qcombo_set_input.currentIndexChanged.connect(self.select_adu_input)
         self.mainWidget.qbutton_psupply_enable.clicked.connect(lambda: self.enable_powersupply())
         self.mainWidget.qbutton_jig_enable.clicked.connect(lambda: self.jigConnect())
+        clickable(self.mainWidget.qtext_preadu).connect(lambda: self.open_preadu_conf())
         #self.mainWidget.qbutton_selftest_start.clicked.connect(lambda: self.selfTest())
         # Signal Generator
         self.mainWidget.qbutton_gen_setup.clicked.connect(lambda: self.genSetup())
@@ -231,6 +234,18 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qcombo_adu_ip.removeItem(0)
         for f in self.itpm_ips:
             self.mainWidget.qcombo_adu_ip.addItem(f)
+
+    def open_preadu_conf(self):
+        if self.connected:
+            self.preadu_dict = {
+                'ipaddr': self.board_ip,
+                'preadu_l': 'n/a',
+                'preadu_r': 'n/a',
+                'subrack_position': 'n/a',
+                'serial': 'n/a'
+            }
+            self.preadu = tpm_preadu.preaduWindow(self.tpm, self.preadu_dict)
+            self.preadu.show()
 
     def saveSingleSpectra(self):
         fname=datetime.datetime.strftime(datetime.datetime.utcfromtimestamp(time.time()),"%Y%m%d_%H%M%S.txt")
@@ -1148,3 +1163,5 @@ if __name__ == "__main__":
     window.antenna_test_signal.connect(window.updateAntennaTest)
     
     sys.exit(app.exec_())
+
+    # tpm_preadu.preaduWindow(self.tpms[tpm]['TPM'], self.subrack['srconfig'][tpm]
