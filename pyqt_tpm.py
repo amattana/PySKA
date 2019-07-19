@@ -24,11 +24,11 @@ from rf_jig import *
 from rfjig_bsp import *
 from ip_scan import *
 
-try:
-    from HP6033A import VISAHP6033A
-except:
-    print "Couldn't import module pyvisa and Power Supply HP6033A"
-    pass
+# try:
+#     from HP6033A import VISAHP6033A
+# except:
+#     print "Couldn't import module pyvisa and Power Supply HP6033A"
+#     pass
 
 
 # Matplotlib stuff
@@ -115,7 +115,7 @@ class iTPM(QtGui.QMainWindow):
         self.resize(1148,749)
 
         self.pic_ska = QtGui.QLabel(self.mainWidget.qtab_conf)
-        self.pic_ska.setGeometry(590, 300, 480, 200)
+        self.pic_ska.setGeometry(30, 450, 480, 200)
         self.pic_ska.setPixmap(QtGui.QPixmap(os.getcwd() + "/pic/ska_inaf_logo2.jpg"))
         self.mainWidget.qframe_ant_rms.hide()
 
@@ -190,7 +190,7 @@ class iTPM(QtGui.QMainWindow):
 
         self.load_events()
         time.sleep(1)
-        self.select_power_supply()
+        #self.select_power_supply()
 
     def load_events(self):
         clickable(self.mainWidget.qtext_adu_fw).connect(lambda: self.select_fpga_firmware())
@@ -199,11 +199,11 @@ class iTPM(QtGui.QMainWindow):
         self.mainWidget.qbutton_browse.clicked.connect(lambda: self.board_search())
         self.mainWidget.qbutton_connection.clicked.connect(lambda: self.board_connect())
         self.mainWidget.qbutton_adu_setup.clicked.connect(lambda: self.board_setup())
-        self.mainWidget.qbutton_adu_rate.clicked.connect(lambda: self.board_rate())
+        #self.mainWidget.qbutton_adu_rate.clicked.connect(lambda: self.board_rate())
         self.mainWidget.qcombo_set_pll.currentIndexChanged.connect(self.select_sample_rate)
-        self.mainWidget.qcombo_supply.currentIndexChanged.connect(self.select_power_supply)
+        #self.mainWidget.qcombo_supply.currentIndexChanged.connect(self.select_power_supply)
         self.mainWidget.qcombo_set_input.currentIndexChanged.connect(self.select_adu_input)
-        self.mainWidget.qbutton_psupply_enable.clicked.connect(lambda: self.enable_powersupply())
+        #self.mainWidget.qbutton_psupply_enable.clicked.connect(lambda: self.enable_powersupply())
         self.mainWidget.qbutton_jig_enable.clicked.connect(lambda: self.jigConnect())
         clickable(self.mainWidget.qtext_preadu).connect(lambda: self.open_preadu_conf())
         #self.mainWidget.qbutton_selftest_start.clicked.connect(lambda: self.selfTest())
@@ -537,49 +537,49 @@ class iTPM(QtGui.QMainWindow):
         
         
 
-    def select_power_supply(self):
-        if self.mainWidget.qcombo_supply.currentIndex()==1:
-            try:
-                self.supply = VISAHP6033A()
-                #self.supply.disable()
-                self.supply.set_volt(self.mainWidget.qtext_power_volt.text())
-                self.supply.set_amp(self.mainWidget.qtext_power_amps.text())
-                #self.process_read_amps = Thread(target=self.read_adu_amps)
-                #self.process_read_amps.start()
-                time.sleep(0.3)
-                if self.amps>0.5:
-                    self.mainWidget.qbutton_psupply_enable.setText("SWITCH OFF")
-                    self.powered = True
-                else:
-                    self.mainWidget.qbutton_psupply_enable.setText("SWITCH ON")                
-                    self.powered = False
-            except:
-                self.mainWidget.qcombo_supply.setCurrentIndex(0)
-                #print "Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
-                pass
-        else: 
-            print "Message: Using external PSU"
-
-
-    def enable_powersupply(self):
-        if self.mainWidget.qcombo_supply.currentIndex()==1:
-            if not self.powered:
-                try:
-                    self.supply.enable()
-                    self.powered = True
-                    #self.mainWidget.qbutton_psupply_enable.setText("SWITCH OFF")
-                    #time.sleep(1)
-                except:
-                    print "Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
-            else:
-                try:
-                    self.supply.disable()
-                    self.powered = False
-                    #self.mainWidget.qbutton_psupply_enable.setText("SWITCH ON")
-                    self.board_connect(False)
-                    
-                except:
-                    print "QT: Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
+    # def select_power_supply(self):
+    #     if self.mainWidget.qcombo_supply.currentIndex()==1:
+    #         try:
+    #             self.supply = VISAHP6033A()
+    #             #self.supply.disable()
+    #             self.supply.set_volt(self.mainWidget.qtext_power_volt.text())
+    #             self.supply.set_amp(self.mainWidget.qtext_power_amps.text())
+    #             #self.process_read_amps = Thread(target=self.read_adu_amps)
+    #             #self.process_read_amps.start()
+    #             time.sleep(0.3)
+    #             if self.amps>0.5:
+    #                 self.mainWidget.qbutton_psupply_enable.setText("SWITCH OFF")
+    #                 self.powered = True
+    #             else:
+    #                 self.mainWidget.qbutton_psupply_enable.setText("SWITCH ON")
+    #                 self.powered = False
+    #         except:
+    #             self.mainWidget.qcombo_supply.setCurrentIndex(0)
+    #             #print "Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
+    #             pass
+    #     else:
+    #         print "Message: Using external PSU"
+    #
+    #
+    # def enable_powersupply(self):
+    #     if self.mainWidget.qcombo_supply.currentIndex()==1:
+    #         if not self.powered:
+    #             try:
+    #                 self.supply.enable()
+    #                 self.powered = True
+    #                 #self.mainWidget.qbutton_psupply_enable.setText("SWITCH OFF")
+    #                 #time.sleep(1)
+    #             except:
+    #                 print "Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
+    #         else:
+    #             try:
+    #                 self.supply.disable()
+    #                 self.powered = False
+    #                 #self.mainWidget.qbutton_psupply_enable.setText("SWITCH ON")
+    #                 self.board_connect(False)
+    #
+    #             except:
+    #                 print "QT: Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
 
     def genSetup(self):
         if self.mainWidget.qcombo_gen_type.currentIndex() == 0 and self.mainWidget.qcombo_gen_link.currentIndex() == 0:
