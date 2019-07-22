@@ -324,7 +324,12 @@ class iTPM(QtGui.QMainWindow):
 
 
     def ant_test_single(self):
-        remap=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
+        map_tpm=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
+        map_adu=range(32)
+        if self.mainWidget.qcombo_ant_names.currentIndex() == 0:
+            remap = map_adu
+        else:
+            remap = map_tpm
         #print "RUN", len(self.snapTPM()[0]), len(self.snapTPM()[0][0])
         dati=self.snapTPM()[0]
         #print "DATA", len(dati), dati[0][0:5]
@@ -482,61 +487,6 @@ class iTPM(QtGui.QMainWindow):
     def plotClear(self):
         self.matlabPlotACQ.plotClear()
 
-
-    def selfTest(self):
-        f_start = int(self.mainWidget.qtext_st_fstart.text())*1000000
-        f_stop = int(self.mainWidget.qtext_st_fstop.text())*1000000
-        f_nstep = int(self.mainWidget.qtext_st_nstep.text())-1
-        f_list = range(f_start,f_stop+1, ((f_stop-f_start)/f_nstep))
- 
-        try:
-            self.jigConnect()
-        except:
-            print "*** Unable to connect with JIG!"
-        
-        if self.mainWidget.qcombo_st_siggen.currentIndex() == 1:
-            try:
-                from SMY02 import RS_SMY02
-                self.gen = RS_SMY02()
-                tot=0
-                step=1
-                print
-                for freq in f_list: 
-                    self.mainWidget.qlabel_rf.setText(str(freq)) 
-                    self.mainWidget.qtext_step.setText(str(step)+"/"+str(len(f_list)))
-                    #print "["+str(step)+"/"+str(len(f_list))+"] ", 
-                    print "\rSetting Freq: "+str(freq)+"                                       " 
-                    self.gen.set_rf(freq)
-                    time.sleep(1)
-                    print "\rSetting Level 0 dBm                                         " 
-                    self.gen.set_level(0)
-                    time.sleep(1)
-                    
-                    jfilter=imposta_filtro(self.jig, freq)
-                    self.mainWidget.qlabel_filter.setText(jfilter)
-                    #print " Hz, and JIG filter: ",jfilter
-
-                    for i in range(32):
-                        tot = tot + 1
-                        print "\r["+str(step)+"/"+str(len(f_list))+"] ","Freq: "+str(freq)," Hz, JIG filter: ",jfilter," CH-"+str(i).zfill(2)+" doing...        ",
-                        self.mainWidget.qtext_ch.setText(str(i))
-                        time.sleep(0.1)
-                        data=self.snapTPM()[0][i]      
-                        freqs=self.calcFreqs(len(data))     
-                        spettro = self.plot_spectra(data)
-                        self.matlabPlotADC.plotClear()
-                        self.matlabPlotADC.plotCurve(freqs, spettro, yAxisRange = [-100,0], title="CH-"+str(i).zfill(2), xLabel="MHz", yLabel="dB", plotLog=True)
-                        self.mainWidget.qprogressBarADC.setValue(int((tot*100.0)/(len(f_list)*32.)))
-                        print "\r["+str(step)+"/"+str(len(f_list))+"] ","Freq: "+str(freq)," Hz, JIG filter: ",jfilter," CH-"+str(i).zfill(2)+" done!           ",
-                        time.sleep(0.5)
-                    step = step+1
-
-                del self.gen
-            except:
-                print "Signal Generator Connection Failure ("+self.mainWidget.qcombo_st_siggen.currentText()+")"
-        
-        
-
     # def select_power_supply(self):
     #     if self.mainWidget.qcombo_supply.currentIndex()==1:
     #         try:
@@ -582,21 +532,38 @@ class iTPM(QtGui.QMainWindow):
     #                 print "QT: Unable to connect with VISA GPIB (addr:4) HP6033A Power Supply!"
 
     def genSetup(self):
-        if self.mainWidget.qcombo_gen_type.currentIndex() == 0 and self.mainWidget.qcombo_gen_link.currentIndex() == 0:
-            try:
-                from SMY02 import RS_SMY02
-                self.gen = RS_SMY02()
+        if self.mainWidget.qcombo_gen_link.currentIndex() == 0:
+            if self.mainWidget.qcombo_gen_type.currentIndex() == 0:
                 try:
-                    freq = float(self.mainWidget.qtext_gen_set_freq.text()) * (10 ** (self.mainWidget.qcombo_gen_unit.currentIndex() *3))
-                    #print freq, "Hz"
-                    self.gen.set_rf(freq)
-                    self.gen.set_level(float(self.mainWidget.qtext_gen_set_level.text()))
+                    from SMY02 import RS_SMY02
+                    self.gen = RS_SMY02()
+                    try:
+                        freq = float(self.mainWidget.qtext_gen_set_freq.text()) * (10 ** (self.mainWidget.qcombo_gen_unit.currentIndex() *3))
+                        #print freq, "Hz"
+                        self.gen.set_rf(freq)
+                        self.gen.set_level(float(self.mainWidget.qtext_gen_set_level.text()))
+                    except:
+                        print "Bad arguments format commanding the signal generator"
+                        pass
+                    del self.gen
                 except:
-                    print "Bad arguments format commanding the signal generator"
-                    pass
-                del self.gen
-            except:
-                print "Signal Generator Connection Failure ("+self.mainWidget.qcombo_gen_type.currentText()+" - "+self.mainWidget.qcombo_gen_link.currentText()+")"
+                    print "Signal Generator Connection Failure ("+self.mainWidget.qcombo_gen_type.currentText()+" - "+self.mainWidget.qcombo_gen_link.currentText()+")"
+            else:
+                try:
+                    from SMX import RS_SMX
+                    self.gen = RS_SMX()
+                    try:
+                        freq = float(self.mainWidget.qtext_gen_set_freq.text()) * (10 ** (self.mainWidget.qcombo_gen_unit.currentIndex() *3))
+                        #print freq, "Hz"
+                        self.gen.set_rf(freq)
+                        self.gen.set_level(float(self.mainWidget.qtext_gen_set_level.text()))
+                    except:
+                        print "Bad arguments format commanding the signal generator"
+                        pass
+                    del self.gen
+                except:
+                    print "Signal Generator Connection Failure ("+self.mainWidget.qcombo_gen_type.currentText()+" - "+self.mainWidget.qcombo_gen_link.currentText()+")"
+
 
 
         
@@ -777,27 +744,7 @@ class iTPM(QtGui.QMainWindow):
     def updateHK(self):
         if self.connected and not self.haltThreadTemp:
             self.updateTemp()            
-        if self.powered and not self.haltThreadTemp:
-            self.updateAmps()            
-        
-    def updateAmps(self):
-        #print "Amps: %3.2f"%(self.amps)
-        self.mainWidget.qtext_adu_amps.setText("Amps: %3.2f"%(self.amps))
-        self.mainWidget.qtext_amps.setText("%3.2f"%(self.amps))
-        if self.amps<0.5 or self.amps>7.8:
-            self.mainWidget.qtext_adu_amps.setStyleSheet(colors("white_on_red"))
-            self.mainWidget.qtext_amps.setStyleSheet(colors("white_on_red"))
-        elif self.amps<7.2:
-            self.mainWidget.qtext_adu_amps.setStyleSheet(colors("black_on_green"))
-            self.mainWidget.qtext_amps.setStyleSheet(colors("black_on_green"))
-        else:
-            self.mainWidget.qtext_adu_amps.setStyleSheet(colors("black_on_yellow"))
-            self.mainWidget.qtext_amps.setStyleSheet(colors("black_on_yellow"))
-        if self.mainWidget.qbutton_psupply_enable.text()=="SWITCH OFF" and self.amps<0.5:
-            self.mainWidget.qbutton_psupply_enable.setText("SWITCH ON")
-        if self.mainWidget.qbutton_psupply_enable.text()=="SWITCH ON" and self.amps>0.5:
-            self.mainWidget.qbutton_psupply_enable.setText("SWITCH OFF")
-    
+
     def read_jig_pm(self):
         while True:
             cycle = 0.0
@@ -820,7 +767,7 @@ class iTPM(QtGui.QMainWindow):
                     self.adu_rms = np.zeros(32)
                     if not self.stopThreads and self.ant_test_enabled: 
                         #print "Snapping..."
-                        self.freqs, self.spettro_mediato, self.dati = self.ant_test_single()
+                        self.freqs, self.spettro_mediato, self.dati = self.ant_test_single()  # riordinare in funzione della mappa  adu_rs etcetc
                         if self.ant_test_enabled:
                             sys.stdout.write("\rAcquisition: #%d ...downloading...                 "%(self.antenna_test_acq_num+1))
                             sys.stdout.flush()
@@ -849,7 +796,13 @@ class iTPM(QtGui.QMainWindow):
 
 
     def updateAntennaTest(self):
-        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13, 10, 11, 8, 9]
+        map_tpm=[1,0,3,2,5,4,7,6,17,16,19,18,21,20,23,22,30,31,28,29,26,27,24,25,14,15,12,13,10,11,8,9]
+        map_adu=range(32)
+        if self.mainWidget.qcombo_ant_names.currentIndex() == 0:
+            remap = map_adu
+        else:
+            remap = map_tpm
+
         if self.ant_test_enabled:
             #print "Signal emitted"
             self.xAxisRange=[float(self.mainWidget.qtext_xmin.text()), float(self.mainWidget.qtext_xmax.text())]

@@ -708,7 +708,7 @@ background-color: rgb(255,60 , 0);</string>
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>iTPM-ADU JIG Acquisitions</string>
+     <string>iTPM-ADU Lab Acquisitions</string>
     </attribute>
     <widget class="QWidget" name="plotWidgetACQ" native="true">
      <property name="geometry">
@@ -2359,14 +2359,14 @@ color: rgb(251, 255, 255);</string>
    </widget>
    <widget class="QWidget" name="qtab_ant">
     <attribute name="title">
-     <string>iTPM Antenna Test</string>
+     <string>iTPM-ADU Signal Check</string>
     </attribute>
     <widget class="QComboBox" name="qcombo_ant_view">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>100</x>
        <y>30</y>
-       <width>191</width>
+       <width>201</width>
        <height>41</height>
       </rect>
      </property>
@@ -2424,9 +2424,9 @@ color: rgb(251, 255, 255);</string>
     <widget class="QLabel" name="qlabel_ant_view">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>20</x>
        <y>30</y>
-       <width>111</width>
+       <width>71</width>
        <height>41</height>
       </rect>
      </property>
@@ -2438,7 +2438,7 @@ color: rgb(251, 255, 255);</string>
       </font>
      </property>
      <property name="text">
-      <string>Select View</string>
+      <string>Axes</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2447,8 +2447,8 @@ color: rgb(251, 255, 255);</string>
     <widget class="QPushButton" name="qbutton_ant_enable">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
+       <x>40</x>
+       <y>610</y>
        <width>161</width>
        <height>41</height>
       </rect>
@@ -2529,9 +2529,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ant_num">
      <property name="geometry">
       <rect>
-       <x>850</x>
+       <x>930</x>
        <y>30</y>
-       <width>241</width>
+       <width>161</width>
        <height>41</height>
       </rect>
      </property>
@@ -2546,7 +2546,7 @@ color: rgb(251, 255, 5);</string>
       <string/>
      </property>
      <property name="text">
-      <string>Acquisition Number: -</string>
+      <string>Counter # -</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2555,7 +2555,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ant_view_2">
      <property name="geometry">
       <rect>
-       <x>560</x>
+       <x>330</x>
        <y>30</y>
        <width>161</width>
        <height>41</height>
@@ -2575,7 +2575,7 @@ color: rgb(251, 255, 5);</string>
       <string/>
      </property>
      <property name="text">
-      <string>Select Antenna</string>
+      <string>Select Inputs</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2584,7 +2584,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_ant_select">
      <property name="geometry">
       <rect>
-       <x>720</x>
+       <x>490</x>
        <y>30</y>
        <width>121</width>
        <height>41</height>
@@ -2793,7 +2793,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLineEdit" name="qtext_ymax">
      <property name="geometry">
       <rect>
-       <x>840</x>
+       <x>960</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2816,7 +2816,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_xmax">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>470</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2839,7 +2839,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ymax">
      <property name="geometry">
       <rect>
-       <x>760</x>
+       <x>880</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2862,7 +2862,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_xmin">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>310</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2888,7 +2888,7 @@ color: rgb(251, 255, 5);</string>
      </property>
      <property name="geometry">
       <rect>
-       <x>430</x>
+       <x>550</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2911,7 +2911,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_ymin">
      <property name="geometry">
       <rect>
-       <x>600</x>
+       <x>720</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2934,7 +2934,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLineEdit" name="qtext_ymin">
      <property name="geometry">
       <rect>
-       <x>670</x>
+       <x>790</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2957,7 +2957,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLineEdit" name="qtext_xmin">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>380</x>
        <y>620</y>
        <width>71</width>
        <height>31</height>
@@ -2976,6 +2976,65 @@ color: rgb(251, 255, 5);</string>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
+    </widget>
+    <widget class="QLabel" name="qlabel_ant_names">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>30</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>Antenna Numbering referred to TPM front panel (optical fiber inputs) from 1 to 16. Pol X (BLUE) is West-East LNA bottom, Pol Y (GREEN) is North-South LNA top.</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Input Names</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="qcombo_ant_names">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>30</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>ADC</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>TPM</string>
+      </property>
+     </item>
     </widget>
    </widget>
   </widget>
