@@ -1016,7 +1016,9 @@ class iTPM(QtGui.QMainWindow):
             cmd += "--ip="+str(self.board_ip)
             if not self.sample_rate == 800:
                 cmd += " -f "+str(self.sample_rate)
-            cmd += " -i "+self.adu_input
+            cmd += " -i " + self.adu_input
+            if self.mainWidget.checkBox_ADA.isChecked():
+                cmd += " --ada"
             os.system(cmd + " --server-ip=10.0.10.200 ")
             time.sleep(0.5)
             self.updateUI()

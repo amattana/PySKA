@@ -349,9 +349,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_set_pll">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>140</x>
        <y>340</y>
-       <width>271</width>
+       <width>261</width>
        <height>41</height>
       </rect>
      </property>
@@ -419,7 +419,7 @@ color: rgb(251, 255, 5);</string>
       <rect>
        <x>30</x>
        <y>340</y>
-       <width>141</width>
+       <width>111</width>
        <height>41</height>
       </rect>
      </property>
@@ -431,7 +431,7 @@ color: rgb(251, 255, 5);</string>
       </font>
      </property>
      <property name="text">
-      <string>PLL Frequency</string>
+      <string>ADC Setup</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -478,9 +478,9 @@ color: rgb(251, 255, 5);</string>
     <widget class="QLabel" name="qlabel_adu_conf_2">
      <property name="geometry">
       <rect>
-       <x>500</x>
+       <x>440</x>
        <y>340</y>
-       <width>191</width>
+       <width>101</width>
        <height>41</height>
       </rect>
      </property>
@@ -492,7 +492,7 @@ color: rgb(251, 255, 5);</string>
       </font>
      </property>
      <property name="text">
-      <string>Download Channels</string>
+      <string>Channels</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -501,7 +501,7 @@ color: rgb(251, 255, 5);</string>
     <widget class="QComboBox" name="qcombo_set_input">
      <property name="geometry">
       <rect>
-       <x>710</x>
+       <x>540</x>
        <y>340</y>
        <width>121</width>
        <height>41</height>
@@ -703,6 +703,29 @@ background-color: rgb(255,60 , 0);</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_ADA">
+     <property name="geometry">
+      <rect>
+       <x>686</x>
+       <y>341</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Enable ADA</string>
      </property>
     </widget>
    </widget>
