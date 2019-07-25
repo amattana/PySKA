@@ -383,20 +383,19 @@ class ChartPlot(QtGui.QWidget):
             self.canvas.ax.grid()
             # print len(data)
             # print data
-            for i in range(len(data)):
-                for i in range(len(data[i])):
-                    self.canvas.ax.plot(len(data[remap[i]]), data[remap[i]], scaley=True)
+            for i in range(len(data)/32):
+                self.canvas.ax.plot(len(data[remap[i]::32]), data[remap[i]::32], scaley=True)
 
-                    self.canvas.ax.xaxis.set_label_text(xLabel, fontsize=10)
-                    self.canvas.ax.yaxis.set_label_text(yLabel, fontsize=10)
-                    #self.canvas.axes1.set_facecolor('white')
-                    self.canvas.ax.tick_params(axis='both', which='minor', labelsize=10)
-                    self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
-                    self.canvas.ax.set_ylim(yAxisRange)
+                self.canvas.ax.xaxis.set_label_text(xLabel, fontsize=10)
+                self.canvas.ax.yaxis.set_label_text(yLabel, fontsize=10)
+                #self.canvas.axes1.set_facecolor('white')
+                self.canvas.ax.tick_params(axis='both', which='minor', labelsize=10)
+                self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
+                self.canvas.ax.set_ylim(yAxisRange)
             # print len(dati)
             # print dati
-            self.canvas.ax.set_ylim([-100, 0])
-            self.canvas.ax.set_xlim([0, len(data[0])])
+            self.canvas.ax.set_ylim([-80, 0])
+            self.canvas.ax.set_xlim([0, len(data[0::32])])
 
             self.updatePlot()
 
