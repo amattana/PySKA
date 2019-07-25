@@ -3155,7 +3155,7 @@ color: rgb(251, 255, 5);</string>
       <string/>
      </property>
      <property name="text">
-      <string>Select Show Time</string>
+      <string>Select X Range</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
