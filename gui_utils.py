@@ -381,19 +381,10 @@ class ChartPlot(QtGui.QWidget):
             self.canvas.ax[0].clear()
             self.canvas.ax[0].tick_params(axis='both', which='both', labelsize=10)
             self.canvas.ax[0].grid()
-            # print len(data)
-            # print data
             for i in range(len(data)/32):
                 self.canvas.ax[0].plot(range(len(data[remap[i]::32])), data[remap[i]::32], scaley=True)
-
-                self.canvas.ax[0].xaxis.set_label_text(xLabel, fontsize=10)
-                self.canvas.ax[0].yaxis.set_label_text(yLabel, fontsize=10)
-                #self.canvas.axes1.set_facecolor('white')
                 self.canvas.ax[0].tick_params(axis='both', which='minor', labelsize=10)
                 self.canvas.ax[0].tick_params(axis='both', which='major', labelsize=10)
-                self.canvas.ax[0].set_ylim(yAxisRange)
-            # print len(dati)
-            # print dati
             self.canvas.ax[0].set_ylim([-80, 0])
             self.canvas.ax[0].set_xlim([0, len(data[0::32])])
 
