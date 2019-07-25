@@ -273,12 +273,29 @@ class iTPM(QtGui.QMainWindow):
         if self.mainWidget.qcombo_ant_view.currentIndex() < 3:
             self.reshapePlot()
             self.mainWidget.qframe_ant_rms.hide()
+            self.mainWidget.qlabel_xmin.show()
+            self.mainWidget.qlabel_xmax.show()
+            self.mainWidget.qlabel_ymin.show()
+            self.mainWidget.qlabel_ymax.show()
+            self.mainWidget.qtext_xmin.show()
+            self.mainWidget.qtext_xmax.show()
+            self.mainWidget.qtext_ymin.show()
+            self.mainWidget.qtext_ymax.show()
+
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 3:
             self.mainWidget.plotWidgetAntFour.hide()
             self.mainWidget.plotWidgetAntOne.hide()
             self.mainWidget.plotWidgetAnt.hide()
             self.mainWidget.plotWidgetChart.hide()
             self.mainWidget.plotWidgetBar.show()
+            self.mainWidget.qlabel_xmin.hide()
+            self.mainWidget.qlabel_xmax.hide()
+            self.mainWidget.qlabel_ymin.hide()
+            self.mainWidget.qlabel_ymax.hide()
+            self.mainWidget.qtext_xmin.hide()
+            self.mainWidget.qtext_xmax.hide()
+            self.mainWidget.qtext_ymin.hide()
+            self.mainWidget.qtext_ymax.hide()
 
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 4:
             self.mainWidget.plotWidgetAntFour.hide()
@@ -286,6 +303,14 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.plotWidgetAnt.hide()
             self.mainWidget.plotWidgetChart.show()
             self.mainWidget.plotWidgetBar.hide()
+            self.mainWidget.qlabel_xmin.hide()
+            self.mainWidget.qlabel_xmax.hide()
+            self.mainWidget.qlabel_ymin.hide()
+            self.mainWidget.qlabel_ymax.hide()
+            self.mainWidget.qtext_xmin.hide()
+            self.mainWidget.qtext_xmax.hide()
+            self.mainWidget.qtext_ymin.hide()
+            self.mainWidget.qtext_ymax.hide()
 
         else:
             self.mainWidget.plotWidgetAnt.hide()
@@ -294,6 +319,15 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.plotWidgetChart.hide()
             self.mainWidget.plotWidgetBar.hide()
             self.mainWidget.qframe_ant_rms.show()
+            self.mainWidget.qlabel_xmin.hide()
+            self.mainWidget.qlabel_xmax.hide()
+            self.mainWidget.qlabel_ymin.hide()
+            self.mainWidget.qlabel_ymax.hide()
+            self.mainWidget.qtext_xmin.hide()
+            self.mainWidget.qtext_xmax.hide()
+            self.mainWidget.qtext_ymin.hide()
+            self.mainWidget.qtext_ymax.hide()
+
         self.updateAntennaTest()
 
     def reshapePlot(self):
