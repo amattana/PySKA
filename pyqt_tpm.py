@@ -157,7 +157,7 @@ class iTPM(QtGui.QMainWindow):
         self.miniPlotsFour = MiniPlots(self.mainWidget.plotWidgetAntFour, 4)
         self.miniPlotsOne = MiniPlots(self.mainWidget.plotWidgetAntOne, 1)
         self.RMSbarPlot = BarPlot(self.mainWidget.plotWidgetBar)
-        self.RMSChartPlot = ChartPlot(self.mainWidget.plotWidgetBar)
+        self.RMSChartPlot = ChartPlot(self.mainWidget.plotWidgetChart)
         self.ant_test_Thread = False
         self.ant_test_enabled = False
         self.process_antenna_test = Thread(target=self.snap_antenna)
@@ -274,17 +274,27 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.plotWidgetAntFour.hide()
             self.mainWidget.plotWidgetAntOne.hide()
             self.mainWidget.plotWidgetAnt.hide()
+            self.mainWidget.plotWidgetChart.hide()
             self.mainWidget.plotWidgetBar.show()
+
+        elif self.mainWidget.qcombo_ant_view.currentIndex() == 4:
+            self.mainWidget.plotWidgetAntFour.hide()
+            self.mainWidget.plotWidgetAntOne.hide()
+            self.mainWidget.plotWidgetAnt.hide()
+            self.mainWidget.plotWidgetChart.show()
+            self.mainWidget.plotWidgetBar.hide()
+
         else:
             self.mainWidget.plotWidgetAnt.hide()
             self.mainWidget.plotWidgetAntFour.hide()
             self.mainWidget.plotWidgetAntOne.hide()
+            self.mainWidget.plotWidgetChart.hide()
             self.mainWidget.plotWidgetBar.hide()
             self.mainWidget.qframe_ant_rms.show()
         self.updateAntennaTest()
 
     def reshapePlot(self):
-        if self.mainWidget.qcombo_ant_view.currentIndex() < 3:
+        if self.mainWidget.qcombo_ant_view.currentIndex() < 4:
             if self.mainWidget.qcombo_ant_select.currentIndex() == 0:
                 self.mainWidget.plotWidgetAntFour.hide()
                 self.mainWidget.plotWidgetAntOne.hide()
@@ -295,11 +305,13 @@ class iTPM(QtGui.QMainWindow):
                 self.mainWidget.plotWidgetAntOne.hide()
                 self.mainWidget.plotWidgetAnt.hide()
                 self.mainWidget.plotWidgetBar.hide()
+                self.mainWidget.plotWidgetChart.hide()
             else:
                 self.mainWidget.plotWidgetAntFour.hide()
                 self.mainWidget.plotWidgetAntOne.show()
                 self.mainWidget.plotWidgetAnt.hide()
                 self.mainWidget.plotWidgetBar.hide()
+                self.mainWidget.plotWidgetChart.hide()
 
     def create_ant_table(self):
         self.ant_rms_adurms = []

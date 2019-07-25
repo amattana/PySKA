@@ -3064,6 +3064,56 @@ color: rgb(251, 255, 5);</string>
       </property>
      </item>
     </widget>
+    <widget class="QWidget" name="plotWidgetChart" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>1111</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+    <zorder>plotWidgetChart</zorder>
+    <zorder>qcombo_ant_view</zorder>
+    <zorder>qlabel_ant_view</zorder>
+    <zorder>qbutton_ant_enable</zorder>
+    <zorder>plotWidgetAnt</zorder>
+    <zorder>qframe_ant_rms</zorder>
+    <zorder>qlabel_ant_num</zorder>
+    <zorder>qlabel_ant_view_2</zorder>
+    <zorder>qcombo_ant_select</zorder>
+    <zorder>plotWidgetAntFour</zorder>
+    <zorder>plotWidgetAntOne</zorder>
+    <zorder>plotWidgetBar</zorder>
+    <zorder>qtext_ymax</zorder>
+    <zorder>qlabel_xmax</zorder>
+    <zorder>qlabel_ymax</zorder>
+    <zorder>qlabel_xmin</zorder>
+    <zorder>qtext_xmax</zorder>
+    <zorder>qlabel_ymin</zorder>
+    <zorder>qtext_ymin</zorder>
+    <zorder>qtext_xmin</zorder>
+    <zorder>qlabel_ant_names</zorder>
+    <zorder>qcombo_ant_names</zorder>
    </widget>
   </widget>
  </widget>

@@ -364,14 +364,11 @@ class ChartPlot(QtGui.QWidget):
         # def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
         """ Class initialiser """
         # print self.nplot
-        self.canvas = MplCanvas()  # create canvas that will hold our plot
-        self.navi_toolbar = NavigationToolbar(self.canvas, self)  # createa navigation toolbar for our plot canvas
+        self.canvas = MiniCanvas(1)  # create canvas that will hold our plot
 
         self.updateGeometry()
         self.vbl = QtGui.QVBoxLayout()
         self.vbl.addWidget(self.canvas)
-        # self.vbl.addSpacing(20)
-        self.vbl.addWidget(self.navi_toolbar)
         self.setLayout(self.vbl)
         self.show()
         self.plotClear()
@@ -381,25 +378,25 @@ class ChartPlot(QtGui.QWidget):
         remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13,
                  10, 11, 8, 9]
         if len(data) != 0:
-            self.canvas.axes1.clear()
-            self.canvas.axes1.tick_params(axis='both', which='both', labelsize=10)
-            self.canvas.axes1.grid()
+            self.canvas.ax.clear()
+            self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
+            self.canvas.ax.grid()
             # print len(data)
             # print data
             for i in range(len(data)):
                 for i in range(len(data[i])):
-                    self.canvas.axes1.plot(len(data[remap[i]]), data[remap[i]], scaley=True)
+                    self.canvas.ax.plot(len(data[remap[i]]), data[remap[i]], scaley=True)
 
-                    self.canvas.axes1.xaxis.set_label_text(xLabel, fontsize=10)
-                    self.canvas.axes1.yaxis.set_label_text(yLabel, fontsize=10)
+                    self.canvas.ax.xaxis.set_label_text(xLabel, fontsize=10)
+                    self.canvas.ax.yaxis.set_label_text(yLabel, fontsize=10)
                     #self.canvas.axes1.set_facecolor('white')
-                    self.canvas.axes1.tick_params(axis='both', which='minor', labelsize=10)
-                    self.canvas.axes1.tick_params(axis='both', which='major', labelsize=10)
-                    self.canvas.axes1.set_ylim(yAxisRange)
+                    self.canvas.ax.tick_params(axis='both', which='minor', labelsize=10)
+                    self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
+                    self.canvas.ax.set_ylim(yAxisRange)
             # print len(dati)
             # print dati
-            self.canvas.axes1.set_ylim([-100, 0])
-            self.canvas.axes1.set_xlim([0, len(data[0])])
+            self.canvas.ax.set_ylim([-100, 0])
+            self.canvas.ax.set_xlim([0, len(data[0])])
 
             self.updatePlot()
 
@@ -409,7 +406,7 @@ class ChartPlot(QtGui.QWidget):
 
     def plotClear(self):
         # Reset the plot landscape
-        self.canvas.axes1.clear()
+        self.canvas.ax[0].clear()
         self.updatePlot()
 
 
