@@ -384,7 +384,7 @@ class ChartPlot(QtGui.QWidget):
             # print len(data)
             # print data
             for i in range(len(data)/32):
-                self.canvas.ax[0].plot(len(data[remap[i]::32]), data[remap[i]::32], scaley=True)
+                self.canvas.ax[0].plot(range(len(data[remap[i]::32])), data[remap[i]::32], scaley=True)
 
                 self.canvas.ax[0].xaxis.set_label_text(xLabel, fontsize=10)
                 self.canvas.ax[0].yaxis.set_label_text(yLabel, fontsize=10)
