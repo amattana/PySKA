@@ -294,12 +294,13 @@ class iTPM(QtGui.QMainWindow):
         self.updateAntennaTest()
 
     def reshapePlot(self):
-        if self.mainWidget.qcombo_ant_view.currentIndex() < 4:
+        if self.mainWidget.qcombo_ant_view.currentIndex() < 3:
             if self.mainWidget.qcombo_ant_select.currentIndex() == 0:
                 self.mainWidget.plotWidgetAntFour.hide()
                 self.mainWidget.plotWidgetAntOne.hide()
                 self.mainWidget.plotWidgetAnt.show()
                 self.mainWidget.plotWidgetBar.hide()
+                self.mainWidget.plotWidgetChart.hide()
             elif self.mainWidget.qcombo_ant_select.currentIndex() >= 1 and self.mainWidget.qcombo_ant_select.currentIndex() <= 4:
                 self.mainWidget.plotWidgetAntFour.show()
                 self.mainWidget.plotWidgetAntOne.hide()

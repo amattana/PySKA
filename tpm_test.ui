@@ -3096,7 +3096,6 @@ color: rgb(251, 255, 5);</string>
     <zorder>qcombo_ant_view</zorder>
     <zorder>qlabel_ant_view</zorder>
     <zorder>qbutton_ant_enable</zorder>
-    <zorder>plotWidgetAnt</zorder>
     <zorder>qframe_ant_rms</zorder>
     <zorder>qlabel_ant_num</zorder>
     <zorder>qlabel_ant_view_2</zorder>
@@ -3114,6 +3113,7 @@ color: rgb(251, 255, 5);</string>
     <zorder>qtext_xmin</zorder>
     <zorder>qlabel_ant_names</zorder>
     <zorder>qcombo_ant_names</zorder>
+    <zorder>plotWidgetAnt</zorder>
    </widget>
   </widget>
  </widget>
