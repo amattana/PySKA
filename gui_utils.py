@@ -299,57 +299,117 @@ class BarCanvas(FigureCanvas):
         FigureCanvas.setSizePolicy( self, QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding )
         FigureCanvas.updateGeometry( self )
 
+
 class BarPlot(QtGui.QWidget):
     """ Class encapsulating a matplotlib plot"""
-    def __init__( self, parent = None):
-        QtGui.QWidget.__init__( self, parent )
-    #def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
+
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        # def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
         """ Class initialiser """
-        #print self.nplot
-        self.canvas = BarCanvas() #create canvas that will hold our plot
+        # print self.nplot
+        self.canvas = BarCanvas()  # create canvas that will hold our plot
         self.updateGeometry()
         self.vbl = QtGui.QVBoxLayout()
-        self.vbl.addWidget( self.canvas )
-        self.setLayout( self.vbl )
+        self.vbl.addWidget(self.canvas)
+        self.setLayout(self.vbl)
         self.show()
         self.ind = np.arange(16)
 
     def resetSubplots(self):
-        self.nSubplot=0
+        self.nSubplot = 0
 
     def plotBar(self, data):
         """ Plot the data as Bars"""
-        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13, 10, 11, 8, 9]
+        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13,
+                 10, 11, 8, 9]
         if len(data) != 0:
             self.canvas.ax.clear()
-            #self.canvas.ax.set_facecolor('white')
+            # self.canvas.ax.set_facecolor('white')
             self.canvas.ax.tick_params(axis='both', which='both', labelsize=10)
-            #self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
+            # self.canvas.ax.tick_params(axis='both', which='major', labelsize=10)
             self.canvas.ax.set_xticks(xrange(17))
-            self.canvas.ax.set_yticks([15,20])
+            self.canvas.ax.set_yticks([15, 20])
             self.canvas.ax.set_ylim([0, 40])
             self.canvas.ax.set_xlim([0, 17])
             self.canvas.ax.set_xlabel("ANTENNA")
             self.canvas.ax.set_ylabel("ADU RMS")
             self.canvas.ax.grid()
             dati = []
-            #print len(data)
-            #print data
+            # print len(data)
+            # print data
             for i in range(len(data)):
                 dati += [data[remap[i]]]
-            #print len(dati)
-            #print dati
-            rects1 = self.canvas.ax.bar(self.ind+0.6, dati[0::2], 0.4, color='b')
-            rects2 = self.canvas.ax.bar(self.ind+1, dati[1::2], 0.4, color='g')
+            # print len(dati)
+            # print dati
+            rects1 = self.canvas.ax.bar(self.ind + 0.6, dati[0::2], 0.4, color='b')
+            rects2 = self.canvas.ax.bar(self.ind + 1, dati[1::2], 0.4, color='g')
             self.updatePlot()
 
     def updatePlot(self):
         self.canvas.draw()
         self.show()
-        
+
     def plotClear(self):
         # Reset the plot landscape
         self.canvas.ax.clear()
+        self.updatePlot()
+
+
+class ChartPlot(QtGui.QWidget):
+    """ Class encapsulating a matplotlib plot"""
+
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        # def __init__(self, parent = None, dpi = 100, size = (6.1,4)):
+        """ Class initialiser """
+        # print self.nplot
+        self.canvas = MplCanvas()  # create canvas that will hold our plot
+        self.navi_toolbar = NavigationToolbar(self.canvas, self)  # createa navigation toolbar for our plot canvas
+
+        self.updateGeometry()
+        self.vbl = QtGui.QVBoxLayout()
+        self.vbl.addWidget(self.canvas)
+        # self.vbl.addSpacing(20)
+        self.vbl.addWidget(self.navi_toolbar)
+        self.setLayout(self.vbl)
+        self.show()
+        self.plotClear()
+
+    def plotChart(self, data):
+        """ Plot the data as Bars"""
+        remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13,
+                 10, 11, 8, 9]
+        if len(data) != 0:
+            self.canvas.axes1.clear()
+            self.canvas.axes1.tick_params(axis='both', which='both', labelsize=10)
+            self.canvas.axes1.grid()
+            # print len(data)
+            # print data
+            for i in range(len(data)):
+                for i in range(len(data[i])):
+                    self.canvas.axes1.plot(len(data[remap[i]]), data[remap[i]], scaley=True)
+
+                    self.canvas.axes1.xaxis.set_label_text(xLabel, fontsize=10)
+                    self.canvas.axes1.yaxis.set_label_text(yLabel, fontsize=10)
+                    #self.canvas.axes1.set_facecolor('white')
+                    self.canvas.axes1.tick_params(axis='both', which='minor', labelsize=10)
+                    self.canvas.axes1.tick_params(axis='both', which='major', labelsize=10)
+                    self.canvas.axes1.set_ylim(yAxisRange)
+            # print len(dati)
+            # print dati
+            self.canvas.axes1.set_ylim([-100, 0])
+            self.canvas.axes1.set_xlim([0, len(data[0])])
+
+            self.updatePlot()
+
+    def updatePlot(self):
+        self.canvas.draw()
+        self.show()
+
+    def plotClear(self):
+        # Reset the plot landscape
+        self.canvas.axes1.clear()
         self.updatePlot()
 
 

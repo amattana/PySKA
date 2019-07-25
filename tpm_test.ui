@@ -2425,6 +2425,11 @@ color: rgb(251, 255, 255);</string>
      </item>
      <item>
       <property name="text">
+       <string>ADU RMS Chart</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>ADU RMS Table</string>
       </property>
      </item>
