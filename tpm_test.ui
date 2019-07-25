@@ -3097,7 +3097,7 @@ color: rgb(251, 255, 5);</string>
       <rect>
        <x>510</x>
        <y>30</y>
-       <width>141</width>
+       <width>151</width>
        <height>41</height>
       </rect>
      </property>
@@ -3113,22 +3113,22 @@ color: rgb(251, 255, 5);</string>
      </property>
      <item>
       <property name="text">
-       <string>15 minutes</string>
+       <string>300 samples</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>30 minutes</string>
+       <string>600 samples</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>45 minutes</string>
+       <string>900 samples</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>60 minutes</string>
+       <string>1200 samples</string>
       </property>
      </item>
     </widget>

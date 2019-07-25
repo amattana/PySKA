@@ -1036,7 +1036,7 @@ class iTPM(QtGui.QMainWindow):
                 for i in xrange(32):
                     self.ant_rms_adurms[i].setText("%3.1f" % (self.power_rf[remap[i]]))
 
-            self.mainWidget.qlabel_ant_num.setText("Acquisition Number: " + str(self.antenna_test_acq_num))
+            self.mainWidget.qlabel_ant_num.setText("Counter # " + str(self.antenna_test_acq_num))
 
     def updateJIGpm(self):
         if self.mainWidget.qtext_jig_connected.text() == "ONLINE":
