@@ -386,8 +386,8 @@ class ChartPlot(QtGui.QWidget):
                 self.canvas.ax[0].plot(assex, data[remap[i]::32])
                 #self.canvas.ax[0].tick_params(axis='both', which='minor', labelsize=10)
                 #self.canvas.ax[0].tick_params(axis='both', which='major', labelsize=10)
-            self.canvas.ax[0].set_ylim([15, 25])
-            self.canvas.ax[0].set_xlim([0, len(assex)])
+            self.canvas.ax[0].set_ylim([min(data)-2, max(data)+2])
+            self.canvas.ax[0].set_xlim([0, 1200])
 
             self.updatePlot()
 

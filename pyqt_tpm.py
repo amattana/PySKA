@@ -170,7 +170,9 @@ class iTPM(QtGui.QMainWindow):
         self.volt_rms = 0
         self.power_adc = 0
         self.power_rf = 0
-        self.adu_rms_buffer = []
+
+        self.adu_rms_buffer = np.array(32*1200)
+        self.adu_rms_buffer[:] = np.nan
 
         Fs = 400
         f = 10
@@ -802,8 +804,8 @@ class iTPM(QtGui.QMainWindow):
                         self.adu_rms = self.adu_rms + np.sqrt(np.mean(np.power(self.dati, 2), 1))
                     self.adu_rms_buffer += self.adu_rms.tolist()
                     self.volt_rms = self.adu_rms * (1.7 / 256.)  # VppADC9680/2^bits * ADU_RMS
-                    self.power_adc = 10 * np.log10(
-                        np.power(self.volt_rms, 2) / 400.) + 30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
+                    with np.errstate(divide='ignore', invalid='ignore'):
+                        self.power_adc = 10 * np.log10(np.power(self.volt_rms, 2) / 400.) + 30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
                     self.power_rf = self.power_adc + 12  # single ended to diff net loose 12 dBm
                     # print self.adu_rms[0], self.volt_rms[0], self.power_adc[0], self.power_rf[0]
                     # print "Mediati!"
