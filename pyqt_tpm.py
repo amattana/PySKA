@@ -153,11 +153,11 @@ class iTPM(QtGui.QMainWindow):
         self.connected = False
         self.matlabPlotACQ = MatplotlibPlot(self.mainWidget.plotWidgetACQ)
 
-        self.miniPlots = MiniPlots(self.mainWidget.plotWidgetAnt, 16)
-        self.miniPlotsFour = MiniPlots(self.mainWidget.plotWidgetAntFour, 4)
-        self.miniPlotsOne = MiniPlots(self.mainWidget.plotWidgetAntOne, 1)
         self.RMSbarPlot = BarPlot(self.mainWidget.plotWidgetBar)
         self.RMSChartPlot = ChartPlot(self.mainWidget.plotWidgetChart)
+        self.miniPlotsFour = MiniPlots(self.mainWidget.plotWidgetAntFour, 4)
+        self.miniPlotsOne = MiniPlots(self.mainWidget.plotWidgetAntOne, 1)
+        self.miniPlots = MiniPlots(self.mainWidget.plotWidgetAnt, 16)
         self.ant_test_Thread = False
         self.ant_test_enabled = False
         self.process_antenna_test = Thread(target=self.snap_antenna)
@@ -193,6 +193,7 @@ class iTPM(QtGui.QMainWindow):
         self.mainWidget.plotWidgetAntFour.hide()
         self.mainWidget.plotWidgetAntOne.hide()
         self.mainWidget.plotWidgetBar.hide()
+        self.mainWidget.plotWidgetChart.hide()
         self.mainWidget.plotWidgetAnt.show()
         self.xAxisRange = [0, 400]
         self.yAxisRange = [-100, 0]
