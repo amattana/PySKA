@@ -373,7 +373,7 @@ class ChartPlot(QtGui.QWidget):
         self.show()
         self.plotClear()
 
-    def plotChart(self, data):
+    def plotChart(self, data, trange):
         """ Plot the data as Bars"""
         remap = [1, 0, 3, 2, 5, 4, 7, 6, 17, 16, 19, 18, 21, 20, 23, 22, 30, 31, 28, 29, 26, 27, 24, 25, 14, 15, 12, 13,
                  10, 11, 8, 9]
@@ -387,7 +387,14 @@ class ChartPlot(QtGui.QWidget):
                 #self.canvas.ax[0].tick_params(axis='both', which='minor', labelsize=10)
                 #self.canvas.ax[0].tick_params(axis='both', which='major', labelsize=10)
             self.canvas.ax[0].set_ylim([np.nanmin(data)-2, np.nanmax(data)+2])
-            self.canvas.ax[0].set_xlim([0, 1200])
+            if trange == 0:
+                self.canvas.ax[0].set_xlim([900, 1200])
+            elif trange == 1:
+                self.canvas.ax[0].set_xlim([600, 1200])
+            elif trange == 2:
+                self.canvas.ax[0].set_xlim([300, 1200])
+            else:
+                self.canvas.ax[0].set_xlim([0, 1200])
 
             self.updatePlot()
 

@@ -200,8 +200,10 @@ class iTPM(QtGui.QMainWindow):
         self.xAxisRange = [0, 400]
         self.yAxisRange = [-100, 0]
 
+        self.select_ant_view()
         self.load_events()
         time.sleep(1)
+
         # self.select_power_supply()
 
     def load_events(self):
@@ -281,6 +283,12 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qtext_xmax.show()
             self.mainWidget.qtext_ymin.show()
             self.mainWidget.qtext_ymax.show()
+            self.mainWidget.qlabel_ant_select.show()
+            self.mainWidget.qcombo_ant_select.show()
+            self.mainWidget.qlabel_ant_names.show()
+            self.mainWidget.qcombo_ant_names.show()
+            self.mainWidget.qlabel_time_select.hide()
+            self.mainWidget.qcombo_time_select.hide()
 
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 3:
             self.mainWidget.plotWidgetAntFour.hide()
@@ -296,6 +304,12 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qtext_xmax.hide()
             self.mainWidget.qtext_ymin.hide()
             self.mainWidget.qtext_ymax.hide()
+            self.mainWidget.qlabel_ant_select.hide()
+            self.mainWidget.qcombo_ant_select.hide()
+            self.mainWidget.qlabel_time_select.hide()
+            self.mainWidget.qcombo_time_select.hide()
+            self.mainWidget.qlabel_ant_names.hide()
+            self.mainWidget.qcombo_ant_names.hide()
 
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 4:
             self.mainWidget.plotWidgetAntFour.hide()
@@ -311,6 +325,12 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qtext_xmax.hide()
             self.mainWidget.qtext_ymin.hide()
             self.mainWidget.qtext_ymax.hide()
+            self.mainWidget.qlabel_ant_select.hide()
+            self.mainWidget.qcombo_ant_select.hide()
+            self.mainWidget.qlabel_time_select.show()
+            self.mainWidget.qcombo_time_select.show()
+            self.mainWidget.qlabel_ant_names.hide()
+            self.mainWidget.qcombo_ant_names.hide()
 
         else:
             self.mainWidget.plotWidgetAnt.hide()
@@ -327,6 +347,12 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qtext_xmax.hide()
             self.mainWidget.qtext_ymin.hide()
             self.mainWidget.qtext_ymax.hide()
+            self.mainWidget.qlabel_ant_select.hide()
+            self.mainWidget.qcombo_ant_select.hide()
+            self.mainWidget.qlabel_time_select.hide()
+            self.mainWidget.qcombo_time_select.hide()
+            self.mainWidget.qlabel_ant_names.hide()
+            self.mainWidget.qcombo_ant_names.hide()
 
         self.updateAntennaTest()
 
@@ -992,7 +1018,7 @@ class iTPM(QtGui.QMainWindow):
                 self.RMSbarPlot.plotBar(self.adu_rms)
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() == 4:  # ADU RMS Chart
-                self.RMSChartPlot.plotChart(self.adu_rms_buffer)
+                self.RMSChartPlot.plotChart(self.adu_rms_buffer, self.mainWidget.qcombo_time_select.currentIndex())
 
             elif self.mainWidget.qcombo_ant_view.currentIndex() == 5:  # ADU RMS Table
                 for i in xrange(32):

@@ -2449,7 +2449,7 @@ color: rgb(251, 255, 255);</string>
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="qlabel_ant_view">
+    <widget class="QLabel" name="qlabel_plot_view">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -2580,7 +2580,7 @@ color: rgb(251, 255, 5);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="qlabel_ant_view_2">
+    <widget class="QLabel" name="qlabel_ant_select">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -3092,13 +3092,82 @@ color: rgb(251, 255, 5);</string>
       </size>
      </property>
     </widget>
+    <widget class="QComboBox" name="qcombo_time_select">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>30</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>15 minutes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>30 minutes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>45 minutes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>60 minutes</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="qlabel_time_select">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>30</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>Antenna Numbering referred to TPM front panel (optical fiber inputs) from 1 to 16. Pol X (BLUE) is West-East LNA bottom, Pol Y (GREEN) is North-South LNA top.</string>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Select Show Time</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
     <zorder>plotWidgetChart</zorder>
     <zorder>qcombo_ant_view</zorder>
-    <zorder>qlabel_ant_view</zorder>
+    <zorder>qlabel_plot_view</zorder>
     <zorder>qbutton_ant_enable</zorder>
     <zorder>qframe_ant_rms</zorder>
     <zorder>qlabel_ant_num</zorder>
-    <zorder>qlabel_ant_view_2</zorder>
+    <zorder>qlabel_ant_select</zorder>
     <zorder>qcombo_ant_select</zorder>
     <zorder>plotWidgetAntFour</zorder>
     <zorder>plotWidgetAntOne</zorder>
@@ -3114,6 +3183,8 @@ color: rgb(251, 255, 5);</string>
     <zorder>qlabel_ant_names</zorder>
     <zorder>qcombo_ant_names</zorder>
     <zorder>plotWidgetAnt</zorder>
+    <zorder>qcombo_time_select</zorder>
+    <zorder>qlabel_time_select</zorder>
    </widget>
   </widget>
  </widget>
