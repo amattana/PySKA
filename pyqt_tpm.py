@@ -802,7 +802,8 @@ class iTPM(QtGui.QMainWindow):
                                         self.antenna_test_acq_num + 1))
                             sys.stdout.flush()
                         self.adu_rms = self.adu_rms + np.sqrt(np.mean(np.power(self.dati, 2), 1))
-                    self.adu_rms_buffer += self.adu_rms.tolist()
+                    self.adu_rms_buffer = self.adu_rms_buffer[32:]
+                    self.adu_rms_buffer.append(self.adu_rms.tolist())
                     self.volt_rms = self.adu_rms * (1.7 / 256.)  # VppADC9680/2^bits * ADU_RMS
                     with np.errstate(divide='ignore', invalid='ignore'):
                         self.power_adc = 10 * np.log10(np.power(self.volt_rms, 2) / 400.) + 30  # 10*log10(Vrms^2/Rin) in dBWatt, +3 decadi per dBm
