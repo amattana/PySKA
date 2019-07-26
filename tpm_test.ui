@@ -3166,14 +3166,14 @@ color: rgb(251, 255, 5);</string>
       <rect>
        <x>230</x>
        <y>610</y>
-       <width>201</width>
+       <width>161</width>
        <height>41</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Cantarell</family>
-       <pointsize>20</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <italic>false</italic>
        <bold>true</bold>
@@ -3184,7 +3184,7 @@ color: rgb(251, 255, 5);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(251, 255, 5);
-color: rgb(11, 121, 255);</string>
+color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>RESET DATA</string>
