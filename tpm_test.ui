@@ -3161,6 +3161,44 @@ color: rgb(251, 255, 5);</string>
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
+    <widget class="QPushButton" name="qbutton_chart_reset">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>610</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cantarell</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(251, 255, 5);
+color: rgb(11, 121, 255);</string>
+     </property>
+     <property name="text">
+      <string>RESET DATA</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
     <zorder>plotWidgetChart</zorder>
     <zorder>qcombo_ant_view</zorder>
     <zorder>qlabel_plot_view</zorder>
@@ -3185,6 +3223,7 @@ color: rgb(251, 255, 5);</string>
     <zorder>plotWidgetAnt</zorder>
     <zorder>qcombo_time_select</zorder>
     <zorder>qlabel_time_select</zorder>
+    <zorder>qbutton_chart_reset</zorder>
    </widget>
   </widget>
  </widget>

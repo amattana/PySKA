@@ -239,6 +239,7 @@ class iTPM(QtGui.QMainWindow):
         # self.mainWidget.qbutton_ant_eq.clicked.connect(lambda: self.ant_eq())
         self.mainWidget.qcombo_ant_view.currentIndexChanged.connect(self.select_ant_view)
         self.mainWidget.qcombo_ant_select.currentIndexChanged.connect(self.reshapePlot)
+        self.mainWidget.qbutton_chart_reset.clicked.connect(lambda: self.chart_reset())
 
     def board_search(self):
         self.itpm_ips = ip_scan()
@@ -289,6 +290,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qcombo_ant_names.show()
             self.mainWidget.qlabel_time_select.hide()
             self.mainWidget.qcombo_time_select.hide()
+            self.mainWidget.qbutton_chart_reset.hide()
 
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 3:
             self.mainWidget.plotWidgetAntFour.hide()
@@ -310,6 +312,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qcombo_time_select.hide()
             self.mainWidget.qlabel_ant_names.hide()
             self.mainWidget.qcombo_ant_names.hide()
+            self.mainWidget.qbutton_chart_reset.hide()
 
         elif self.mainWidget.qcombo_ant_view.currentIndex() == 4:
             self.mainWidget.plotWidgetAntFour.hide()
@@ -331,6 +334,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qcombo_time_select.show()
             self.mainWidget.qlabel_ant_names.hide()
             self.mainWidget.qcombo_ant_names.hide()
+            self.mainWidget.qbutton_chart_reset.show()
 
         else:
             self.mainWidget.plotWidgetAnt.hide()
@@ -353,6 +357,7 @@ class iTPM(QtGui.QMainWindow):
             self.mainWidget.qcombo_time_select.hide()
             self.mainWidget.qlabel_ant_names.hide()
             self.mainWidget.qcombo_ant_names.hide()
+            self.mainWidget.qbutton_chart_reset.hide()
 
         self.updateAntennaTest()
 
@@ -376,6 +381,10 @@ class iTPM(QtGui.QMainWindow):
                 self.mainWidget.plotWidgetAnt.hide()
                 self.mainWidget.plotWidgetBar.hide()
                 self.mainWidget.plotWidgetChart.hide()
+
+    def chart_reset(self):
+        self.adu_rms_buffer = np.empty(1200 * 32)
+        self.adu_rms_buffer[:] = np.nan
 
     def create_ant_table(self):
         self.ant_rms_adurms = []
